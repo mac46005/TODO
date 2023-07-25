@@ -32,7 +32,8 @@ class MainActivity : ComponentActivity() {
                         composable("home") {
                             val vm by viewModels<HomeViewModel>()
                             HomeView(
-                                vm = vm
+                                vm = vm,
+                                navController = navigationState
                             )
                         }
                     }

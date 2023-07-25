@@ -31,6 +31,7 @@ fun TBarView(
     topBarInnerPadding: Dp = 0.dp,
     topBarInnerWidth: Dp = 200.dp,
     topBarInnerHorizontalArrangement: Arrangement.Horizontal = Arrangement.SpaceBetween,
+    topBarInnerVerticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     topBarTitle: @Composable (RowScope.() -> Unit),
     mainContent: @Composable (ColumnScope.() -> Unit)
 ){
@@ -48,7 +49,8 @@ fun TBarView(
             innerColor = topBarInnerColor,
             innerPadding = topBarInnerPadding,
             innerWidth = topBarInnerWidth,
-            innerHorizontalArrangement = topBarInnerHorizontalArrangement
+            innerHorizontalArrangement = topBarInnerHorizontalArrangement,
+            innerVerticalAlignment = topBarInnerVerticalAlignment
         ) {
             topBarTitle(this)
         }

@@ -18,7 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.views.BaseView
+import com.preciado.todo.features.home.components.ListButton
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
@@ -26,7 +29,8 @@ import com.preciado.todo.ui.theme.TODOTheme
 @Composable
 fun HomeView(
     modifier: Modifier = Modifier,
-    vm: HomeViewModel? = null
+    vm: HomeViewModel? = null,
+    navController: NavController
 ) {
     TODOTheme {
         Scaffold(
@@ -59,15 +63,24 @@ fun HomeView(
             val padding = it
             BaseView {
                 LazyRow() {
-                    for (i in 1..10) {
+                    for (i in 1..3) {
                         item {
-                            Text(text = "Text $i")
+                            ListButton(onClick = { /*TODO*/ }, text = "Text $i")
                         }
+                    }
+
+                    item{
+                        ListButton(onClick = {
+                                             navController.navigate("new_list")
+                        }, text = "+ New List")
                     }
                 }
                 Divider()
 
             }
+
+
+
         }
     }
 
@@ -76,5 +89,5 @@ fun HomeView(
 @Preview
 @Composable
 fun PreviewHomeView() {
-    HomeView()
+    HomeView(navController = rememberNavController())
 }

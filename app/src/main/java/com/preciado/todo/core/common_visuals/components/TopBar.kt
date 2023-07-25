@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -30,6 +31,7 @@ fun TopBar(
     innerPadding: Dp = 0.dp,
     innerWidth: Dp = 200.dp,
     innerHorizontalArrangement: Arrangement.Horizontal = Arrangement.SpaceBetween,
+    innerVerticalAlignment: Alignment.Vertical = Alignment.Bottom,
     title: @Composable (RowScope.() -> Unit)
 ) {
     Row(
@@ -38,8 +40,9 @@ fun TopBar(
         horizontalArrangement = mainHorizontalArrangement
     ) {
         Row(
-            modifier = Modifier.background(innerColor).width(innerWidth).padding(innerPadding),
-            horizontalArrangement = innerHorizontalArrangement
+            modifier = Modifier.background(innerColor).width(innerWidth).padding(innerPadding).weight(1f),
+            horizontalArrangement = innerHorizontalArrangement,
+            verticalAlignment = innerVerticalAlignment
         ) {
             if (image != null) {
                 image()
