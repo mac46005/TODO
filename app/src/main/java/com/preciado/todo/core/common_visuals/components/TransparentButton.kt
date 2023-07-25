@@ -1,0 +1,49 @@
+package com.preciado.todo.core.common_visuals.components
+
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.tooling.preview.Preview
+import com.preciado.todo.ui.theme.TODOTheme
+
+@Composable
+fun TransparentButton(
+    content: @Composable (RowScope.() -> Unit)
+){
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val color = if(isPressed) Color.Red else Color.Transparent
+
+    TODOTheme() {
+        Button(
+            onClick = { /*TODO*/ },
+            shape = RectangleShape,
+            colors = ButtonDefaults
+                .buttonColors(
+                    containerColor = animateColorAsState(targetValue = Color.Red).value,
+                ),
+            interactionSource = interactionSource
+        ) {
+            content(this)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewTransparentButton(){
+    TransparentButton{
+        Text(text = "Hello World")
+    }
+}
