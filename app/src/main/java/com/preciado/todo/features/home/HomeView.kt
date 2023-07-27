@@ -21,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.views.BaseView
+import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.ListButton
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
@@ -71,7 +72,7 @@ fun HomeView(
 
                     item{
                         ListButton(onClick = {
-                                             navController.navigate("new_list")
+                                             navController.navigate("add_edit_list/crud_operation=${CRUDEnum.CREATE.ordinal}")
                         }, text = "+ New List")
                     }
                 }

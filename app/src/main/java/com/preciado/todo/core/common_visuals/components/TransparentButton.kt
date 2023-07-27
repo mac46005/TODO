@@ -17,21 +17,22 @@ import com.preciado.todo.ui.theme.TODOTheme
 
 @Composable
 fun TransparentButton(
+    onClick: (() -> Unit),
     content: @Composable (RowScope.() -> Unit)
 ){
     val interactionSource = remember {
         MutableInteractionSource()
     }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val color = if(isPressed) Color.Red else Color.Transparent
+    val color by animateColorAsState(if(isPressed) Color.Red else Color.Transparent)
 
     TODOTheme() {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onClick,
             shape = RectangleShape,
             colors = ButtonDefaults
                 .buttonColors(
-                    containerColor = animateColorAsState(targetValue = Color.Red).value,
+                    containerColor = color,
                 ),
             interactionSource = interactionSource
         ) {
@@ -43,7 +44,7 @@ fun TransparentButton(
 @Preview
 @Composable
 fun PreviewTransparentButton(){
-    TransparentButton{
+    TransparentButton(onClick = {}){
         Text(text = "Hello World")
     }
 }
