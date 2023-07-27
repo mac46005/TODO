@@ -2,13 +2,14 @@ package com.preciado.todo.features.add_edit_list
 
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -40,7 +41,11 @@ fun AddEditListView(
                 onValueChange = {
                     vm.onNameChange(it)
                 },
-                maxLines = 1
+                placeholder = { Text(text = "Input list name here, please!")},
+                maxLines = 1,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    containerColor = Color.Transparent
+                )
             )
             Divider()
         }

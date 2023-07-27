@@ -20,13 +20,16 @@ fun TransparentButton(
     onClick: (() -> Unit),
     content: @Composable (RowScope.() -> Unit)
 ){
-    val interactionSource = remember {
-        MutableInteractionSource()
-    }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val color by animateColorAsState(if(isPressed) Color.Red else Color.Transparent)
 
     TODOTheme() {
+        val interactionSource = remember {
+            MutableInteractionSource()
+        }
+        val isPressed by interactionSource.collectIsPressedAsState()
+        val color by animateColorAsState(if(isPressed) Color.Red else Color.Transparent)
+
+
+
         Button(
             onClick = onClick,
             shape = RectangleShape,

@@ -13,7 +13,7 @@ class DatabaseHelper @Inject constructor(context: Context) :
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val TABLE_NAME_LISTS = "list"
+        val TABLE_NAME_LISTS = "todo_list"
         val COLUMN_LISTS_ID = "id"
         val COLUMN_LISTS_NAME = "list_name"
 
@@ -50,6 +50,11 @@ class DatabaseHelper @Inject constructor(context: Context) :
                     "$COLUMN_TASK_FOREIGN_KEY INTEGER," +
                     "FOREIGN KEY($COLUMN_TASK_FOREIGN_KEY) REFERENCES $TABLE_NAME_TASKS($COLUMN_TASKS_ID)" +
                     ")"
+        )
+
+        db?.execSQL(
+            "INSERT INTO list(name)" +
+                    "VALUES(\"My List\")"
         )
     }
 
