@@ -9,11 +9,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditListViewModel @Inject constructor(
+
 ) : ViewModel() {
 
     private val _name: MutableLiveData<String> = MutableLiveData("")
     val name: LiveData<String> = _name
     fun onNameChange(newName: String){
         _name.value = newName
+    }
+
+    fun onDone(){
+
     }
 }
