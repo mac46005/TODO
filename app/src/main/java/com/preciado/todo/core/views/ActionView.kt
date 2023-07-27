@@ -2,6 +2,7 @@ package com.preciado.todo.core.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -28,7 +29,9 @@ import com.preciado.todo.ui.theme.TODOTheme
 @Composable
 fun ActionView(
     title: String,
-    navController: NavController
+    navController: NavController,
+    onDone: (() -> Unit),
+    content: @Composable (ColumnScope.() -> Unit)
 ) {
     TODOTheme() {
         Scaffold() { padding ->
@@ -48,27 +51,14 @@ fun ActionView(
                 },
                 topBarActions = {
                     TransparentButton(
-                        onClick = {
-                            //TODO save new list to db
-                        }
+                        onClick = onDone
                     ) {
                         Text(text = "Done")
                     }
                 },
                 topBarInnerHorizontalArrangement = Arrangement.Start,
             ) {
-                Divider()
-                TextField(
-                    value = "",
-                    onValueChange = {
-
-                    },
-                    shape = RectangleShape,
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
-                    )
-                )
-                Divider()
+                content(this)
             }
         }
 
@@ -80,6 +70,11 @@ fun ActionView(
 fun PreviewActionView() {
     ActionView(
         title = "SOME ACTION",
-        navController = rememberNavController()
-    )
+        navController = rememberNavController(),
+        onDone = {
+
+        }
+    ){
+
+    }
 }

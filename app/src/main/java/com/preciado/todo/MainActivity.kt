@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.add_edit_list.AddEditListView
+import com.preciado.todo.features.add_edit_list.core.AddEditListViewModel
 import com.preciado.todo.features.home.HomeView
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
@@ -49,7 +51,8 @@ class MainActivity : ComponentActivity() {
                         ){ backStackEntry ->
                             AddEditListView(
                                 navController = navController,
-                                crudOperation = CRUDEnum.fromInt(backStackEntry.arguments!!.getInt("crud_operation"))
+                                crudOperation = CRUDEnum.fromInt(backStackEntry.arguments!!.getInt("crud_operation")),
+                                vm = viewModel()
                             )
                         }
                     }

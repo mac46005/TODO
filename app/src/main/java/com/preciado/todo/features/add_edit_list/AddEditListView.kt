@@ -1,9 +1,15 @@
 package com.preciado.todo.features.add_edit_list
 
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.views.ActionView
@@ -11,22 +17,40 @@ import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.add_edit_list.core.AddEditListViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditListView(
     navController: NavController,
     crudOperation: CRUDEnum = CRUDEnum.CREATE,
-    vm: AddEditListViewModel
-){
+    vm: AddEditListViewModel = viewModel<AddEditListViewModel>()
+) {
+//    val name: String by vm.name
+    val name: String by vm.name.observeAsState("")
     TODOTheme() {
-        ActionView(title = "Add Edit List", navController = navController)
+        ActionView(
+            title = "Add Edit List",
+            navController = navController,
+            onDone = {
+                //TODO save new/updated list to db
+            }
+        ) {
+            Divider()
+            TextField(
+                value = name,
+                onValueChange = {
+                    vm.onNameChange(it)
+                },
+                maxLines = 1
+            )
+            Divider()
+        }
     }
 }
 
 @Preview
 @Composable
-fun PreviewAddEditListView(){
+fun PreviewAddEditListView() {
     AddEditListView(
         navController = rememberNavController(),
-        vm = viewModel()
     )
 }
