@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.preciado.todo.data.TODOListTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditListViewModel @Inject constructor(
-
+    private val todoListTable: TODOListTable
 ) : ViewModel() {
 
     private val _name: MutableLiveData<String> = MutableLiveData("")
