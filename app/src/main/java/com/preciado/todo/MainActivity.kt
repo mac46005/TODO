@@ -49,10 +49,12 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         ){ backStackEntry ->
+
+                            val vm by viewModels<AddEditListViewModel>()
                             AddEditListView(
                                 navController = navController,
                                 crudOperation = CRUDEnum.fromInt(backStackEntry.arguments!!.getInt("crud_operation")),
-                                vm = viewModel()
+                                vm = vm
                             )
                         }
                     }
