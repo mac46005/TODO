@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.preciado.todo.core.models.TODOList
+import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.data.TODOListTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -19,15 +20,25 @@ class AddEditListViewModel @Inject constructor(
 
     private val _todoList: MutableLiveData<TODOList> = MutableLiveData(TODOList())
     val todoList: LiveData<TODOList> = _todoList
+
+    private var crudOperation: CRUDEnum = CRUDEnum.CREATE
+
     fun onNameChange(newName: String){
         _name.value = newName
     }
 
-    fun onDone(){
-
+    suspend fun onDone(){
+        if(crudOperation.equals(CRUDEnum.CREATE)){
+            todoListTable.create(_todoList.value!!)
+        }
     }
 
-    suspend fun getTODOList(id: Int){
+    fun setCRUD_Operation(crudEnum: CRUDEnum){
+        crudOperation = crudEnum
+    }
+
+    private suspend fun getTODOList(id: Int){
         _todoList.value = todoListTable.read(id)
     }
+
 }
