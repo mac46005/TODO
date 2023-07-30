@@ -34,9 +34,10 @@ fun AddEditListView(
 
 //    val name: String by vm.name
     val name: String by vm.name.observeAsState("")
+    val title: String by vm.title.observeAsState("Add new List")
     TODOTheme() {
         ActionView(
-            title = "Add Edit List",
+            title = title,
             navController = navController,
             onDone = {
             }
