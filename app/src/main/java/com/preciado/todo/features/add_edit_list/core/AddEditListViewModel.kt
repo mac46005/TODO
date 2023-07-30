@@ -4,16 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.preciado.todo.core.models.TODOList
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.data.TODOListTable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditListViewModel @Inject constructor(
     private val todoListTable: TODOListTable
 ) : ViewModel() {
+
+    private val _title: MutableLiveData<String> = MutableLiveData("Add New TODO List")
+    val title: LiveData<String> = _title
 
     private val _name: MutableLiveData<String> = MutableLiveData("")
     val name: LiveData<String> = _name
@@ -27,18 +32,34 @@ class AddEditListViewModel @Inject constructor(
         _name.value = newName
     }
 
-    suspend fun onDone(){
+    fun onDone(){
         if(crudOperation.equals(CRUDEnum.CREATE)){
-            todoListTable.create(_todoList.value!!)
+            viewModelScope.launch {
+                todoListTable.create(_todoList.value!!)
+            }
         }
     }
 
-    fun setCRUD_Operation(crudEnum: CRUDEnum){
+
+
+    private fun setTitle(){
+        _title.value = if(crudOperation.equals(CRUDEnum.CREATE)) "Add new TODO List" else "Update TODO List name"
+    }
+    private fun setCRUD_Operation(crudEnum: CRUDEnum){
         crudOperation = crudEnum
     }
 
-    private suspend fun getTODOList(id: Int){
-        _todoList.value = todoListTable.read(id)
+    fun initializeCRUDOperation(crudEnum: CRUDEnum, id: Int = 0){
+        setCRUD_Operation(crudEnum)
+        setTitle()
+        if(crudOperation == CRUDEnum.UPDATE){
+            setTODOList(id)
+        }
+    }
+    private fun setTODOList(id: Int){
+        viewModelScope.launch {
+            _todoList.value = todoListTable.read(id)
+        }
     }
 
 }

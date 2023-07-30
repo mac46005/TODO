@@ -72,7 +72,7 @@ fun HomeView(
 
                     item{
                         ListButton(onClick = {
-                                             navController.navigate("add_edit_list/crud_operation=${CRUDEnum.CREATE.ordinal}")
+                                             navController.navigate("add_edit_list/crud_operation=${CRUDEnum.CREATE.ordinal}%todo_list_id=0")
                         }, text = "+ New List")
                     }
                 }

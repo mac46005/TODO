@@ -42,18 +42,24 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
-                            "add_edit_list/crud_operation={crud_operation}",
+                            "add_edit_list/crud_operation={crud_operation}%todo_list_id={id}",
                             arguments = listOf(
                                 navArgument("crud_operation"){
                                     defaultValue = CRUDEnum.CREATE.ordinal
+                                },
+                                navArgument("id"){
+                                    defaultValue = 0
                                 }
                             )
                         ){ backStackEntry ->
 
                             val vm by viewModels<AddEditListViewModel>()
+
+
                             AddEditListView(
                                 navController = navController,
                                 crudOperation = CRUDEnum.fromInt(backStackEntry.arguments!!.getInt("crud_operation")),
+                                tableId = backStackEntry.arguments!!.getInt("todo_list_id"),
                                 vm = vm
                             )
                         }

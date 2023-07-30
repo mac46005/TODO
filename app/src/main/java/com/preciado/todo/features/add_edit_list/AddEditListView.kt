@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
@@ -23,8 +24,14 @@ import com.preciado.todo.ui.theme.TODOTheme
 fun AddEditListView(
     navController: NavController,
     crudOperation: CRUDEnum = CRUDEnum.CREATE,
+    tableId: Int = 0,
     vm: AddEditListViewModel = viewModel<AddEditListViewModel>()
 ) {
+    LaunchedEffect(key1 = true){
+        vm.initializeCRUDOperation(crudOperation)
+    }
+
+
 //    val name: String by vm.name
     val name: String by vm.name.observeAsState("")
     TODOTheme() {
@@ -32,7 +39,6 @@ fun AddEditListView(
             title = "Add Edit List",
             navController = navController,
             onDone = {
-                //TODO save new/updated list to db
             }
         ) {
             Divider()
