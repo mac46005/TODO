@@ -25,6 +25,7 @@ class TODOListTable @Inject constructor(
     override suspend fun delete(obj: TODOList) {
         var db = dbHelper.writableDatabase
         db.delete(TABLE_NAME, "id = ?", arrayOf(obj.id.toString()))
+        db.close()
     }
 
     override suspend fun read(id: Int): TODOList? {
@@ -43,18 +44,45 @@ class TODOListTable @Inject constructor(
             val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
             val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
 
+            db.close()
             return TODOList(id, name)
         }else{
+            db.close()
             return null
         }
     }
 
-    override suspend fun readAll(): Flow<List<TODOList>> {
-        TODO("Not yet implemented")
+    override suspend fun readAll(): List<TODOList> {
+        var db = dbHelper.readableDatabase
+        var cursor = db.query(
+            TABLE_NAME,
+            arrayOf("id", "name"),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+
+        var list = mutableListOf<TODOList>()
+
+        while (cursor.moveToNext()){
+            var id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+            var name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+            list.add(TODOList(id, name))
+        }
+        db.close()
+        return list
     }
 
     override suspend fun update(obj: TODOList) {
-        TODO("Not yet implemented")
+        var db = dbHelper.writableDatabase
+        var contentValues = ContentValues().apply {
+            put("name", obj.name)
+        }
+        db.update(TABLE_NAME, contentValues, "id = ?", arrayOf(obj.id.toString()))
+
+        db.close()
     }
 
 }
