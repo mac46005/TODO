@@ -28,7 +28,7 @@ fun AddEditListView(
     vm: AddEditListViewModel = viewModel<AddEditListViewModel>()
 ) {
     LaunchedEffect(key1 = true){
-        vm.initializeCRUDOperation(crudOperation)
+        vm.initializeCRUDOperation(crudOperation, tableId)
     }
 
 
