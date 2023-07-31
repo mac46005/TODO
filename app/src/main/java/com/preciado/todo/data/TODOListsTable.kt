@@ -2,14 +2,12 @@ package com.preciado.todo.data
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
-import android.provider.ContactsContract.Data
 import com.preciado.todo.core.models.TODOList
 import com.preciado.todo.data.interfaces.ICRUD
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class TODOListTable @Inject constructor(
+class TODOListsTable @Inject constructor(
     private val dbHelper: DatabaseHelper
 ) : ICRUD<TODOList> {
     companion object {

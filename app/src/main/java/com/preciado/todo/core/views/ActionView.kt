@@ -1,23 +1,11 @@
 package com.preciado.todo.core.views
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -30,7 +18,8 @@ import com.preciado.todo.ui.theme.TODOTheme
 fun ActionView(
     title: String,
     navController: NavController,
-    onDone: (() -> Unit),
+    submit: (() -> Unit),
+    canceled: (() -> Unit),
     doneButtonEnabled: Boolean = false,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
@@ -45,6 +34,7 @@ fun ActionView(
                     TransparentButton(
                         onClick = {
                             navController.popBackStack()
+                            canceled()
                         }
                     ) {
                         Text(text = "X")
@@ -52,7 +42,7 @@ fun ActionView(
                 },
                 topBarActions = {
                     TransparentButton(
-                        onClick = onDone,
+                        onClick = submit,
                         enabled = doneButtonEnabled
                     ) {
                         Text(text = "Done")
@@ -73,7 +63,10 @@ fun PreviewActionView() {
     ActionView(
         title = "SOME ACTION",
         navController = rememberNavController(),
-        onDone = {
+        submit = {
+
+        },
+        canceled = {
 
         }
     ){

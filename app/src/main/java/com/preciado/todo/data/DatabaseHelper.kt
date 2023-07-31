@@ -25,7 +25,7 @@ class DatabaseHelper @Inject constructor(context: Context) :
         const val TABLE_NAME_SUBTASKS = "subtasks"
         const val COLUMN_SUBTASKS_ID = "id"
         const val COLUMN_SUBTASKS_TASK_NAME = "task_name"
-        const val COLUMN_TASK_FOREIGN_KEY = "task_id_fk"
+        const val COLUMN_TASKS_FOREIGN_KEY = "task_id_fk"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -55,8 +55,8 @@ class DatabaseHelper @Inject constructor(context: Context) :
             "CREATE TABLE IF NOT EXISTS $TABLE_NAME_SUBTASKS(" +
                     "$COLUMN_SUBTASKS_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "$COLUMN_SUBTASKS_TASK_NAME TEXT NOT NULL UNIQUE," +
-                    "$COLUMN_TASK_FOREIGN_KEY INTEGER," +
-                    "FOREIGN KEY($COLUMN_TASK_FOREIGN_KEY) REFERENCES $TABLE_NAME_TASKS($COLUMN_TASKS_ID)" +
+                    "$COLUMN_TASKS_FOREIGN_KEY INTEGER," +
+                    "FOREIGN KEY($COLUMN_TASKS_FOREIGN_KEY) REFERENCES $TABLE_NAME_TASKS($COLUMN_TASKS_ID)" +
                     ")"
         )
 

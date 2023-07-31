@@ -9,8 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -53,14 +52,11 @@ class MainActivity : ComponentActivity() {
                             )
                         ){ backStackEntry ->
 
-                            val vm by viewModels<AddEditListViewModel>()
-
-
                             AddEditListView(
                                 navController = navController,
                                 crudOperation = CRUDEnum.fromInt(backStackEntry.arguments!!.getInt("crud_operation")),
                                 tableId = backStackEntry.arguments!!.getInt("todo_list_id"),
-                                vm = vm
+//                                vm = vm
                             )
                         }
                     }
