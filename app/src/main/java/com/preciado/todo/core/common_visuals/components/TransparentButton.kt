@@ -18,6 +18,7 @@ import com.preciado.todo.ui.theme.TODOTheme
 @Composable
 fun TransparentButton(
     onClick: (() -> Unit),
+    enabled: Boolean = true,
     content: @Composable (RowScope.() -> Unit)
 ){
 
@@ -32,6 +33,7 @@ fun TransparentButton(
 
         Button(
             onClick = onClick,
+            enabled = enabled,
             shape = RectangleShape,
             colors = ButtonDefaults
                 .buttonColors(

@@ -21,7 +21,7 @@ class HomeViewModel @Inject constructor(
     val todoList: LiveData<List<TODOList>> = _todoLists
     fun initialize(){
         viewModelScope.launch {
-            _todoLists.value = todoListTable.readAll().
+            _todoLists.value = todoListTable.readAll()
         }
     }
 }

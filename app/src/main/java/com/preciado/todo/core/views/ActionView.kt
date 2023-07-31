@@ -31,6 +31,7 @@ fun ActionView(
     title: String,
     navController: NavController,
     onDone: (() -> Unit),
+    doneButtonEnabled: Boolean = false,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
     TODOTheme() {
@@ -51,7 +52,8 @@ fun ActionView(
                 },
                 topBarActions = {
                     TransparentButton(
-                        onClick = onDone
+                        onClick = onDone,
+                        enabled = doneButtonEnabled
                     ) {
                         Text(text = "Done")
                     }
