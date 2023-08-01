@@ -30,18 +30,35 @@ class TODOListTasksTable @Inject constructor(
 
     }
 
-    override suspend fun read(id: Int): TODOListTask? {
+    override suspend fun read(id: Int, foreignKeys: Array<Int>): TODOListTask? {
         try {
             val db = dbHelper.readableDatabase
             var cursor = db.query(
                 DatabaseHelper.TABLE_NAME_TASKS,
-                null,
-                null,
-                null,
+                arrayOf(
+                    DatabaseHelper.COLUMN_TASKS_ID,
+                    DatabaseHelper.COLUMN_TASKS_TASK_NAME,
+                    DatabaseHelper.COLUMN_TASKS_FOREIGN_KEY
+                ),
+                "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_FOREIGN_KEY} = ?",
+                arrayOf(
+                    id.toString(),
+                    foreignKeys[0].toString()
+                ),
                 null,
                 null,
                 null
             )
+
+            var todolistTask: TODOListTask = TODOListTask()
+
+            while(cursor.moveToNext()){
+                todolistTask.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
+                todolistTask.taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
+                todolistTask.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_FOREIGN_KEY))
+            }
+
+            return todolistTask
         }catch (e: Exception){
             throw e
         }
@@ -62,6 +79,7 @@ class TODOListTasksTable @Inject constructor(
         }catch (e: Exception){
             throw e
         }
+        //TODO return value
     }
 
     override suspend fun update(obj: TODOListTask) {
