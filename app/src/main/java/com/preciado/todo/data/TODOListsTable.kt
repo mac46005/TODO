@@ -63,7 +63,7 @@ class TODOListsTable @Inject constructor(
         }
     }
 
-    override suspend fun readAll(): List<TODOList>? {
+    override suspend fun readAll(foreignKeys: Array<out String>): List<TODOList>? {
         var db = dbHelper.readableDatabase
         var cursor = db.query(
             TABLE_NAME,

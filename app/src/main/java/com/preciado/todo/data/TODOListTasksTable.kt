@@ -67,7 +67,7 @@ class TODOListTasksTable @Inject constructor(
         }
     }
 
-    override suspend fun readAll(): List<TODOListTask>? {
+    override suspend fun readAll(foreignKeys: Array<out String>): List<TODOListTask>? {
         try {
             val db = dbHelper.readableDatabase
             var cursor = db.query(
@@ -78,8 +78,8 @@ class TODOListTasksTable @Inject constructor(
                     DatabaseHelper.COLUMN_TASKS_DETAILS,
                     DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY
                 ),
-                null,
-                null,
+                "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ?",
+                foreignKeys,
                 null,
                 null,
                 null

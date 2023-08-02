@@ -9,6 +9,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,10 +18,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.preciado.todo.R
 import com.preciado.todo.core.common_visuals.components.TransparentButton
 import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
@@ -44,6 +47,7 @@ fun HomeView(
 
     val listState by vm.todoLists.observeAsState()
     val listTasksState by vm.todoList.observeAsState()
+    val listId by vm.selectedTODOListId.observeAsState()
 
     TODOTheme {
         Scaffold(
@@ -66,13 +70,20 @@ fun HomeView(
 
                             }
                         }
-                        Button(onClick = { /*TODO*/ }) {
-                            Text(text = "+")
+                        //Add new task
+                        Button(onClick = {
+                            navController.navigate("add_edit_list_task/crud_operation=${CRUDEnum.CREATE}%todo_list_id=${listId}%todo_list_task_id=0")
+                        }) {
+                            Icon(painter = painterResource(id = R.drawable.baseline_add_24), contentDescription = "")
                         }
                     }
                 }
             }
         ) {
+
+
+
+
             val padding = it
             BaseView {
                 LazyRow() {
@@ -88,7 +99,7 @@ fun HomeView(
                     }
                     item{
                         ListButton(onClick = {
-                            navController.navigate("add_edit_list/crud_operation=${CRUDEnum.CREATE.ordinal}%todo_list_id=0")
+                            navController.navigate("")
                         }, text = "+ New List")
                     }
                 }
@@ -100,6 +111,10 @@ fun HomeView(
                     }
 
                 }
+
+
+
+
             }
         }
     }
