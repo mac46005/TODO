@@ -59,6 +59,12 @@ class MainActivity : ComponentActivity() {
 //                                vm = vm
                             )
                         }
+                        composable("add_edit_task/crud_operation={crud_operation}%todo_list_task_id={id}"){
+                            //TODO Create add edit task view
+                        }
+                        composable("details/task_id={task_id}"){
+                            //TODO Create details view
+                        }
                     }
                 }
             }

@@ -38,7 +38,7 @@ class TODOListsTable @Inject constructor(
         db.close()
     }
 
-    override suspend fun read(id: Int): TODOList? {
+    override suspend fun read(id: Int, foreignKeys: Array<Int>): TODOList? {
         val db = dbHelper.readableDatabase
         var cursor = db.query(
             TABLE_NAME,
@@ -63,7 +63,7 @@ class TODOListsTable @Inject constructor(
         }
     }
 
-    override suspend fun readAll(): List<TODOList> {
+    override suspend fun readAll(): List<TODOList>? {
         var db = dbHelper.readableDatabase
         var cursor = db.query(
             TABLE_NAME,

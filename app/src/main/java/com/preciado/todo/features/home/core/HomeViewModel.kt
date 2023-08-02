@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.preciado.todo.core.models.TODOList
 import com.preciado.todo.core.models.TODOListTask
+import com.preciado.todo.data.TODOListTasksTable
 import com.preciado.todo.data.TODOListsTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,14 +14,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val todoListsTable: TODOListsTable
+    private val todoListsTable: TODOListsTable,
+    private val todoListTasksTable: TODOListTasksTable
 ) : ViewModel() {
+    private var selectedList: Int = 0
 
     private val _todoLists: MutableLiveData<List<TODOList>> = MutableLiveData(emptyList())
     val todoLists: LiveData<List<TODOList>> = _todoLists
 
-    private val _todoList: MutableLiveData<List<TODOListTask>> = MutableLiveData(emptyList())
-    val todoList: LiveData<List<TODOListTask>> = _todoList
+    private val _todoListTasks: MutableLiveData<List<TODOListTask>> = MutableLiveData(emptyList())
+    val todoList: LiveData<List<TODOListTask>> = _todoListTasks
 
     fun initialize(){
         viewModelScope.launch {
@@ -29,6 +32,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadTodoList(todoListId: Int){
-
+        selectedList = todoListId
+        viewModelScope.launch {
+            _todoListTasks.value = todoListTasksTable.readAll()
+        }
     }
 }
