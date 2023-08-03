@@ -1,15 +1,21 @@
 package com.preciado.todo.features.add_edit_task.core
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.preciado.todo.core.models.TODOListTask
 import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.data.TODOListTasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditTaskViewModel @Inject constructor(
-
+    private val todoListTasksTable: TODOListTasksTable
 ): ViewModel(){
 
     private var crudOperation: CRUDEnum = CRUDEnum.CREATE
@@ -30,8 +36,21 @@ class AddEditTaskViewModel @Inject constructor(
     val isEnabled: LiveData<Boolean> = _isEnabled
 
 
-    fun initialize(){
+    fun initialize(crudOperation: CRUDEnum, listId: Int,taskId: Int){
 
+        this.crudOperation = crudOperation
+
+        _listId.value = listId
+
+        if(this.crudOperation.equals(CRUDEnum.UPDATE)){
+            viewModelScope.launch {
+                var task = todoListTasksTable.read(taskId)
+                if(task != null){
+                    _listId.value = task.id
+                    _taskName.value = task.taskName
+                }
+            }
+        }
     }
 
     fun onNameChange(newName: String){
@@ -40,5 +59,24 @@ class AddEditTaskViewModel @Inject constructor(
 
     fun onDetailsChange(newDetails: String){
         _taskDetails.value = newDetails
+    }
+
+    fun isNameNotEmpty(){
+        _isEnabled.value = _taskName.value!!.isNotEmpty()
+    }
+    fun submit(){
+        try {
+            viewModelScope.launch {
+                if(crudOperation.equals(CRUDEnum.CREATE)){
+                    todoListTasksTable.create(TODOListTask(todoList_id = _listId.value!!, taskName = _taskName.value!!, details = _taskDetails.value!!))
+                }
+            }
+        }catch (e: SQLiteConstraintException){
+            throw e
+        }
+    }
+
+    fun onCanceled(){
+        onCleared()
     }
 }

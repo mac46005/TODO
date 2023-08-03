@@ -31,30 +31,8 @@ class AddEditListViewModel @Inject constructor(
     private val _isEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
     val isEnabled: LiveData<Boolean> = _isEnabled
 
-    fun submit(){
-        try {
-            viewModelScope.launch {
-                todoListsTable.create(TODOList(name = _todoListName.value!!))
-            }
-            onCleared()
-        }catch (e: SQLiteConstraintException){
-            throw e
-        }
-    }
 
-    fun onCanceled(){
-        onCleared()
-    }
-    fun onTodoListNameChange(newName: String){
-        _todoListName.value = newName
-    }
-    fun doesValueExistsInDatabase(): Boolean{
-        return false
-    }
 
-    fun isNameNotEmpty(){
-        _isEnabled.value = _todoListName.value!!.isNotEmpty()
-    }
     fun initializeCRUDOperation(crudOperation: CRUDEnum, tableId: Int){
         this.crudOperation = crudOperation
         if(this.crudOperation.equals(CRUDEnum.UPDATE)){
@@ -62,11 +40,38 @@ class AddEditListViewModel @Inject constructor(
                 var todoList = todoListsTable.read(tableId)
                 if (todoList != null) {
                     _id.value = todoList.id
-                }
-                if (todoList != null) {
                     _todoListName.value = todoList.name
                 }
             }
         }
     }
+    fun onTodoListNameChange(newName: String){
+        _todoListName.value = newName
+    }
+    fun isNameNotEmpty(){
+        _isEnabled.value = _todoListName.value!!.isNotEmpty()
+    }
+    fun doesValueExistsInDatabase(): Boolean{
+        return false
+    }
+    fun submit(){
+        try {
+            viewModelScope.launch {
+                if(crudOperation.equals(CRUDEnum.CREATE)){
+                    todoListsTable.create(TODOList(name = _todoListName.value!!))
+                }else{
+                    todoListsTable.update(TODOList(id = _id.value!!, name = _todoListName.value!!))
+                }
+
+            }
+            onCleared()
+        }catch (e: SQLiteConstraintException){
+            throw e
+        }
+    }
+    fun onCanceled(){
+        onCleared()
+    }
+
+
 }

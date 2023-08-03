@@ -28,7 +28,7 @@ fun AddEditTaskView(
 
 
     LaunchedEffect(key1 = true) {
-        vm.initialize()
+        vm.initialize(crudOperaton,taskId)
     }
 
     val isEnabled by vm.isEnabled.observeAsState(false)
@@ -40,6 +40,7 @@ fun AddEditTaskView(
             title = "Title",
             navController = navController,
             submit = {
+                vm.submit()
                 navController.popBackStack()
             },
             canceled = {
