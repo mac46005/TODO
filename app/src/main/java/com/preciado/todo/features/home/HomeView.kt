@@ -72,7 +72,7 @@ fun HomeView(
                         }
                         //Add new task
                         Button(onClick = {
-                            navController.navigate("add_edit_list_task/crud_operation=${CRUDEnum.CREATE}%todo_list_id=${listId}%todo_list_task_id=0")
+                            navController.navigate("add_edit_list_task/crud_operation=${CRUDEnum.CREATE.ordinal}&todo_list_id=${listId}&todo_list_task_id=0")
                         }) {
                             Icon(painter = painterResource(id = R.drawable.baseline_add_24), contentDescription = "")
                         }

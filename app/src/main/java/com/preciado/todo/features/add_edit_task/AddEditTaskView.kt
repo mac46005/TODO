@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.preciado.todo.core.common_visuals.components.TransparentTextField
 import com.preciado.todo.core.views.ActionView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.add_edit_task.core.AddEditTaskViewModel
@@ -23,10 +24,10 @@ fun AddEditTaskView(
     listId: Int = 0,
     taskId: Int = 0,
     vm: AddEditTaskViewModel = hiltViewModel()
-){
+) {
 
 
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         //TODO initialize vm here
     }
     TODOTheme() {
@@ -34,28 +35,14 @@ fun AddEditTaskView(
             title = "Title",
             navController = navController,
             submit = {
-                     navController.popBackStack()
+                navController.popBackStack()
             },
             canceled = {
                 navController.popBackStack()
             }) {
             Divider()
-            TextField(
-                value = "",
-                onValueChange = {
-
-                },
-                placeholder = {
-                    Text(text = "Input task name here,please!")
-                }
-            )
-            TextField(
-                value = "",
-                onValueChange ={},
-                placeholder = {
-                    Text(text = "Add details here. Be descriptive")
-                }
-            )
+            TransparentTextField(value = "", onValueChange = {})
+            TransparentTextField(value = "", onValueChange = {})
             Divider()
         }
     }
@@ -63,6 +50,6 @@ fun AddEditTaskView(
 
 @Preview
 @Composable
-fun PreviewAddEditTaskView(){
+fun PreviewAddEditTaskView() {
     AddEditTaskView(navController = rememberNavController())
 }

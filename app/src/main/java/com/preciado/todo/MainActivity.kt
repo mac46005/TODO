@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
 
 
                         composable(
-                            "add_edit_list_task/crud_operation={crud_operation}%todo_list_id={todo_list_id}%todo_list_task_id={todo_list_task_id}",
+                            "add_edit_list_task/crud_operation={crud_operation}&todo_list_id={todo_list_id}&todo_list_task_id={todo_list_task_id}",
                             arguments = listOf(
                                 navArgument("crud_operation") {
                                     defaultValue = CRUDEnum.CREATE.ordinal

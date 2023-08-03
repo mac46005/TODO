@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.preciado.todo.core.common_visuals.components.TransparentTextField
 import com.preciado.todo.core.helpers.CapitalizeWords
 import com.preciado.todo.core.views.ActionView
 import com.preciado.todo.data.CRUDEnum
@@ -33,7 +34,7 @@ fun AddEditListView(
     tableId: Int = 0,
     vm: AddEditListViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         vm.initializeCRUDOperation(crudOperation, tableId)
     }
 
@@ -47,8 +48,8 @@ fun AddEditListView(
     var errorMessage by remember {
         mutableStateOf("")
     }
-    
-    
+
+
     TODOTheme() {
         ActionView(
             title = title,
@@ -58,30 +59,26 @@ fun AddEditListView(
                     vm.submit()
                     visible = false
                     navController.popBackStack()
-                }catch (e: Exception){
+                } catch (e: Exception) {
                     errorMessage = e.message.toString()
                     visible = true
                 }
 
             },
             canceled = {
-              vm.onCanceled()
+                vm.onCanceled()
             },
             doneButtonEnabled = isEnabled
         ) {
+
             Divider()
-            TextField(
+            TransparentTextField(
                 value = todoListName,
                 onValueChange = { value ->
                     vm.onTodoListNameChange(CapitalizeWords.getCaptilizedSentence(value))
                     vm.isNameNotEmpty()
                 },
-                placeholder = { Text(text = "Input list name here, please!")}
-                ,
-                maxLines = 1,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.Transparent
-                )
+                placeHolder = "Input list name here, please!"
             )
             Divider()
             AnimatedVisibility(visible = visible) {
@@ -92,8 +89,11 @@ fun AddEditListView(
 }
 
 
-
 @Preview
 @Composable
 fun PreviewAddEditListView() {
+    AddEditListView(
+        navController = rememberNavController(),
+        vm =
+    )
 }
