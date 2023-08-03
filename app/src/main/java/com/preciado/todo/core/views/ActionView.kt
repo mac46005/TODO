@@ -2,11 +2,14 @@ package com.preciado.todo.core.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.common_visuals.components.TransparentButton
@@ -28,7 +31,10 @@ fun ActionView(
             val paddingValues = padding
             TBarView(
                 topBarTitle = {
-                    Text(text = title)
+                    Text(
+                        modifier = Modifier.padding(start = 30.dp),
+                        text = title
+                    )
                 },
                 topBarImage = {
                     TransparentButton(

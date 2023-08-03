@@ -2,10 +2,10 @@ package com.preciado.todo.features.add_edit_task
 
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -28,8 +28,13 @@ fun AddEditTaskView(
 
 
     LaunchedEffect(key1 = true) {
-        //TODO initialize vm here
+        vm.initialize()
     }
+
+    val isEnabled by vm.isEnabled.observeAsState(false)
+    val taskName by vm.taskname.observeAsState("")
+    val taskDetails by vm.taskDetails.observeAsState("")
+
     TODOTheme() {
         ActionView(
             title = "Title",
@@ -39,10 +44,26 @@ fun AddEditTaskView(
             },
             canceled = {
                 navController.popBackStack()
-            }) {
+            },
+            doneButtonEnabled = isEnabled
+        ) {
             Divider()
-            TransparentTextField(value = "", onValueChange = {})
-            TransparentTextField(value = "", onValueChange = {})
+            TransparentTextField(
+                value = taskName,
+                onValueChange = {
+                                vm.onNameChange(it)
+                },
+                placeHolder = "Input the name of this task."
+            )
+            TransparentTextField(
+                value = taskDetails,
+                onValueChange = {
+                                vm.onDetailsChange(it)
+                },
+                placeHolder = "Input the details of this task. Be as descriptive as you can.",
+                singleLine = false,
+                maxLines = 5
+            )
             Divider()
         }
     }

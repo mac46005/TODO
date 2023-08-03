@@ -20,8 +20,25 @@ class AddEditTaskViewModel @Inject constructor(
     private val _listTaskId: MutableLiveData<Int> = MutableLiveData(0)
     val listTaskId: LiveData<Int> = _listTaskId
 
+    private val _taskName: MutableLiveData<String> = MutableLiveData("")
+    val taskname: LiveData<String> = _taskName
+
+    private val _taskDetails: MutableLiveData<String> = MutableLiveData("")
+    val taskDetails: LiveData<String> = _taskDetails
+
+    private val _isEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isEnabled: LiveData<Boolean> = _isEnabled
+
 
     fun initialize(){
 
+    }
+
+    fun onNameChange(newName: String){
+        _taskName.value = newName
+    }
+
+    fun onDetailsChange(newDetails: String){
+        _taskDetails.value = newDetails
     }
 }

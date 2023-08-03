@@ -32,15 +32,15 @@ fun AddEditListView(
     navController: NavController,
     crudOperation: CRUDEnum = CRUDEnum.CREATE,
     tableId: Int = 0,
-    vm: AddEditListViewModel = hiltViewModel()
+    vm: AddEditListViewModel? = hiltViewModel()
 ) {
     LaunchedEffect(key1 = true) {
-        vm.initializeCRUDOperation(crudOperation, tableId)
+        vm!!.initializeCRUDOperation(crudOperation, tableId)
     }
 
-    val title: String by vm.title.observeAsState("Add new List")
-    val todoListName: String by vm.todoListName.observeAsState("")
-    val isEnabled: Boolean by vm.isEnabled.observeAsState(false)
+    val title: String by vm!!.title.observeAsState("Add new List")
+    val todoListName: String by vm!!.todoListName.observeAsState("")
+    val isEnabled: Boolean by vm!!.isEnabled.observeAsState(false)
 
     var visible by remember {
         mutableStateOf(false)
@@ -56,7 +56,7 @@ fun AddEditListView(
             navController = navController,
             submit = {
                 try {
-                    vm.submit()
+                    vm!!.submit()
                     visible = false
                     navController.popBackStack()
                 } catch (e: Exception) {
@@ -66,16 +66,16 @@ fun AddEditListView(
 
             },
             canceled = {
-                vm.onCanceled()
+                vm!!.onCanceled()
             },
             doneButtonEnabled = isEnabled
         ) {
 
             Divider()
             TransparentTextField(
-                value = todoListName,
+                value = todoListName?: "null",
                 onValueChange = { value ->
-                    vm.onTodoListNameChange(CapitalizeWords.getCaptilizedSentence(value))
+                    vm!!.onTodoListNameChange(CapitalizeWords.getCaptilizedSentence(value))
                     vm.isNameNotEmpty()
                 },
                 placeHolder = "Input list name here, please!"
@@ -94,6 +94,6 @@ fun AddEditListView(
 fun PreviewAddEditListView() {
     AddEditListView(
         navController = rememberNavController(),
-        vm =
+        vm = null
     )
 }
