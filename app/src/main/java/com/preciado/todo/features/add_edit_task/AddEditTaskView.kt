@@ -28,7 +28,7 @@ fun AddEditTaskView(
 
 
     LaunchedEffect(key1 = true) {
-        vm.initialize(crudOperaton,taskId)
+        vm.initialize(crudOperaton, listId,taskId)
     }
 
     val isEnabled by vm.isEnabled.observeAsState(false)

@@ -3,6 +3,7 @@ package com.preciado.todo.features.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomAppBar
@@ -27,6 +28,7 @@ import com.preciado.todo.R
 import com.preciado.todo.core.common_visuals.components.TransparentButton
 import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.features.home.components.CompletedTasksTab
 import com.preciado.todo.features.home.components.ListButton
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
@@ -34,21 +36,19 @@ import com.preciado.todo.ui.theme.TODOTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(
-    modifier: Modifier = Modifier,
     vm: HomeViewModel,
     navController: NavController
 ) {
 
 
-
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         vm.initialize()
     }
 
     val listState by vm.todoLists.observeAsState()
     val listTasksState by vm.todoList.observeAsState()
     val listId by vm.selectedTODOListId.observeAsState()
-
+    val isListSelected by vm.isListSelected.observeAsState()
     TODOTheme {
         Scaffold(
             bottomBar = {
@@ -71,10 +71,16 @@ fun HomeView(
                             }
                         }
                         //Add new task
-                        Button(onClick = {
-                            navController.navigate("add_edit_list_task/crud_operation=${CRUDEnum.CREATE.ordinal}&todo_list_id=${listId}&todo_list_task_id=0")
-                        }) {
-                            Icon(painter = painterResource(id = R.drawable.baseline_add_24), contentDescription = "")
+                        Button(
+                            onClick = {
+                                navController.navigate("add_edit_list_task/${CRUDEnum.CREATE.ordinal}/${listId}/0")
+                            },
+                            enabled = isListSelected!!
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_add_24),
+                                contentDescription = "Add new task button"
+                            )
                         }
                     }
                 }
@@ -82,12 +88,14 @@ fun HomeView(
         ) {
 
 
-
-
             val padding = it
             BaseView {
+
+
+
+                //TODOLists
                 LazyRow() {
-                    items(listState!!){ todoList ->
+                    items(listState!!) { todoList ->
                         TransparentButton(
                             onClick =
                             {
@@ -97,24 +105,29 @@ fun HomeView(
                             Text(text = todoList.name)
                         }
                     }
-                    item{
+                    item {
                         ListButton(onClick = {
-                            navController.navigate("")
+                            navController.navigate("add_edit_list/${CRUDEnum.CREATE.ordinal}/0")
                         }, text = "+ New List")
                     }
                 }
                 Divider()
 
-                LazyRow(){
-                    items(listTasksState!!){
+                // UNCOMPLETED TASKS
+                LazyColumn() {
+                    items(listTasksState!!) {
+                        //TODO Create view for individual task item
 
                     }
-
                 }
 
 
+                // COMPLETED TASKS
+                // TODO Create a view that shows the number of completed tasks and and expand button to view the list
+                CompletedTasksTab {
 
-
+                }
+                // TODO Create the LazyColumn that shows the completed lists but it is hidden until the user clicks the button
             }
         }
     }
@@ -123,8 +136,4 @@ fun HomeView(
 @Preview
 @Composable
 fun PreviewHomeView() {
-    HomeView(
-        navController = rememberNavController(),
-        vm = viewModel()
-    )
 }

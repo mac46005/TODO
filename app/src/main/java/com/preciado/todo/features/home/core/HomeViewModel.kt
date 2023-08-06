@@ -22,9 +22,6 @@ class HomeViewModel @Inject constructor(
         private const val TAG = "HomeViewModel"
     }
 
-
-    private var selectedList: Int = 0
-
     private var _selectedTODOListId: MutableLiveData<Int> = MutableLiveData(0)
     val selectedTODOListId: LiveData<Int> = _selectedTODOListId
 
@@ -34,6 +31,10 @@ class HomeViewModel @Inject constructor(
     private val _todoListTasks: MutableLiveData<List<TODOListTask>> = MutableLiveData(emptyList())
     val todoList: LiveData<List<TODOListTask>> = _todoListTasks
 
+    private val _isListSelected: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isListSelected: LiveData<Boolean> = _isListSelected
+
+
     fun initialize(){
         viewModelScope.launch {
             _todoLists.value = todoListsTable.readAll()
@@ -42,8 +43,9 @@ class HomeViewModel @Inject constructor(
 
     fun loadTodoList(todoListId: Int){
         _selectedTODOListId.value = todoListId
+        _isListSelected.value = true
         viewModelScope.launch {
-            Log.i(TAG, "loadTodoList: attempting to load todoListId $_selectedTODOListId")
+            Log.i(TAG, "loadTodoList: attempting to load todoListId ${_selectedTODOListId.value}")
             _todoListTasks.value = todoListTasksTable.readAll()
         }
     }

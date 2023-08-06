@@ -68,7 +68,13 @@ class AddEditTaskViewModel @Inject constructor(
         try {
             viewModelScope.launch {
                 if(crudOperation.equals(CRUDEnum.CREATE)){
-                    todoListTasksTable.create(TODOListTask(todoList_id = _listId.value!!, taskName = _taskName.value!!, details = _taskDetails.value!!))
+                    todoListTasksTable.create(
+                        TODOListTask(
+                            todoList_id = _listId.value!!,
+                            taskName = _taskName.value!!,
+                            details = _taskDetails.value!!
+                        )
+                    )
                 }
             }
         }catch (e: SQLiteConstraintException){
