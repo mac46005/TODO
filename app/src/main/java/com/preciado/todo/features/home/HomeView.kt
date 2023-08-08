@@ -16,15 +16,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.R
 import com.preciado.todo.core.common_visuals.components.TransparentButton
 import com.preciado.todo.core.views.BaseView
@@ -46,10 +45,13 @@ fun HomeView(
         vm.initialize()
     }
 
-    val listState by vm.todoLists.observeAsState()
-    val listTasksState by vm.todoList.observeAsState()
-    val listId by vm.selectedTODOListId.observeAsState()
+//    val listState by vm.todoLists.observeAsState()
+//    val listTasksState by vm.todoList.observeAsState()
+    val listState by vm.loadTodoLists().collectAsState(emptyList())
+    val listId by vm.selectedTODOListId.observeAsState(0)
     val isListSelected by vm.isListSelected.observeAsState()
+    val listTasksState by vm.loadTodoListTasks(listId).collectAsState(emptyList())
+
 
     TODOTheme {
         Scaffold(
@@ -106,7 +108,7 @@ fun HomeView(
                         TransparentButton(
                             onClick =
                             {
-                                vm.loadTodoList(todoListId = todoList.id)
+                                vm.loadTodoListTasks(todoListId = todoList.id)
                             }
                         ) {
                             Text(text = todoList.name)

@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import com.preciado.todo.core.models.TODOList
 import com.preciado.todo.data.interfaces.ICRUD
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 
@@ -63,7 +65,7 @@ class TODOListsTable @Inject constructor(
         }
     }
 
-    override suspend fun readAll(foreignKeys: Array<out String>): List<TODOList>? {
+    override fun readAll(foreignKeys: Array<out String>): Flow<List<TODOList>?> {
         var db = dbHelper.readableDatabase
         var cursor = db.query(
             TABLE_NAME,
@@ -84,7 +86,9 @@ class TODOListsTable @Inject constructor(
             list.add(TODOList(id, name))
         }
         db.close()
-        return list
+        return flow {
+            emit(list)
+        }
     }
 
     override suspend fun update(obj: TODOList) {

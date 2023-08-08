@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import com.preciado.todo.core.models.TODOListTask
 import com.preciado.todo.data.interfaces.ICRUD
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class TODOListTasksTable @Inject constructor(
@@ -67,7 +69,7 @@ class TODOListTasksTable @Inject constructor(
         }
     }
 
-    override suspend fun readAll(foreignKeys: Array<out String>): List<TODOListTask>? {
+    override fun readAll(foreignKeys: Array<out String>): Flow<List<TODOListTask>?> {
         try {
             val db = dbHelper.readableDatabase
             var cursor = db.query(
@@ -93,7 +95,10 @@ class TODOListTasksTable @Inject constructor(
                 var listId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
                 todoTaskList.add(TODOListTask(id, listId, taskName))
             }
-            return todoTaskList
+            return flow {
+                emit(todoTaskList)
+            }
+
         }catch (e: Exception){
             throw e
         }
