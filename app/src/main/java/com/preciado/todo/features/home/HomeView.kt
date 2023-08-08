@@ -122,9 +122,9 @@ fun HomeView(
 
                 // UNCOMPLETED TASKS
                 LazyColumn() {
-                    items(listTasksState!!) {
+                    items(listTasksState!!) { task ->
                         //TODO Create view for individual task item
-
+                        Text(text = task.taskName)
                     }
                 }
 

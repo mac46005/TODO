@@ -55,13 +55,14 @@ class AddEditTaskViewModel @Inject constructor(
 
     fun onNameChange(newName: String){
         _taskName.value = newName
+        isNameNotEmpty()
     }
 
     fun onDetailsChange(newDetails: String){
         _taskDetails.value = newDetails
     }
 
-    fun isNameNotEmpty(){
+    private fun isNameNotEmpty(){
         _isEnabled.value = _taskName.value!!.isNotEmpty()
     }
     fun submit(){
@@ -73,6 +74,14 @@ class AddEditTaskViewModel @Inject constructor(
                             todoList_id = _listId.value!!,
                             taskName = _taskName.value!!,
                             details = _taskDetails.value!!
+                        )
+                    )
+                }else{
+                    todoListTasksTable.update(
+                        TODOListTask(
+                            todoList_id = _listId.value!!,
+                            taskName = _taskName.value!!,
+                            details = _taskDetails.value?: ""
                         )
                     )
                 }

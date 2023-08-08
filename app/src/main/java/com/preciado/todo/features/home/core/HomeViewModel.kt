@@ -18,7 +18,7 @@ class HomeViewModel @Inject constructor(
     private val todoListsTable: TODOListsTable,
     private val todoListTasksTable: TODOListTasksTable
 ) : ViewModel() {
-    companion object{
+    companion object {
         private const val TAG = "HomeViewModel"
     }
 
@@ -35,18 +35,21 @@ class HomeViewModel @Inject constructor(
     val isListSelected: LiveData<Boolean> = _isListSelected
 
 
-    fun initialize(){
+    fun initialize() {
         viewModelScope.launch {
             _todoLists.value = todoListsTable.readAll()
         }
     }
 
-    fun loadTodoList(todoListId: Int){
+    fun loadTodoList(todoListId: Int) {
         _selectedTODOListId.value = todoListId
         _isListSelected.value = true
         viewModelScope.launch {
-            Log.i(TAG, "loadTodoList: attempting to load todoListId ${_selectedTODOListId.value}")
-            _todoListTasks.value = todoListTasksTable.readAll()
+            _todoListTasks.value = todoListTasksTable.readAll(
+                arrayOf(
+                    _selectedTODOListId.value.toString()
+                )
+            )
         }
     }
 }

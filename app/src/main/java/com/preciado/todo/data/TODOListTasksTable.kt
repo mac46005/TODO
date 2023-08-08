@@ -58,7 +58,7 @@ class TODOListTasksTable @Inject constructor(
                 todolistTask.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
                 todolistTask.taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 todolistTask.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
-                todolistTask.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_SUBTASKS_TASK_ID_FOREIGN_KEY))
+                todolistTask.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
             }
 
             return todolistTask
@@ -90,7 +90,7 @@ class TODOListTasksTable @Inject constructor(
                 var id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
                 var taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
-                var listId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_SUBTASKS_TASK_ID_FOREIGN_KEY))
+                var listId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
                 todoTaskList.add(TODOListTask(id, listId, taskName))
             }
             return todoTaskList
@@ -104,7 +104,8 @@ class TODOListTasksTable @Inject constructor(
             val db = dbHelper.writableDatabase
             var contentValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.taskName)
-                put(DatabaseHelper.COLUMN_SUBTASKS_TASK_ID_FOREIGN_KEY, obj.todoList_id)
+                put(DatabaseHelper.COLUMN_TASKS_DETAILS, obj.details)
+                put(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY, obj.todoList_id)
             }
             db.update(
                 DatabaseHelper.TABLE_NAME_TASKS,

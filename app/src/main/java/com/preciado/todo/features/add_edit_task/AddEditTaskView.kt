@@ -41,7 +41,7 @@ fun AddEditTaskView(
             navController = navController,
             submit = {
                 vm.submit()
-                navController.popBackStack()
+                navController.popBackStack("home", false)
             },
             backButtonClick = {
                 navController.popBackStack("home",false)
