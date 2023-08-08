@@ -30,7 +30,7 @@ class TODOListTasksTable @Inject constructor(
     }
 
     override suspend fun delete(obj: TODOListTask) {
-
+        //TODO Implement delete function for TODOListTasksTable.delete()
     }
 
     override suspend fun read(id: Int, foreignKeys: Array<Int>): TODOListTask? {
@@ -42,6 +42,7 @@ class TODOListTasksTable @Inject constructor(
                     DatabaseHelper.COLUMN_TASKS_ID,
                     DatabaseHelper.COLUMN_TASKS_TASK_NAME,
                     DatabaseHelper.COLUMN_TASKS_DETAILS,
+                    DatabaseHelper.COLUMN_TASKS_IS_COMPLETED,
                     DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY
                 ),
                 "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ?",
@@ -78,6 +79,7 @@ class TODOListTasksTable @Inject constructor(
                     DatabaseHelper.COLUMN_TASKS_ID,
                     DatabaseHelper.COLUMN_TASKS_TASK_NAME,
                     DatabaseHelper.COLUMN_TASKS_DETAILS,
+                    DatabaseHelper.COLUMN_TASKS_IS_COMPLETED,
                     DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY
                 ),
                 "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ?",
@@ -110,6 +112,7 @@ class TODOListTasksTable @Inject constructor(
             var contentValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.taskName)
                 put(DatabaseHelper.COLUMN_TASKS_DETAILS, obj.details)
+                put(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED, obj.isCompleted)
                 put(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY, obj.todoList_id)
             }
             db.update(
@@ -124,5 +127,40 @@ class TODOListTasksTable @Inject constructor(
         }catch (e: SQLiteConstraintException){
             throw e
         }
+    }
+
+    fun getUnCompletedTasks(foreignKeys: Array<out String>): Flow<List<TODOListTask>?> = flow {
+        var db = dbHelper.readableDatabase
+        var cursor = db.query(
+            DatabaseHelper.TABLE_NAME_TASKS,
+            arrayOf(
+                DatabaseHelper.COLUMN_TASKS_ID,
+                DatabaseHelper.COLUMN_TASKS_TASK_NAME,
+                DatabaseHelper.COLUMN_TASKS_DETAILS,
+                DatabaseHelper.COLUMN_TASKS_IS_COMPLETED
+            ),
+            "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 0",
+            foreignKeys,
+            null,
+            null,
+            null
+        )
+    }
+    fun getCompletedTasks(foreignKeys: Array<out String>): Flow<List<TODOListTask>?> = flow {
+        var db = dbHelper.readableDatabase
+        var cursor = db.query(
+            DatabaseHelper.TABLE_NAME_TASKS,
+            arrayOf(
+                DatabaseHelper.COLUMN_TASKS_ID,
+                DatabaseHelper.COLUMN_TASKS_TASK_NAME,
+                DatabaseHelper.COLUMN_TASKS_DETAILS,
+                DatabaseHelper.COLUMN_TASKS_IS_COMPLETED
+            ),
+            "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 0",
+            foreignKeys,
+            null,
+            null,
+            null
+        )
     }
 }

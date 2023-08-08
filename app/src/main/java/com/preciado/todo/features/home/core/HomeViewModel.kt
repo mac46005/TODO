@@ -10,6 +10,7 @@ import com.preciado.todo.data.TODOListTasksTable
 import com.preciado.todo.data.TODOListsTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,9 +41,18 @@ class HomeViewModel @Inject constructor(
 
     fun loadTodoLists(): Flow<List<TODOList>?> = todoListsTable.readAll()
 
-    fun loadTodoListTasks(todoListId: Int) : Flow<List<TODOListTask>?> {
+    fun loadTodoListTasks(todoListId: Int): Flow<List<TODOListTask>?> {
         _selectedTODOListId.value = todoListId
         _isListSelected.value = true
         return todoListTasksTable.readAll(arrayOf(_selectedTODOListId.value.toString()))
     }
+
+    fun loadCompletedTodoListTasks(todoListId: Int): Flow<List<TODOListTask>?> = flow {
+
+    }
+
+    fun loadUncompletedTodoListTasks(todoListId: Int): Flow<List<TODOListTask>?> = flow {
+
+    }
+
 }

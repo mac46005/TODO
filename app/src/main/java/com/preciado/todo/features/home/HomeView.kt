@@ -41,12 +41,14 @@ fun HomeView(
 ) {
 
 
-    LaunchedEffect(key1 = true) {
-        vm.initialize()
-    }
+//    LaunchedEffect(key1 = true) {
+//        vm.initialize()
+//    }
 
 //    val listState by vm.todoLists.observeAsState()
 //    val listTasksState by vm.todoList.observeAsState()
+
+
     val listState by vm.loadTodoLists().collectAsState(emptyList())
     val listId by vm.selectedTODOListId.observeAsState(0)
     val isListSelected by vm.isListSelected.observeAsState()

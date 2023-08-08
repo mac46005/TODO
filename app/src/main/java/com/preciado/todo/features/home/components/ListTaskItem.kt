@@ -16,12 +16,11 @@ import com.preciado.todo.core.models.TODOListTask
 
 @Composable
 fun ListTaskItem(
-    modifier: Modifier = Modifier,
     navController: NavController,
     todoListTask: TODOListTask
 ) {
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .clickable {
                 navController.navigate("details")
@@ -31,7 +30,7 @@ fun ListTaskItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = true,
+                checked = false,
                 onCheckedChange = {
 
                 }
