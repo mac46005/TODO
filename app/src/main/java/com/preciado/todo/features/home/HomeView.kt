@@ -21,6 +21,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -36,7 +37,7 @@ import com.preciado.todo.ui.theme.TODOTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(
-    vm: HomeViewModel,
+    vm: HomeViewModel = hiltViewModel(),
     navController: NavController
 ) {
 
@@ -49,6 +50,7 @@ fun HomeView(
     val listTasksState by vm.todoList.observeAsState()
     val listId by vm.selectedTODOListId.observeAsState()
     val isListSelected by vm.isListSelected.observeAsState()
+
     TODOTheme {
         Scaffold(
             bottomBar = {
@@ -70,6 +72,11 @@ fun HomeView(
 
                             }
                         }
+
+
+
+
+
                         //Add new task
                         Button(
                             onClick = {

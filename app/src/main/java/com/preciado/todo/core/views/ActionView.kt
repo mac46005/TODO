@@ -22,7 +22,7 @@ fun ActionView(
     title: String,
     navController: NavController,
     submit: (() -> Unit),
-    canceled: (() -> Unit),
+    backButtonClick: (() -> Unit),
     doneButtonEnabled: Boolean = false,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
@@ -40,7 +40,7 @@ fun ActionView(
                     TransparentButton(
                         onClick = {
                             navController.popBackStack()
-                            canceled()
+                            backButtonClick()
                         }
                     ) {
                         Text(text = "X")
@@ -72,7 +72,7 @@ fun PreviewActionView() {
         submit = {
 
         },
-        canceled = {
+        backButtonClick = {
 
         }
     ){

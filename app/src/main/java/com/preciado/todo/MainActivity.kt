@@ -24,16 +24,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TODOTheme() {
-                Surface() {
                     var navController = rememberNavController()
+
                     NavHost(navController = navController, startDestination = "home") {
 
 
                         composable("home") {
-                            val vm by viewModels<HomeViewModel>()
                             HomeView(
-                                vm = vm,
                                 navController = navController
                             )
                         }
@@ -100,8 +97,6 @@ class MainActivity : ComponentActivity() {
 
                         }
                     }
-                }
-            }
         }
     }
 }

@@ -43,7 +43,7 @@ fun AddEditTaskView(
                 vm.submit()
                 navController.popBackStack()
             },
-            canceled = {
+            backButtonClick = {
                 navController.popBackStack()
             },
             doneButtonEnabled = isEnabled
