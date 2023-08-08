@@ -44,7 +44,7 @@ fun AddEditTaskView(
                 navController.popBackStack()
             },
             backButtonClick = {
-                navController.popBackStack()
+                navController.popBackStack("home",false)
             },
             doneButtonEnabled = isEnabled
         ) {
