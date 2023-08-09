@@ -1,7 +1,7 @@
 package com.preciado.todo.di.viewmodel_modules
 
 import com.preciado.todo.data.DatabaseHelper
-import com.preciado.todo.data.TODOListTasksTable
+import com.preciado.todo.data.TasksTable
 import com.preciado.todo.data.TODOListsTable
 import dagger.Module
 import dagger.Provides
@@ -21,7 +21,7 @@ internal object DatabaseTableModule {
 
     @Provides
     @ViewModelScoped
-    fun providesTODOListTasksTable(dbHelper: DatabaseHelper): TODOListTasksTable{
-        return TODOListTasksTable(dbHelper)
+    fun providesTODOListTasksTable(dbHelper: DatabaseHelper): TasksTable{
+        return TasksTable(dbHelper)
     }
 }

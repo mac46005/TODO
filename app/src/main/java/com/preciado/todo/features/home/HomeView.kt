@@ -29,7 +29,7 @@ import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.CompletedTasksTab
 import com.preciado.todo.features.home.components.ListButton
-import com.preciado.todo.features.home.components.ListTaskItemView
+import com.preciado.todo.features.home.components.TaskItemView
 import com.preciado.todo.features.home.components.NoListSelectedMessage
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
@@ -131,7 +131,7 @@ fun HomeView(
                     LazyColumn() {
                         items(uncompletedListTasksState!!) { task ->
                             //TODO Create view for individual task item
-                            ListTaskItemView(navController = navController, task = task)
+                            TaskItemView(navController = navController, task = task)
                         }
                     }
 

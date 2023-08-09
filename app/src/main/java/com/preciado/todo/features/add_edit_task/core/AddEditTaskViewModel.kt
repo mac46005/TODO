@@ -7,14 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.preciado.todo.core.models.Task
 import com.preciado.todo.data.CRUDEnum
-import com.preciado.todo.data.TODOListTasksTable
+import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditTaskViewModel @Inject constructor(
-    private val todoListTasksTable: TODOListTasksTable
+    private val tasksTable: TasksTable
 ): ViewModel(){
 
     private var crudOperation: CRUDEnum = CRUDEnum.CREATE
@@ -43,7 +43,7 @@ class AddEditTaskViewModel @Inject constructor(
 
         if(this.crudOperation.equals(CRUDEnum.UPDATE)){
             viewModelScope.launch {
-                var task = todoListTasksTable.read(taskId)
+                var task = tasksTable.read(taskId)
                 if(task != null){
                     _listId.value = task.id
                     _taskName.value = task.taskName
@@ -68,7 +68,7 @@ class AddEditTaskViewModel @Inject constructor(
         try {
             viewModelScope.launch {
                 if(crudOperation.equals(CRUDEnum.CREATE)){
-                    todoListTasksTable.create(
+                    tasksTable.create(
                         Task(
                             todoList_id = _listId.value!!,
                             taskName = _taskName.value!!,
@@ -76,7 +76,7 @@ class AddEditTaskViewModel @Inject constructor(
                         )
                     )
                 }else{
-                    todoListTasksTable.update(
+                    tasksTable.update(
                         Task(
                             todoList_id = _listId.value!!,
                             taskName = _taskName.value!!,

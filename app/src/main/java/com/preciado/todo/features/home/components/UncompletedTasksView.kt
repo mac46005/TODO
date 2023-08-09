@@ -17,7 +17,7 @@ fun UncompletedTasksView(
         contentPadding = PaddingValues(5.dp)
     ){
         items(uncompletedTasks){ task ->
-            ListTaskItemView(navController = navController, task = task)
+            TaskItemView(navController = navController, task = task)
         }
     }
 }

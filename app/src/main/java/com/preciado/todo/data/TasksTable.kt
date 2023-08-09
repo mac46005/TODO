@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class TODOListTasksTable @Inject constructor(
+class TasksTable @Inject constructor(
     private val dbHelper: DatabaseHelper
 ) : ICRUD<Task>{
     override suspend fun create(obj: Task) {

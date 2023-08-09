@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.preciado.todo.core.models.TODOList
 import com.preciado.todo.core.models.Task
-import com.preciado.todo.data.TODOListTasksTable
+import com.preciado.todo.data.TasksTable
 import com.preciado.todo.data.TODOListsTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val todoListsTable: TODOListsTable,
-    private val todoListTasksTable: TODOListTasksTable
+    private val tasksTable: TasksTable
 ) : ViewModel() {
     companion object {
         private const val TAG = "HomeViewModel"
@@ -42,17 +42,17 @@ class HomeViewModel @Inject constructor(
     fun loadTasks(todoListId: Int): Flow<List<Task>?> {
         _selectedTODOListId.value = todoListId
         _isListSelected.value = true
-        return todoListTasksTable.readAll(arrayOf(_selectedTODOListId.value.toString()))
+        return tasksTable.readAll(arrayOf(_selectedTODOListId.value.toString()))
     }
 
     fun onSelectedTodoList(todoListId: Int){
         _selectedTODOListId.value = todoListId
         _isListSelected.value = true
     }
-    fun loadCompletedTodoListTasks(todoListId: Int): Flow<List<Task>?> = if(_selectedTODOListId.value != 0) todoListTasksTable.getCompletedTasks(
+    fun loadCompletedTodoListTasks(todoListId: Int): Flow<List<Task>?> = if(_selectedTODOListId.value != 0) tasksTable.getCompletedTasks(
         arrayOf(_selectedTODOListId.value.toString())) else emptyFlow()
 
-    fun loadUncompletedTodoListTasks(todoListId: Int): Flow<List<Task>?> = if(_selectedTODOListId.value != 0) todoListTasksTable.getUnCompletedTasks(
+    fun loadUncompletedTodoListTasks(todoListId: Int): Flow<List<Task>?> = if(_selectedTODOListId.value != 0) tasksTable.getUnCompletedTasks(
         arrayOf(_selectedTODOListId.value.toString())) else emptyFlow()
 
 }

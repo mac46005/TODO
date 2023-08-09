@@ -14,13 +14,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.models.Task
-import com.preciado.todo.features.home.core.ListTaskItemViewModel
+import com.preciado.todo.features.home.core.TaskItemViewModel
 
 @Composable
-fun ListTaskItemView(
+fun TaskItemView(
     navController: NavController,
     task: Task,
-    vm: ListTaskItemViewModel = hiltViewModel()
+    vm: TaskItemViewModel = hiltViewModel()
 ) {
     Box(
         modifier = Modifier
@@ -47,7 +47,7 @@ fun ListTaskItemView(
 @Preview
 @Composable
 fun PreviewListTaskItem() {
-    ListTaskItemView(
+    TaskItemView(
         navController = rememberNavController(),
         task = Task(1, 1, "Some Task", "Doing some task!")
     )
