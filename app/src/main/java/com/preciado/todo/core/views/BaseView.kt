@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
@@ -17,7 +18,10 @@ import com.preciado.todo.ui.theme.TODOTheme
 
 @Composable
 fun BaseView(
-    modifier: Modifier = Modifier, mainContent: @Composable (ColumnScope.() -> Unit)
+    modifier: Modifier = Modifier,
+    mainContentVerticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    mainContentHorizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    mainContent: @Composable (ColumnScope.() -> Unit)
 ) {
     TODOTheme(
     ) {
@@ -26,6 +30,8 @@ fun BaseView(
         ) {
             TBarView(
                 modifier = modifier,
+                contentVerticalArrangement = mainContentVerticalArrangement,
+                contentHorizontalAlignment = mainContentHorizontalAlignment,
                 topBarTitle = {
                     Text(text = buildAnnotatedString {
                         pushStyle(

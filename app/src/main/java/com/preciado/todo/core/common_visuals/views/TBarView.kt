@@ -20,6 +20,8 @@ import com.preciado.todo.core.common_visuals.components.TopBar
 fun TBarView(
     modifier: Modifier = Modifier,
     contentColumnModifier: Modifier = Modifier.padding(5.dp).fillMaxSize(),
+    contentVerticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    contentHorizontalAlignment: Alignment.Horizontal = Alignment.Start,
     topBarModifier: Modifier = Modifier,
     topBarImage: @Composable (() -> Unit)? = null,
     topBarActions: @Composable (() -> Unit)? = null,
@@ -54,7 +56,11 @@ fun TBarView(
         ) {
             topBarTitle(this)
         }
-        Column(modifier = contentColumnModifier) {
+        Column(
+            modifier = contentColumnModifier,
+            verticalArrangement = contentVerticalArrangement,
+            horizontalAlignment = contentHorizontalAlignment
+        ) {
             mainContent(this)
         }
     }

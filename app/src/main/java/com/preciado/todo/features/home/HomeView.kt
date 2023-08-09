@@ -1,7 +1,11 @@
 package com.preciado.todo.features.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -19,9 +23,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.preciado.todo.R
@@ -30,6 +36,8 @@ import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.CompletedTasksTab
 import com.preciado.todo.features.home.components.ListButton
+import com.preciado.todo.features.home.components.ListTaskItemView
+import com.preciado.todo.features.home.components.NoListSelectedMessage
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
@@ -104,7 +112,6 @@ fun HomeView(
             BaseView {
 
 
-
                 //TODOLists
                 LazyRow() {
                     items(listState!!) { todoList ->
@@ -125,21 +132,28 @@ fun HomeView(
                 }
                 Divider()
 
-                // UNCOMPLETED TASKS
-                LazyColumn() {
-                    items(listTasksState!!) { task ->
-                        //TODO Create view for individual task item
-                        Text(text = task.taskName)
+
+                if(listId != 0){
+                    // UNCOMPLETED TASKS
+                    LazyColumn() {
+                        items(uncompletedListTasksState!!) { task ->
+                            //TODO Create view for individual task item
+                            ListTaskItemView(navController = navController, todoListTask = task)
+                        }
                     }
+
+                    // COMPLETED TASKS
+                    // TODO Create a view that shows the number of completed tasks and and expand button to view the list
+                    CompletedTasksTab {
+
+                    }
+                    // TODO Create the LazyColumn that shows the completed lists but it is hidden until the user clicks the button
+                }else{
+                    NoListSelectedMessage(
+                        paddingBottom = padding.calculateBottomPadding()
+                    )
                 }
 
-
-                // COMPLETED TASKS
-                // TODO Create a view that shows the number of completed tasks and and expand button to view the list
-                CompletedTasksTab {
-
-                }
-                // TODO Create the LazyColumn that shows the completed lists but it is hidden until the user clicks the button
             }
         }
     }
