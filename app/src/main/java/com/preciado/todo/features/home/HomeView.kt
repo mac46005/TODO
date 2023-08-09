@@ -53,7 +53,8 @@ fun HomeView(
     val listId by vm.selectedTODOListId.observeAsState(0)
     val isListSelected by vm.isListSelected.observeAsState()
     val listTasksState by vm.loadTodoListTasks(listId).collectAsState(emptyList())
-
+    val uncompletedListTasksState by vm.loadUncompletedTodoListTasks(listId).collectAsState(initial = emptyList())
+    val completedListTasksState by vm.loadCompletedTodoListTasks(listId).collectAsState(initial = emptyList())
 
     TODOTheme {
         Scaffold(
