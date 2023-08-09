@@ -10,16 +10,17 @@ import androidx.navigation.NavController
 import com.preciado.todo.core.models.Task
 
 @Composable
-fun UncompletedTasksView(
+fun TasksList(
     modifier: Modifier = Modifier,
     navController: NavController,
-    uncompletedTasks: List<Task> = emptyList()
-){
+    paddingValues: PaddingValues = PaddingValues(5.dp),
+    tasks: List<Task> = emptyList()
+    ){
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(5.dp)
+        contentPadding = paddingValues
     ){
-        items(uncompletedTasks){ task ->
+        items(tasks){task ->
             TaskItem(navController = navController, task = task)
         }
     }

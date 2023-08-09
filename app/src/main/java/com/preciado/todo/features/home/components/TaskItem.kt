@@ -17,7 +17,7 @@ import com.preciado.todo.core.models.Task
 import com.preciado.todo.features.home.core.TaskItemViewModel
 
 @Composable
-fun TaskItemView(
+fun TaskItem(
     navController: NavController,
     task: Task,
     vm: TaskItemViewModel = hiltViewModel()
@@ -47,7 +47,7 @@ fun TaskItemView(
 @Preview
 @Composable
 fun PreviewListTaskItem() {
-    TaskItemView(
+    TaskItem(
         navController = rememberNavController(),
         task = Task(1, 1, "Some Task", "Doing some task!")
     )
