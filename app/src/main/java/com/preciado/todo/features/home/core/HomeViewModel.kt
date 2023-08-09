@@ -3,16 +3,13 @@ package com.preciado.todo.features.home.core
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.preciado.todo.core.models.TODOList
-import com.preciado.todo.core.models.TODOListTask
+import com.preciado.todo.core.models.Task
 import com.preciado.todo.data.TODOListTasksTable
 import com.preciado.todo.data.TODOListsTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,8 +27,8 @@ class HomeViewModel @Inject constructor(
 //    private val _todoLists: MutableLiveData<List<TODOList>> = MutableLiveData(emptyList())
 //    val todoLists: LiveData<List<TODOList>> = _todoLists
 
-    private val _todoListTasks: MutableLiveData<List<TODOListTask>> = MutableLiveData(emptyList())
-    val todoList: LiveData<List<TODOListTask>> = _todoListTasks
+    private val _Tasks: MutableLiveData<List<Task>> = MutableLiveData(emptyList())
+    val todoList: LiveData<List<Task>> = _Tasks
 
     private val _isListSelected: MutableLiveData<Boolean> = MutableLiveData(false)
     val isListSelected: LiveData<Boolean> = _isListSelected
@@ -42,7 +39,7 @@ class HomeViewModel @Inject constructor(
 
     fun loadTodoLists(): Flow<List<TODOList>?> = todoListsTable.readAll()
 
-    fun loadTodoListTasks(todoListId: Int): Flow<List<TODOListTask>?> {
+    fun loadTasks(todoListId: Int): Flow<List<Task>?> {
         _selectedTODOListId.value = todoListId
         _isListSelected.value = true
         return todoListTasksTable.readAll(arrayOf(_selectedTODOListId.value.toString()))
@@ -52,10 +49,10 @@ class HomeViewModel @Inject constructor(
         _selectedTODOListId.value = todoListId
         _isListSelected.value = true
     }
-    fun loadCompletedTodoListTasks(todoListId: Int): Flow<List<TODOListTask>?> = if(_selectedTODOListId.value != 0) todoListTasksTable.getCompletedTasks(
+    fun loadCompletedTodoListTasks(todoListId: Int): Flow<List<Task>?> = if(_selectedTODOListId.value != 0) todoListTasksTable.getCompletedTasks(
         arrayOf(_selectedTODOListId.value.toString())) else emptyFlow()
 
-    fun loadUncompletedTodoListTasks(todoListId: Int): Flow<List<TODOListTask>?> = if(_selectedTODOListId.value != 0) todoListTasksTable.getUnCompletedTasks(
+    fun loadUncompletedTodoListTasks(todoListId: Int): Flow<List<Task>?> = if(_selectedTODOListId.value != 0) todoListTasksTable.getUnCompletedTasks(
         arrayOf(_selectedTODOListId.value.toString())) else emptyFlow()
 
 }

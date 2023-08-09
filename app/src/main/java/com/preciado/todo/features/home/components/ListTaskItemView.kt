@@ -13,20 +13,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.preciado.todo.core.models.TODOListTask
+import com.preciado.todo.core.models.Task
 import com.preciado.todo.features.home.core.ListTaskItemViewModel
 
 @Composable
 fun ListTaskItemView(
     navController: NavController,
-    todoListTask: TODOListTask,
+    task: Task,
     vm: ListTaskItemViewModel = hiltViewModel()
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                navController.navigate("tasks_details/${todoListTask.todoList_id}/${todoListTask.id}")
+                navController.navigate("tasks_details/${task.todoList_id}/${task.id}")
             }
     ) {
         Row(
@@ -35,11 +35,11 @@ fun ListTaskItemView(
             Checkbox(
                 checked = false,
                 onCheckedChange = {
-                    vm.onCheckChanged(todoListTask)
+                    vm.onCheckChanged(task)
                 }
             )
 
-            Text(text = todoListTask.taskName)
+            Text(text = task.taskName)
         }
     }
 }
@@ -49,6 +49,6 @@ fun ListTaskItemView(
 fun PreviewListTaskItem() {
     ListTaskItemView(
         navController = rememberNavController(),
-        todoListTask = TODOListTask(1, 1, "Some Task", "Doing some task!")
+        task = Task(1, 1, "Some Task", "Doing some task!")
     )
 }

@@ -5,8 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.preciado.todo.core.models.TODOListTask
+import com.preciado.todo.core.models.Task
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.data.TODOListTasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -70,7 +69,7 @@ class AddEditTaskViewModel @Inject constructor(
             viewModelScope.launch {
                 if(crudOperation.equals(CRUDEnum.CREATE)){
                     todoListTasksTable.create(
-                        TODOListTask(
+                        Task(
                             todoList_id = _listId.value!!,
                             taskName = _taskName.value!!,
                             details = _taskDetails.value!!
@@ -78,7 +77,7 @@ class AddEditTaskViewModel @Inject constructor(
                     )
                 }else{
                     todoListTasksTable.update(
-                        TODOListTask(
+                        Task(
                             todoList_id = _listId.value!!,
                             taskName = _taskName.value!!,
                             details = _taskDetails.value?: ""

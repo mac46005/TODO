@@ -1,6 +1,5 @@
 package com.preciado.todo.di.viewmodel_modules
 
-import com.preciado.todo.core.models.TODOListTask
 import com.preciado.todo.data.DatabaseHelper
 import com.preciado.todo.data.TODOListTasksTable
 import com.preciado.todo.data.TODOListsTable
