@@ -31,7 +31,6 @@ fun CompletedTasksTab(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.Green, shape = CircleShape.also{ roundedCornerShape -> round(.3) })
-
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

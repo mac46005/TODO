@@ -4,10 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -20,15 +18,25 @@ fun TasksView(
     navController: NavController,
     uncompletedTasks: List<Task> = emptyList(),
     completedTasks: List<Task> = emptyList()
-){
+) {
     var isCompletedTasksVisible = remember {
         mutableStateOf(false)
     }
-
+    var arrangmentState = remember {
+        mutableStateOf(Arrangement.SpaceBetween)
+    }
+    var fractionState = remember {
+        mutableStateOf(
+            arrayOf(
+                .95f,
+                .5f
+            )
+        )
+    }
 
     TODOTheme() {
         Column(
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = arrangmentState.value
         ) {
             //Uncompleted Tasks
             TasksList(
@@ -38,17 +46,19 @@ fun TasksView(
             )
 
 
-            if(completedTasks.isNotEmpty()){
-                Column (
+            if (completedTasks.isNotEmpty()) {
+                Column(
                     modifier = Modifier.weight(0f)
-                        ){
+                ) {
                     CompletedTasksTab {
-
+                        isCompletedTasksVisible.value = isCompletedTasksVisible.value == false
                     }
                     AnimatedVisibility(visible = isCompletedTasksVisible.value) {
-                        
+                        TasksList(
+                            navController = navController,
+                            tasks = completedTasks
+                        )
                     }
-
                 }
             }
         }
@@ -58,6 +68,6 @@ fun TasksView(
 
 @Preview
 @Composable
-fun PreviewTasksView(){
+fun PreviewTasksView() {
     TasksView(navController = rememberNavController())
 }
