@@ -129,7 +129,7 @@ class TasksTable @Inject constructor(
         }
     }
 
-    fun getUnCompletedTasks(foreignKeys: Array<out String>): Flow<List<Task>?> = flow {
+    fun getUnCompletedTasks(foreignKeys: Array<out String>): Flow<List<Task>> = flow {
         var db = dbHelper.readableDatabase
         var cursor = db.query(
             DatabaseHelper.TABLE_NAME_TASKS,
@@ -146,7 +146,7 @@ class TasksTable @Inject constructor(
             null
         )
     }
-    fun getCompletedTasks(foreignKeys: Array<out String>): Flow<List<Task>?> = flow {
+    fun getCompletedTasks(foreignKeys: Array<out String>): Flow<List<Task>> = flow {
         var db = dbHelper.readableDatabase
         var cursor = db.query(
             DatabaseHelper.TABLE_NAME_TASKS,

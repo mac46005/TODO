@@ -1,9 +1,9 @@
 package com.preciado.todo.features.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomAppBar
@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -27,10 +28,9 @@ import com.preciado.todo.R
 import com.preciado.todo.core.common_visuals.components.TransparentButton
 import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
-import com.preciado.todo.features.home.components.CompletedTasksTab
 import com.preciado.todo.features.home.components.ListButton
-import com.preciado.todo.features.home.components.TaskItem
 import com.preciado.todo.features.home.components.NoListSelectedMessage
+import com.preciado.todo.features.home.components.TasksView
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
@@ -41,21 +41,10 @@ fun HomeView(
     navController: NavController
 ) {
 
-
-//    LaunchedEffect(key1 = true) {
-//        vm.initialize()
-//    }
-
-//    val listState by vm.todoLists.observeAsState()
-//    val listTasksState by vm.todoList.observeAsState()
-
-
     val listState by vm.loadTodoLists().collectAsState(emptyList())
     val listId by vm.selectedTODOListId.observeAsState(0)
     val isListSelected by vm.isListSelected.observeAsState()
-    val listTasksState by vm.loadTasks(listId).collectAsState(emptyList())
-    val uncompletedListTasksState by vm.loadUncompletedTodoListTasks(listId).collectAsState(initial = emptyList())
-    val completedListTasksState by vm.loadCompletedTodoListTasks(listId).collectAsState(initial = emptyList())
+
 
     TODOTheme {
         Scaffold(
@@ -111,7 +100,7 @@ fun HomeView(
                         TransparentButton(
                             onClick =
                             {
-                                vm.loadTasks(todoListId = todoList.id)
+                                vm.onListSelected(todoListId = todoList.id)
                             }
                         ) {
                             Text(text = todoList.name)
@@ -125,28 +114,12 @@ fun HomeView(
                 }
                 Divider()
 
+                AnimatedVisibility(visible = isListSelected!!) {
 
-                if(listId != 0){
-                    // UNCOMPLETED TASKS
-                    LazyColumn() {
-                        items(uncompletedListTasksState!!) { task ->
-                            //TODO Create view for individual task item
-                            TaskItem(navController = navController, task = task)
-                        }
-                    }
-
-                    // COMPLETED TASKS
-                    // TODO Create a view that shows the number of completed tasks and and expand button to view the list
-                    CompletedTasksTab {
-
-                    }
-                    // TODO Create the LazyColumn that shows the completed lists but it is hidden until the user clicks the button
-                }else{
-                    NoListSelectedMessage(
-                        paddingBottom = padding.calculateBottomPadding()
-                    )
                 }
-
+                AnimatedVisibility(visible = !isListSelected!!) {
+                    NoListSelectedMessage()
+                }
             }
         }
     }

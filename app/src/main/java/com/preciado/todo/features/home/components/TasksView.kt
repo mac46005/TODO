@@ -4,21 +4,33 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.models.Task
+import com.preciado.todo.features.home.core.TasksViewModel
 import com.preciado.todo.ui.theme.TODOTheme
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun TasksView(
     navController: NavController,
-    uncompletedTasks: List<Task> = emptyList(),
-    completedTasks: List<Task> = emptyList()
+    listId: Int = 0,
+    vm: TasksViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(key1 = listId){
+        vm.setListId(listId)
+    }
+    var uncompletedTasksState = vm.loadUncompleteTasks().collectAsState(initial = emptyList())
+    var completedTasksState = vm.loadCompleteTasks().collectAsState(initial = emptyList())
+
     var isCompletedTasksVisible = remember {
         mutableStateOf(false)
     }
@@ -42,11 +54,11 @@ fun TasksView(
             TasksList(
                 modifier = Modifier.weight(fractionState.value[0]),
                 navController = navController,
-                tasks = uncompletedTasks
+                tasks = uncompletedTasksState.value
             )
 
 
-            if (completedTasks.isNotEmpty()) {
+            if (completedTasksState.value.isNotEmpty()) {
                 fractionState.value[0] = .95f
                 fractionState.value[1] = .5f
 
@@ -67,18 +79,16 @@ fun TasksView(
                     AnimatedVisibility(visible = isCompletedTasksVisible.value) {
                         TasksList(
                             navController = navController,
-                            tasks = completedTasks
+                            tasks = completedTasksState.value
                         )
                     }
                 }
             }
         }
     }
-
 }
 
 @Preview
 @Composable
 fun PreviewTasksView() {
-    TasksView(navController = rememberNavController())
 }
