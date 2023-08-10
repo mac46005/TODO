@@ -28,8 +28,8 @@ fun TasksView(
     var fractionState = remember {
         mutableStateOf(
             arrayOf(
-                .95f,
-                .5f
+                1f,
+                0f
             )
         )
     }
@@ -40,18 +40,29 @@ fun TasksView(
         ) {
             //Uncompleted Tasks
             TasksList(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(fractionState.value[0]),
                 navController = navController,
                 tasks = uncompletedTasks
             )
 
 
             if (completedTasks.isNotEmpty()) {
+                fractionState.value[0] = .95f
+                fractionState.value[1] = .5f
+
                 Column(
-                    modifier = Modifier.weight(0f)
+                    modifier = Modifier.weight(fractionState.value[1])
                 ) {
                     CompletedTasksTab {
-                        isCompletedTasksVisible.value = isCompletedTasksVisible.value == false
+                        if (isCompletedTasksVisible.value == false){
+                            isCompletedTasksVisible.value = true
+                            fractionState.value[0] = 1f
+                            fractionState.value[1] = 1f
+                        }else{
+                            isCompletedTasksVisible.value = false
+                            fractionState.value[0] = .95f
+                            fractionState.value[1] = .5f
+                        }
                     }
                     AnimatedVisibility(visible = isCompletedTasksVisible.value) {
                         TasksList(
