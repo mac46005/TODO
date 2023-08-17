@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.preciado.todo.core.models.TODOList
 import com.preciado.todo.data.TODOListsTable
+import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -12,6 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val todoListsTable: TODOListsTable,
+    private val tasksTable: TasksTable
 ) : ViewModel() {
 
 
@@ -32,5 +34,5 @@ class HomeViewModel @Inject constructor(
         _isListSelected.value = true
     }
 
-
+    fun uncompletedTasks() = tasksTable.getUnCompletedTasks(arrayOf(_selectedTODOListId.value.toString()))
 }

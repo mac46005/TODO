@@ -145,6 +145,17 @@ class TasksTable @Inject constructor(
             null,
             null
         )
+        var tasks = mutableListOf<Task>()
+        while(cursor.moveToNext()){
+            var id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
+            var taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
+            var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
+            var isCompleted = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) as Boolean
+
+            tasks.add(Task(id, foreignKeys[0].toInt(), taskName, details, isCompleted))
+        }
+
+        emit(tasks)
     }
     fun getCompletedTasks(foreignKeys: Array<out String>): Flow<List<Task>> = flow {
         var db = dbHelper.readableDatabase
@@ -162,5 +173,19 @@ class TasksTable @Inject constructor(
             null,
             null
         )
+
+
+        var tasks = mutableListOf<Task>()
+        while(cursor.moveToNext()){
+            var id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
+            var fk = foreignKeys[0].toInt()
+            var taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
+            var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
+            var isCompleted = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) as Boolean
+
+            tasks.add(Task(id, fk, taskName, details, isCompleted))
+        }
+
+        emit(tasks)
     }
 }

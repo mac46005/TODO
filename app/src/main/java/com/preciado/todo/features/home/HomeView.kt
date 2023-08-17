@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomAppBar
@@ -30,6 +31,7 @@ import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.ListButton
 import com.preciado.todo.features.home.components.NoListSelectedMessage
+import com.preciado.todo.features.home.components.TasksList
 import com.preciado.todo.features.home.components.TasksView
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
@@ -44,7 +46,7 @@ fun HomeView(
     val listState by vm.loadTodoLists().collectAsState(emptyList())
     val listId by vm.selectedTODOListId.observeAsState(0)
     val isListSelected by vm.isListSelected.observeAsState()
-
+    val uncompletedTasks by vm.uncompletedTasks().collectAsState(initial = emptyList())
 
     TODOTheme {
         Scaffold(
@@ -115,7 +117,11 @@ fun HomeView(
                 Divider()
 
                 AnimatedVisibility(visible = isListSelected!!) {
-
+                    LazyColumn{
+                        items(uncompletedTasks){
+                            Text(text = it.taskName)
+                        }
+                    }
                 }
                 AnimatedVisibility(visible = !isListSelected!!) {
                     NoListSelectedMessage()
