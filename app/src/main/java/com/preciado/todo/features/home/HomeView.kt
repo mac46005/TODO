@@ -16,7 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -30,9 +29,7 @@ import com.preciado.todo.core.common_visuals.components.TransparentButton
 import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.ListButton
-import com.preciado.todo.features.home.components.NoListSelectedMessage
-import com.preciado.todo.features.home.components.TasksList
-import com.preciado.todo.features.home.components.TasksView
+import com.preciado.todo.features.home.components.BigMessage
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
@@ -117,6 +114,9 @@ fun HomeView(
                 Divider()
 
                 AnimatedVisibility(visible = isListSelected!!) {
+                    if(uncompletedTasks.isEmpty()){
+                        BigMessage(message = "No tasks!", otherMessage = { Text(text = "To add a new task push the \"+\" on the bottom right hand side.")})
+                    }
                     LazyColumn{
                         items(uncompletedTasks){
                             Text(text = it.taskName)
@@ -124,7 +124,7 @@ fun HomeView(
                     }
                 }
                 AnimatedVisibility(visible = !isListSelected!!) {
-                    NoListSelectedMessage()
+                    BigMessage("Select a list!")
                 }
             }
         }
