@@ -13,7 +13,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val todoListsTable: TODOListsTable,
-    private val tasksTable: TasksTable
 ) : ViewModel() {
 
 
@@ -24,15 +23,10 @@ class HomeViewModel @Inject constructor(
     private var _selectedTODOListId: MutableLiveData<Int> = MutableLiveData(0)
     val selectedTODOListId: LiveData<Int> = _selectedTODOListId
 
-    private val _isListSelected: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isListSelected: LiveData<Boolean> = _isListSelected
-
     fun loadTodoLists(): Flow<List<TODOList>?> = todoListsTable.readAll()
 
     fun onListSelected(todoListId: Int) {
         _selectedTODOListId.value = todoListId
-        _isListSelected.value = true
     }
 
-    fun uncompletedTasks() = tasksTable.getUnCompletedTasks(arrayOf(_selectedTODOListId.value.toString()))
 }

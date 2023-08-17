@@ -1,5 +1,6 @@
 package com.preciado.todo.features.home
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,8 +32,10 @@ import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.ListButton
 import com.preciado.todo.features.home.components.BigMessage
+import com.preciado.todo.features.home.components.TasksView
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,11 +43,8 @@ fun HomeView(
     vm: HomeViewModel = hiltViewModel(),
     navController: NavController
 ) {
-
     val listState by vm.loadTodoLists().collectAsState(emptyList())
     val listId by vm.selectedTODOListId.observeAsState(0)
-    val isListSelected by vm.isListSelected.observeAsState()
-    val uncompletedTasks by vm.uncompletedTasks().collectAsState(initial = emptyList())
 
     TODOTheme {
         Scaffold(
@@ -76,7 +77,7 @@ fun HomeView(
                             onClick = {
                                 navController.navigate("add_edit_list_task/${CRUDEnum.CREATE.ordinal}/${listId}/0")
                             },
-                            enabled = isListSelected!!
+                            enabled = listId != 0
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_add_24),
@@ -100,6 +101,7 @@ fun HomeView(
                             onClick =
                             {
                                 vm.onListSelected(todoListId = todoList.id)
+                                Log.d("HomeView", "selected list id: ${listId}")
                             }
                         ) {
                             Text(text = todoList.name)
@@ -112,19 +114,13 @@ fun HomeView(
                     }
                 }
                 Divider()
-
-                AnimatedVisibility(visible = isListSelected!!) {
-                    if(uncompletedTasks.isEmpty()){
-                        BigMessage(message = "No tasks!", otherMessage = { Text(text = "To add a new task push the \"+\" on the bottom right hand side.")})
-                    }
-                    LazyColumn{
-                        items(uncompletedTasks){
-                            Text(text = it.taskName)
-                        }
-                    }
-                }
-                AnimatedVisibility(visible = !isListSelected!!) {
-                    BigMessage("Select a list!")
+                if(listId == 0){
+                    BigMessage(
+                        message = "Please select a TODO list from above!",
+                        paddingBottom = padding.calculateBottomPadding()
+                    )
+                }else{
+                    TasksView(navController = navController, listId = listId)
                 }
             }
         }

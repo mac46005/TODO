@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,65 +26,31 @@ fun TasksView(
     listId: Int = 0,
     vm: TasksViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(key1 = listId){
+    LaunchedEffect(key1 = true){
         vm.setListId(listId)
     }
-    var uncompletedTasksState = vm.loadUncompleteTasks().collectAsState(initial = emptyList())
-    var completedTasksState = vm.loadCompleteTasks().collectAsState(initial = emptyList())
 
-    var isCompletedTasksVisible = remember {
-        mutableStateOf(false)
+
+    val uncompletedTasks by vm.loadUncompletedTasks().collectAsState(initial = emptyList())
+    val isUTEmpty = remember {
+        mutableStateOf(uncompletedTasks.isEmpty())
     }
+    
+    val completedTasks by vm.loadCompletedTasks().collectAsState(initial = emptyList())
+    
+
+
     var arrangmentState = remember {
         mutableStateOf(Arrangement.SpaceBetween)
     }
-    var fractionState = remember {
-        mutableStateOf(
-            arrayOf(
-                1f,
-                0f
-            )
-        )
-    }
+
+
 
     TODOTheme() {
         Column(
             verticalArrangement = arrangmentState.value
         ) {
-            //Uncompleted Tasks
-            TasksList(
-                modifier = Modifier.weight(fractionState.value[0]),
-                navController = navController,
-                tasks = uncompletedTasksState.value
-            )
-
-
-            if (completedTasksState.value.isNotEmpty()) {
-                fractionState.value[0] = .95f
-                fractionState.value[1] = .5f
-
-                Column(
-                    modifier = Modifier.weight(fractionState.value[1])
-                ) {
-                    CompletedTasksTab {
-                        if (isCompletedTasksVisible.value == false){
-                            isCompletedTasksVisible.value = true
-                            fractionState.value[0] = 1f
-                            fractionState.value[1] = 1f
-                        }else{
-                            isCompletedTasksVisible.value = false
-                            fractionState.value[0] = .95f
-                            fractionState.value[1] = .5f
-                        }
-                    }
-                    AnimatedVisibility(visible = isCompletedTasksVisible.value) {
-                        TasksList(
-                            navController = navController,
-                            tasks = completedTasksState.value
-                        )
-                    }
-                }
-            }
+                TasksList(navController = navController, tasks = uncompletedTasks)
         }
     }
 }

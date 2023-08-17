@@ -1,10 +1,13 @@
 package com.preciado.todo.features.home.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,13 +22,15 @@ fun TasksList(
     tasks: List<Task>
     ){
 
-
     LazyColumn(
         modifier = modifier,
         contentPadding = paddingValues
     ){
         items(tasks){task ->
-            TaskItem(navController = navController, task = task)
+            AnimatedVisibility(visible = true) {
+                TaskItem(navController = navController, task = task)
+            }
+
         }
     }
 }

@@ -16,22 +16,15 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun BigMessage(
     message: String,
-    paddingBottom: Dp = 0.dp,
+    paddingBottom: Dp = 180.dp,
     otherMessage: @Composable (ColumnScope.() -> Unit) = {}
 ){
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 0.dp),
+            .padding(bottom = paddingBottom),
         contentAlignment = Alignment.Center
     ){
-        Column() {
-            Text(
-                text = message,
-                fontSize = 40.sp
-            )
-            otherMessage(this)
-        }
-
+        Text(text = message, fontSize = 30.sp)
     }
 }
