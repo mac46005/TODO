@@ -29,6 +29,7 @@ import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.ListButton
 import com.preciado.todo.features.home.components.BigMessage
+import com.preciado.todo.features.home.components.TaskList
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
@@ -38,7 +39,7 @@ fun HomeView(
     vm: HomeViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val listState by vm.loadTodoLists().collectAsState(emptyList())
+
     val listId by vm.selectedTODOListId.observeAsState(0)
 
     TODOTheme {
@@ -67,6 +68,8 @@ fun HomeView(
 
 
 
+
+
                         //Add new task
                         Button(
                             onClick = {
@@ -88,6 +91,7 @@ fun HomeView(
             val padding = it
             BaseView {
 
+                val listState by vm.loadTodoLists().collectAsState(emptyList())
 
                 //TODOLists
                 LazyRow() {
@@ -109,12 +113,15 @@ fun HomeView(
                     }
                 }
                 Divider()
+
+
                 if(listId == 0){
                     BigMessage(
                         message = "Please select a TODO list from above!",
                         paddingBottom = padding.calculateBottomPadding()
                     )
                 }else{
+
                 }
             }
         }
