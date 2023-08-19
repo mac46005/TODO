@@ -28,5 +28,4 @@ class HomeViewModel @Inject constructor(
     fun onListSelected(todoListId: Int) {
         _selectedTODOListId.value = todoListId
     }
-
 }

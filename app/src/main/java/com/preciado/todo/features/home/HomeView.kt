@@ -29,6 +29,7 @@ import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.ListButton
 import com.preciado.todo.features.home.components.BigMessage
+import com.preciado.todo.features.home.components.TODOTasksCollection
 import com.preciado.todo.features.home.components.TaskList
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
@@ -121,7 +122,7 @@ fun HomeView(
                         paddingBottom = padding.calculateBottomPadding()
                     )
                 }else{
-
+                    TODOTasksCollection(listId = listId)
                 }
             }
         }
