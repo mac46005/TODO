@@ -27,6 +27,11 @@ fun TODOTasksCollection(
     val completedTasksState by vm.loadCompletedTasks(listId = listId).collectAsState(initial = emptyList())
 
     Column(modifier = Modifier.fillMaxHeight()) {
+//        if(uncompletedTasksState.isEmpty()){
+//            BigMessage(message = "You have no tasks!")
+//        }else{
+//            TaskList(navController = navController, taskList = uncompletedTasksState)
+//        }
         TaskList(navController = navController, taskList = uncompletedTasksState)
     }
 

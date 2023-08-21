@@ -2,6 +2,7 @@ package com.preciado.todo.data
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
+import android.util.Log
 import com.preciado.todo.core.models.Task
 import com.preciado.todo.data.interfaces.ICRUD
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +12,10 @@ import javax.inject.Inject
 class TasksTable @Inject constructor(
     private val dbHelper: DatabaseHelper
 ) : ICRUD<Task>{
+    
+    companion object{
+        private const val TAG = "TasksTable"
+    }
     override suspend fun create(obj: Task) {
         try {
             val db = dbHelper.writableDatabase
@@ -108,6 +113,7 @@ class TasksTable @Inject constructor(
 
     override suspend fun update(obj: Task) {
         try {
+            Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.todoList_id}, taskName \"${obj.taskName}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
             val db = dbHelper.writableDatabase
             var contentValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.taskName)

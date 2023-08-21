@@ -1,5 +1,6 @@
 package com.preciado.todo.features.home.components
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,21 +22,16 @@ import androidx.navigation.NavController
 import com.preciado.todo.core.models.Task
 import com.preciado.todo.features.home.core.TaskItemViewModel
 
+private const val TAG = "TaskItem"
+
 @Composable
 fun TaskItem(
     navController: NavController,
     task: Task,
     vm: TaskItemViewModel = hiltViewModel()
 ){
-    LaunchedEffect(key1 = true){
-        vm.setTask(task)
-    }
 
-    val taskState by vm.task.observeAsState()
 
-    var isClicked = remember {
-        mutableStateOf(false)
-    }
 
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -43,18 +39,25 @@ fun TaskItem(
             navController.navigate("")
         }
     ){
+        var checked = remember {
+            mutableStateOf(task.isCompleted)
+        }
+
         Column {
             Divider()
 
             Row() {
+
+
                 Checkbox(
-                    checked = isClicked.value,
+                    checked = checked.value,
                     onCheckedChange = {
-                        isClicked.value = isClicked.value == false
-                        vm.changeCompletion(isClicked.value)
+                        checked.value = checked.value == false
+                        Log.i(TAG, "TaskItem: ${task.taskName}; TaskItem.isComplete: ${task.isCompleted}")
+                        vm.onCheckChanged(task)
                     }
                 )
-                Text(text = taskState!!.taskName)
+                Text(text = task.taskName)
             }
 
             Divider()
