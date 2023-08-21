@@ -14,10 +14,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.preciado.todo.features.home.core.TODOTasksCollectionViewModel
 
 @Composable
 fun TODOTasksCollection(
+    navController: NavController,
     listId: Int,
     vm: TODOTasksCollectionViewModel = hiltViewModel()
 ){
@@ -25,11 +27,7 @@ fun TODOTasksCollection(
     val completedTasksState by vm.loadCompletedTasks(listId = listId).collectAsState(initial = emptyList())
 
     Column(modifier = Modifier.fillMaxHeight()) {
-        LazyColumn(){
-            items(uncompletedTasksState){
-
-            }
-        }
+        TaskList(navController = navController, taskList = uncompletedTasksState)
     }
 
 }

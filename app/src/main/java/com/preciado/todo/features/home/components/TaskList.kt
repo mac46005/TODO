@@ -10,21 +10,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.preciado.todo.core.models.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun TaskList(
+    navController: NavController,
     taskList: List<Task>
 ){
-    val taskList by remember{ mutableStateOf(taskList) }
 
     LazyColumn(
         contentPadding = PaddingValues(5.dp)
     ){
         items(taskList){ task ->
-            Text(text = task.taskName)
+            TaskItem(navController = navController, task = task)
         }
     }
 }

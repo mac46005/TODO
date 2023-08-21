@@ -122,7 +122,7 @@ fun HomeView(
                         paddingBottom = padding.calculateBottomPadding()
                     )
                 }else{
-                    TODOTasksCollection(listId = listId)
+                    TODOTasksCollection(navController = navController,listId = listId)
                 }
             }
         }
