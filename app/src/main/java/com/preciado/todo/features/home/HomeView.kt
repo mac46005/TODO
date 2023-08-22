@@ -29,8 +29,7 @@ import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.ListButton
 import com.preciado.todo.features.home.components.BigMessage
-import com.preciado.todo.features.home.components.TODOTasksCollection
-import com.preciado.todo.features.home.components.TaskList
+import com.preciado.todo.features.home.components.TasksLists
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
@@ -55,13 +54,13 @@ fun HomeView(
                     ) {
                         Row() {
                             Button(onClick = { /*TODO*/ }) {
-
+                                Icon(painter = painterResource(id = R.drawable.red_x_light), contentDescription = "Uncompleted List")
                             }
                             Button(onClick = { /*TODO*/ }) {
-
+                                Icon(painter = painterResource(id = R.drawable.green_check_light), contentDescription = "Completed List")
                             }
                             Button(onClick = { /*TODO*/ }) {
-
+                                Icon(painter = painterResource(id = R.drawable.outline_delete_24)   , contentDescription = "Delete List")
                             }
                         }
 
@@ -122,7 +121,7 @@ fun HomeView(
                         paddingBottom = padding.calculateBottomPadding()
                     )
                 }else{
-                    TODOTasksCollection(navController = navController,listId = listId)
+                    TasksLists(navController = navController,listId = listId)
                 }
             }
         }

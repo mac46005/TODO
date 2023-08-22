@@ -28,7 +28,7 @@ private const val TAG = "TaskItem"
 fun TaskItem(
     navController: NavController,
     task: Task,
-    vm: TaskItemViewModel = hiltViewModel()
+    onCheckChanged: ((Boolean) -> Unit)
 ){
 
 
@@ -39,24 +39,17 @@ fun TaskItem(
             navController.navigate("")
         }
     ){
-        var checked = remember {
-            mutableStateOf(task.isCompleted)
-        }
 
         Column {
             Divider()
 
             Row() {
 
-
                 Checkbox(
-                    checked = checked.value,
-                    onCheckedChange = {
-                        checked.value = checked.value == false
-                        Log.i(TAG, "TaskItem: ${task.taskName}; TaskItem.isComplete: ${task.isCompleted}")
-                        vm.onCheckChanged(task)
-                    }
+                    checked = task.isCompleted,
+                    onCheckedChange =  onCheckChanged
                 )
+
                 Text(text = task.taskName)
             }
 
