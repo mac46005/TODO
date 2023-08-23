@@ -52,18 +52,7 @@ fun HomeView(
 
     val listId by vm.selectedTODOListId.observeAsState(0)
 
-    val uncompletedTasksViewButton = remember {
-        mutableStateOf(false)
-    }
-    val completedTasksViewButton = remember {
-        mutableStateOf(false)
-    }
-    val uncompletedVisible = remember {
-        mutableStateOf(true)
-    }
-    val completedVisible = remember {
-        mutableStateOf(false)
-    }
+
 
     TODOTheme {
         Scaffold(
@@ -79,9 +68,7 @@ fun HomeView(
 //                            UNCOMPLETED LIST VIEW BUTTON
                             Button(
                                 onClick = {
-                                    uncompletedVisible.value = uncompletedVisible.value == false
                                 },
-                                enabled = uncompletedTasksViewButton.value
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.baseline_close_24),
@@ -91,9 +78,7 @@ fun HomeView(
 //                            COMPLETED LIST VIEW BUTTON
                             Button(
                                 onClick = {
-                                    completedVisible.value = completedVisible.value == false
                                 },
-                                enabled = completedTasksViewButton.value
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.baseline_check_24),
@@ -151,10 +136,18 @@ fun HomeView(
                 }
                 Divider()
                 
-                if(listId != 0){
-                    BigMessage(message = "Select a list")
+                if(listId == 0){
+
                 }else{
-                    BigMessage(message = "")
+                    val uncompletedTasks by vm.uncompletedTasks(listId).collectAsStateWithLifecycle(
+                        initialValue = emptyList()
+                    )
+
+                    val completedTasks by vm.completedTasks(listId).collectAsStateWithLifecycle(
+                        initialValue = emptyList()
+                    )
+
+
                 }
             }
         }

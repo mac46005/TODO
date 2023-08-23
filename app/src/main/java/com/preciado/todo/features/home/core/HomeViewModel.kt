@@ -31,6 +31,6 @@ class HomeViewModel @Inject constructor(
         _selectedTODOListId.value = todoListId
     }
 
-    fun uncompletedTasks() = tasksTable.getUnCompletedTasks(arrayOf(_selectedTODOListId.value.toString()))
-    fun completedTasks() = tasksTable.getCompletedTasks(arrayOf(_selectedTODOListId.value.toString()))
+    fun uncompletedTasks(listId: Int) = tasksTable.getUnCompletedTasks(arrayOf(listId.toString()))
+    fun completedTasks(listId: Int) = tasksTable.getCompletedTasks(arrayOf(listId.toString()))
 }
