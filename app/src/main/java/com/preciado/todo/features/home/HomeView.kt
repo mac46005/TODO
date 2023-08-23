@@ -151,6 +151,7 @@ fun HomeView(
                         }, text = "+ New List")
                     }
                 }
+
                 Divider()
 
                 if (listId == 0) {
