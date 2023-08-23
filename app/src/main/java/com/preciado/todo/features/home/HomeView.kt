@@ -139,6 +139,9 @@ fun HomeView(
                 if(listId == 0){
 
                 }else{
+
+
+
                     val uncompletedTasks by vm.uncompletedTasks(listId).collectAsStateWithLifecycle(
                         initialValue = emptyList()
                     )
@@ -146,7 +149,6 @@ fun HomeView(
                     val completedTasks by vm.completedTasks(listId).collectAsStateWithLifecycle(
                         initialValue = emptyList()
                     )
-
 
                 }
             }

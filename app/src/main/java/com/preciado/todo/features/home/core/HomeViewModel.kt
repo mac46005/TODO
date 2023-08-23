@@ -25,6 +25,14 @@ class HomeViewModel @Inject constructor(
     private var _selectedTODOListId: MutableLiveData<Int> = MutableLiveData(0)
     val selectedTODOListId: LiveData<Int> = _selectedTODOListId
 
+
+    private var _unselectedTasksEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
+    var unselectedTasksEnabled: LiveData<Boolean> = _unselectedTasksEnabled
+
+    private var _completedTasksEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
+    var completedTasksEnabled: LiveData<Boolean> = _completedTasksEnabled
+
+
     fun loadTodoLists(): Flow<List<TODOList>?> = todoListsTable.readAll()
 
     fun onListSelected(todoListId: Int) {
@@ -33,4 +41,5 @@ class HomeViewModel @Inject constructor(
 
     fun uncompletedTasks(listId: Int) = tasksTable.getUnCompletedTasks(arrayOf(listId.toString()))
     fun completedTasks(listId: Int) = tasksTable.getCompletedTasks(arrayOf(listId.toString()))
+
 }
