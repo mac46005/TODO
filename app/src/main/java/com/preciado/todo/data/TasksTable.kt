@@ -173,7 +173,7 @@ class TasksTable @Inject constructor(
                 DatabaseHelper.COLUMN_TASKS_DETAILS,
                 DatabaseHelper.COLUMN_TASKS_IS_COMPLETED
             ),
-            "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 0",
+            "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 1",
             foreignKeys,
             null,
             null,
