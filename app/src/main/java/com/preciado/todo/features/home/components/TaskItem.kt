@@ -28,7 +28,7 @@ private const val TAG = "TaskItem"
 fun TaskItem(
     navController: NavController,
     task: Task,
-    onCheckChanged: ((Boolean) -> Unit)
+    onChecked: (Boolean) -> Unit
 ){
 
 
@@ -39,17 +39,23 @@ fun TaskItem(
             navController.navigate("")
         }
     ){
+        var checked = remember {
+            mutableStateOf(task.isCompleted)
+        }
 
         Column {
             Divider()
 
             Row() {
 
-                Checkbox(
-                    checked = task.isCompleted,
-                    onCheckedChange =  onCheckChanged
-                )
 
+                Checkbox(
+                    checked = checked.value,
+                    onCheckedChange = { _checked ->
+                        checked.value = _checked
+                        onChecked(_checked)
+                    }
+                )
                 Text(text = task.taskName)
             }
 

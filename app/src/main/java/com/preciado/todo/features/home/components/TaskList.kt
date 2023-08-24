@@ -21,15 +21,15 @@ private const val TAG = "TaskList"
 @Composable
 fun TaskList(
     navController: NavController,
-    taskList: List<Task>
+    taskList: List<Task>,
+    taskCount: Int
 ){
-    //Log.i(TAG, "TaskList: taskList.count(${taskList.count()})")
     LazyColumn(
         contentPadding = PaddingValues(5.dp)
     ){
+
         items(taskList){ task ->
             //Log.i(TAG, "TaskList: LazyColumn: LazyListScope: items: task: ${task.taskName}")
-            TaskItem(navController = navController, task = task)
         }
     }
 }

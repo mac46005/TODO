@@ -20,8 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,12 +32,12 @@ import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.components.ListButton
 import com.preciado.todo.features.home.components.BigMessage
-import com.preciado.todo.features.home.components.TODOTasksCollection
 import com.preciado.todo.features.home.components.TaskItem
 import com.preciado.todo.features.home.components.TaskList
 import com.preciado.todo.features.home.core.HomeViewModel
 import com.preciado.todo.ui.theme.TODOTheme
-import java.util.BitSet
+
+private const val TAG = "HomeView"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,8 +47,15 @@ fun HomeView(
 ) {
 
 
-
     val listId by vm.selectedTODOListId.observeAsState(0)
+
+    val incompleteTasksButtonEnabled by vm.incompTButtonEnabled.observeAsState()
+    val completedTasksButtonEnabled by vm.compTButtonEnabled.observeAsState()
+
+    val incompleteTasksEnabled by vm.incompleteTasksEnabled.observeAsState()
+    val completedTasksEnabled by vm.completedTasksEnabled.observeAsState()
+
+
 
 
 
@@ -65,10 +70,17 @@ fun HomeView(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Row() {
+
+
 //                            UNCOMPLETED LIST VIEW BUTTON
                             Button(
                                 onClick = {
+                                    vm.setIncompleteTasksButtonEnabled(!incompleteTasksButtonEnabled!!)
+                                    vm.setIncompleteTasksEnabled(!incompleteTasksEnabled!!)
+                                    vm.setCompletedTasksButtonEnabled(!completedTasksButtonEnabled!!)
+                                    vm.setCompleteTasksEnabled(!completedTasksEnabled!!)
                                 },
+                                enabled = incompleteTasksButtonEnabled!!
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.baseline_close_24),
@@ -78,7 +90,12 @@ fun HomeView(
 //                            COMPLETED LIST VIEW BUTTON
                             Button(
                                 onClick = {
+                                    vm.setIncompleteTasksButtonEnabled(!incompleteTasksButtonEnabled!!)
+                                    vm.setIncompleteTasksEnabled(!incompleteTasksEnabled!!)
+                                    vm.setCompletedTasksButtonEnabled(!completedTasksButtonEnabled!!)
+                                    vm.setCompleteTasksEnabled(!completedTasksEnabled!!)
                                 },
+                                enabled = completedTasksButtonEnabled!!
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.baseline_check_24),
@@ -112,6 +129,10 @@ fun HomeView(
             }
         ) {
             val padding = it
+
+            val incompleteTasksCount by vm.incompleteTasksCount.observeAsState()
+            val completedTasksCount by vm.completedTasksCount.observeAsState()
+
             BaseView {
 
                 val listState by vm.loadTodoLists().collectAsState(emptyList())
@@ -123,6 +144,10 @@ fun HomeView(
                             onClick =
                             {
                                 vm.onListSelected(todoListId = todoList.id)
+                                vm.setIncompleteTasksButtonEnabled(false)
+                                vm.setIncompleteTasksEnabled(true)
+                                vm.setCompletedTasksButtonEnabled(true)
+                                vm.setCompleteTasksEnabled(false)
                             }
                         ) {
                             Text(text = todoList.name)
@@ -136,20 +161,63 @@ fun HomeView(
                 }
 
                 Divider()
+
+
                 
-                if(listId == 0){
+                if (listId == 0) {
+                    BigMessage(message = "No TODO List Selected")
+                } else {
 
-                }else{
 
-
-
-                    val uncompletedTasks by vm.uncompletedTasks(listId).collectAsStateWithLifecycle(
+                    val incompleteTasks by vm.uncompletedTasks(listId).collectAsStateWithLifecycle(
                         initialValue = emptyList()
-                    )
+                    ).also { state ->
+                        vm.setIncompletedTasksCount(state.value.count())
+                    }
 
                     val completedTasks by vm.completedTasks(listId).collectAsStateWithLifecycle(
                         initialValue = emptyList()
-                    )
+                    ).also { state ->
+                        vm.setCompletedTasksCount(state.value.count())
+                    }
+
+
+                    AnimatedVisibility(visible = incompleteTasksEnabled!!) {
+                        if(incompleteTasks.isNotEmpty()){
+                            LazyColumn(){
+                                items(incompleteTasks){task ->
+                                    TaskItem(navController = navController, task = task, onChecked = {checked ->
+                                        task.isCompleted = checked
+                                        vm.onTaskItemChecked(task)
+                                        Log.i(TAG, "HomeView: ${incompleteTasksCount}")
+                                        vm.updateIncompleteTasksCount(incompleteTasksCount!! - 1)
+                                    })
+                                }
+                            }
+                        }else{
+                            BigMessage(message = "No tasks!")
+                        }
+                    }
+
+                    AnimatedVisibility(visible = completedTasksEnabled!! && completedTasksCount!! > 0) {
+                        if(completedTasks.isNotEmpty()){
+                            LazyColumn(){
+                                items(completedTasks){task ->
+                                    TaskItem(navController = navController, task = task, onChecked = {checked ->
+                                        task.isCompleted = checked
+                                        vm.onTaskItemChecked(task)
+                                        vm.updateCompleteTasksCount(incompleteTasksCount!! - 1)
+                                    })
+                                }
+                            }
+                        }else{
+                            when{
+                                completedTasksCount!! == 0 &&  incompleteTasksCount!! > 0 -> BigMessage(message = "You have ${incompleteTasksCount} tasks to complete")
+                                completedTasksCount!! == 0 && incompleteTasksCount!! == 0 -> BigMessage(message = "No Tasks!")
+                            }
+                        }
+
+                    }
 
                 }
             }
