@@ -85,11 +85,11 @@ class HomeViewModel @Inject constructor(
        _compTButtonEnabled.value = bool
     }
 
-    fun updateIncompleteTasksCount(count: Int){
-        _incompleteTasksCount.value = count
+    fun updateIncompleteTasksCount(amount: Int){
+        _incompleteTasksCount.value = _incompleteTasksCount.value!! + amount
     }
-    fun updateCompleteTasksCount(count: Int){
-        _completedTasksCount.value = count
+    fun updateCompleteTasksCount(amount: Int){
+        _completedTasksCount.value = _completedTasksCount.value!! + amount
     }
 
     fun onTaskItemChecked(task: Task){

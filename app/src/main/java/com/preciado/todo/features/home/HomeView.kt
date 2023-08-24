@@ -182,15 +182,15 @@ fun HomeView(
                     }
 
 
-                    AnimatedVisibility(visible = incompleteTasksEnabled!!) {
+                    AnimatedVisibility(visible = incompleteTasksEnabled!! && incompleteTasksCount!! >= 0) {
                         if(incompleteTasks.isNotEmpty()){
                             LazyColumn(){
                                 items(incompleteTasks){task ->
                                     TaskItem(navController = navController, task = task, onChecked = {checked ->
                                         task.isCompleted = checked
                                         vm.onTaskItemChecked(task)
-                                        Log.i(TAG, "HomeView: ${incompleteTasksCount}")
-                                        vm.updateIncompleteTasksCount(incompleteTasksCount!! - 1)
+                                        vm.updateIncompleteTasksCount(-1)
+                                        vm.updateCompleteTasksCount(1)
                                     })
                                 }
                             }
@@ -199,14 +199,15 @@ fun HomeView(
                         }
                     }
 
-                    AnimatedVisibility(visible = completedTasksEnabled!! && completedTasksCount!! > 0) {
+                    AnimatedVisibility(visible = completedTasksEnabled!! && completedTasksCount!! >= 0) {
                         if(completedTasks.isNotEmpty()){
                             LazyColumn(){
                                 items(completedTasks){task ->
                                     TaskItem(navController = navController, task = task, onChecked = {checked ->
                                         task.isCompleted = checked
                                         vm.onTaskItemChecked(task)
-                                        vm.updateCompleteTasksCount(incompleteTasksCount!! - 1)
+                                        vm.updateCompleteTasksCount(-1)
+                                        vm.updateIncompleteTasksCount(1)
                                     })
                                 }
                             }
