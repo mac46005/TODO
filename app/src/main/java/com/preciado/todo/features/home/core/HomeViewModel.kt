@@ -4,11 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.preciado.todo.core.models.TODOList
+import com.preciado.todo.core.models.Task
 import com.preciado.todo.data.TODOListsTable
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +25,7 @@ class HomeViewModel @Inject constructor(
         private const val TAG = "HomeViewModel"
     }
 
+    //listID
     private var _selectedTODOListId: MutableLiveData<Int> = MutableLiveData(0)
     val selectedTODOListId: LiveData<Int> = _selectedTODOListId
 
@@ -81,16 +85,16 @@ class HomeViewModel @Inject constructor(
        _compTButtonEnabled.value = bool
     }
 
-    fun toggleViews(){
-        if(_completedTasksCount.value != 0){
-            _incompleteTasksEnabled.value = _incompleteTasksEnabled.value == false
-            _completedTasksEnabled.value = _completedTasksEnabled.value == false
+    fun updateIncompleteTasksCount(count: Int){
+        _incompleteTasksCount.value = count
+    }
+    fun updateCompleteTasksCount(count: Int){
+        _completedTasksCount.value = count
+    }
 
-            _incompTButtonEnabled.value = _compTButtonEnabled.value == false
-            _compTButtonEnabled.value = _compTButtonEnabled.value == false
-
-            Log.i(TAG, "toggleViews: incompleteTasksEnabled: ${_incompleteTasksEnabled.value} incompTButtonEnabled: ${_incompTButtonEnabled.value}")
-            Log.i(TAG, "toggleViews: completeTasksEnabled: ${_completedTasksEnabled.value} compTButtonEnabled: ${_compTButtonEnabled.value}")
+    fun onTaskItemChecked(task: Task){
+        viewModelScope.launch {
+            tasksTable.update(task)
         }
     }
 

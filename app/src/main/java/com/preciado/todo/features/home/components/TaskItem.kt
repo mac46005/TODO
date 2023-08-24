@@ -28,7 +28,7 @@ private const val TAG = "TaskItem"
 fun TaskItem(
     navController: NavController,
     task: Task,
-    vm: TaskItemViewModel = hiltViewModel()
+    onChecked: (Boolean) -> Unit
 ){
 
 
@@ -51,10 +51,9 @@ fun TaskItem(
 
                 Checkbox(
                     checked = checked.value,
-                    onCheckedChange = {
-                        checked.value = checked.value == false
-                        Log.i(TAG, "TaskItem: ${task.taskName}; TaskItem.isComplete: ${task.isCompleted}")
-                        vm.onCheckChanged(task)
+                    onCheckedChange = { _checked ->
+                        checked.value = _checked
+                        onChecked(_checked)
                     }
                 )
                 Text(text = task.taskName)
