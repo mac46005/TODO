@@ -28,7 +28,7 @@ fun BottomBar(
 
 
     val isIncompleteButtonEnabled = remember {
-        mutableStateOf(listId != 0)
+        mutableStateOf(true)
     }
 
     Log.i(TAG, "BottomBar: listId: $listId")
@@ -45,6 +45,7 @@ fun BottomBar(
             Row {
                 Button(
                     onClick = {
+                        onIncompleteButtonClicked()
                         isIncompleteButtonEnabled.value = isIncompleteButtonEnabled.value != true
                         isCompleteButtonEnabled.value = isCompleteButtonEnabled.value == false
                     },
@@ -58,6 +59,7 @@ fun BottomBar(
 
                 Button(
                     onClick = {
+                        onCompleteButtonClicked()
                         isIncompleteButtonEnabled.value = isIncompleteButtonEnabled.value != true
                         isCompleteButtonEnabled.value = isCompleteButtonEnabled.value == false
 
