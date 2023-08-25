@@ -1,12 +1,12 @@
 package com.preciado.todo.features.home
 
+import android.util.Log
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -28,16 +28,24 @@ fun HomeView(
     navController: NavController
 ) {
 
+    val listId = vm.selectedTODOListId.observeAsState()
 
-
-
+    val isIncompleteTasksEnabled = vm.incompleteTasksEnabled.observeAsState()
+    val isCompletedTasksEnabled = vm.completedTasksEnabled.observeAsState()
 
     TODOTheme {
-        val listId by vm.selectedTODOListId.observeAsState()
+
 
         Scaffold(
             bottomBar = {
-                BottomBar(listId = listId!!) {
+                BottomBar(listId = listId.value!!,
+                    onIncompleteButtonClicked = {
+                                    vm.toggleTasks()
+                    },
+                    onCompleteButtonClicked = {
+                        vm.toggleTasks()
+                    }
+                ) {
                     navController.navigate("add_edit_list/${CRUDEnum.CREATE.ordinal}/0")
                 }
             }
@@ -46,8 +54,6 @@ fun HomeView(
 
             BaseView {
 
-                val isIncompleteTasksEnabled by vm.incompleteTasksEnabled.observeAsState()
-                val isCompletedTasksEnabled by vm.completedTasksEnabled.observeAsState()
 
 
                 TODOListView(navController = navController) { listId ->
@@ -58,14 +64,19 @@ fun HomeView(
 
 
 
-                if (listId == 0) {
+                if (listId.value == 0) {
                     BigMessage(message = "No TODO List Selected")
                 } else {
+
+
+                    Log.i(TAG, "HomeView: incomplete enabled $isIncompleteTasksEnabled")
+                    Log.i(TAG, "HomeView: complete enabled $isCompletedTasksEnabled")
+
                     TaskListsView(
                         navController = navController,
-                        listId = listId!!,
-                        isIncompleteTaskListEnabled = isIncompleteTasksEnabled!!,
-                        isCompletedTaskListEnabled = isCompletedTasksEnabled!!
+                        listId = listId.value!!,
+                        isIncompleteTaskListEnabled = isIncompleteTasksEnabled.value!!,
+                        isCompletedTaskListEnabled = isCompletedTasksEnabled.value!!
                     )
                 }
             }

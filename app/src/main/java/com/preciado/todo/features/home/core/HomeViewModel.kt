@@ -46,7 +46,10 @@ class HomeViewModel @Inject constructor(
     private var _completedTasksEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
     val completedTasksEnabled: LiveData<Boolean> = _completedTasksEnabled
 
-
+    fun toggleTasks(){
+        _incompTButtonEnabled.value = _incompleteTasksEnabled.value != true
+        _completedTasksEnabled.value = _completedTasksEnabled.value == false
+    }
 
 
     fun resetListView(){
