@@ -1,6 +1,5 @@
 package com.preciado.todo.features.home.core
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,7 +25,7 @@ class HomeViewModel @Inject constructor(
     }
 
     //listID
-    private var _selectedTODOListId: MutableLiveData<Int> = MutableLiveData(0)
+    var _selectedTODOListId: MutableLiveData<Int> = MutableLiveData(0)
     val selectedTODOListId: LiveData<Int> = _selectedTODOListId
 
 
@@ -48,56 +47,12 @@ class HomeViewModel @Inject constructor(
     val completedTasksEnabled: LiveData<Boolean> = _completedTasksEnabled
 
 
-    //tasks count
-    private var _incompleteTasksCount: MutableLiveData<Int> = MutableLiveData(0)
-    val incompleteTasksCount: LiveData<Int> = _incompleteTasksCount
-    private var _completedTasksCount: MutableLiveData<Int> = MutableLiveData(0)
-    val completedTasksCount: LiveData<Int> = _completedTasksCount
 
 
-
-
-    fun loadTodoLists(): Flow<List<TODOList>?> = todoListsTable.readAll()
-
-    fun onListSelected(todoListId: Int) {
-        _selectedTODOListId.value = todoListId
+    fun resetListView(){
+        _incompTButtonEnabled.value = false
+        _incompleteTasksEnabled.value = true
+        _compTButtonEnabled.value = true
+        _completedTasksEnabled.value = false
     }
-
-    fun setIncompletedTasksCount(count: Int){
-        _incompleteTasksCount.value = count
-    }
-
-    fun setCompletedTasksCount(count: Int){
-        _completedTasksCount.value = count
-    }
-
-    fun setIncompleteTasksEnabled(isEnabled: Boolean){
-        _incompleteTasksEnabled.value = isEnabled
-    }
-    fun setCompleteTasksEnabled(isEnabled: Boolean){
-        _completedTasksEnabled.value = isEnabled
-    }
-
-    fun setIncompleteTasksButtonEnabled(bool: Boolean){
-        _incompTButtonEnabled.value = bool
-    }
-    fun setCompletedTasksButtonEnabled(bool: Boolean){
-       _compTButtonEnabled.value = bool
-    }
-
-    fun updateIncompleteTasksCount(amount: Int){
-        _incompleteTasksCount.value = _incompleteTasksCount.value!! + amount
-    }
-    fun updateCompleteTasksCount(amount: Int){
-        _completedTasksCount.value = _completedTasksCount.value!! + amount
-    }
-
-    fun onTaskItemChecked(task: Task){
-        viewModelScope.launch {
-            tasksTable.update(task)
-        }
-    }
-
-    fun uncompletedTasks(listId: Int) = tasksTable.getUnCompletedTasks(arrayOf(listId.toString()))
-    fun completedTasks(listId: Int) = tasksTable.getCompletedTasks(arrayOf(listId.toString()))
 }

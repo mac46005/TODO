@@ -135,7 +135,7 @@ class TasksTable @Inject constructor(
         }
     }
 
-    fun getUnCompletedTasks(foreignKeys: Array<out String>): Flow<List<Task>> = flow {
+    fun getInCompleteTasks(foreignKeys: Array<out String>): Flow<List<Task>> = flow {
         var db = dbHelper.readableDatabase
         var cursor = db.query(
             DatabaseHelper.TABLE_NAME_TASKS,
