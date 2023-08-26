@@ -29,15 +29,6 @@ class HomeViewModel @Inject constructor(
     val selectedTODOListId: LiveData<Int> = _selectedTODOListId
 
 
-    //Buttons to enable/disable tasks lists
-    //enable/disable uncomplete tasks button
-    private var _incompTButtonEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
-    val incompTButtonEnabled: LiveData<Boolean> = _incompTButtonEnabled
-    //enable/disable complete tasks button
-    private var _compTButtonEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
-    val compTButtonEnabled: LiveData<Boolean> = _compTButtonEnabled
-
-
     //enable/disable visibility of tasks lists
     //enable/disable visibility of incomplete tasks
     private var _incompleteTasksEnabled: MutableLiveData<Boolean> = MutableLiveData(true)
@@ -47,15 +38,13 @@ class HomeViewModel @Inject constructor(
     val completedTasksEnabled: LiveData<Boolean> = _completedTasksEnabled
 
     fun toggleTasks(){
-        _incompTButtonEnabled.value = _incompleteTasksEnabled.value != true
+        _incompleteTasksEnabled.value = _incompleteTasksEnabled.value != true
         _completedTasksEnabled.value = _completedTasksEnabled.value == false
     }
 
 
     fun resetListView(){
-        _incompTButtonEnabled.value = false
         _incompleteTasksEnabled.value = true
-        _compTButtonEnabled.value = true
         _completedTasksEnabled.value = false
     }
 }

@@ -30,8 +30,8 @@ fun HomeView(
 
     val listId = vm.selectedTODOListId.observeAsState()
 
-    val isIncompleteTasksEnabled = vm.incompleteTasksEnabled.observeAsState()
-    val isCompletedTasksEnabled = vm.completedTasksEnabled.observeAsState()
+    val isIncompleteTasksEnabled = vm.incompleteTasksEnabled.observeAsState(true)
+    val isCompletedTasksEnabled = vm.completedTasksEnabled.observeAsState(false)
 
     TODOTheme {
 
@@ -40,20 +40,19 @@ fun HomeView(
             bottomBar = {
                 BottomBar(listId = listId.value!!,
                     onIncompleteButtonClicked = {
-                                    vm.toggleTasks()
+                        vm.toggleTasks()
                     },
                     onCompleteButtonClicked = {
                         vm.toggleTasks()
                     }
                 ) {
-                    navController.navigate("add_edit_list/${CRUDEnum.CREATE.ordinal}/0")
+                    navController.navigate("add_edit_list_task/${CRUDEnum.CREATE.ordinal}/${listId.value}/0")
                 }
             }
         ) {
             val padding = it
 
             BaseView {
-
 
 
                 TODOListView(navController = navController) { listId ->
@@ -75,8 +74,8 @@ fun HomeView(
                     TaskListsView(
                         navController = navController,
                         listId = listId.value!!,
-                        isIncompleteTaskListEnabled = isIncompleteTasksEnabled.value!!,
-                        isCompletedTaskListEnabled = isCompletedTasksEnabled.value!!
+                        isIncompleteTaskListEnabled = isIncompleteTasksEnabled.value,
+                        isCompletedTaskListEnabled = isCompletedTasksEnabled.value
                     )
                 }
             }

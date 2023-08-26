@@ -18,21 +18,20 @@ fun TaskList(
     itemsState: MutableMap<Int, Boolean>,
     onItemChecked: (Task) -> Unit,
     emptyListMessage: @Composable (() -> Unit)
-){
+) {
 
 
-
-    if(list.isEmpty()){
-        emptyListMessage()
-    }else{
-        AnimatedVisibility(visible = isEnabled) {
-            LazyColumn(){
-                items(list){task ->
+    AnimatedVisibility(visible = isEnabled) {
+        if (list.isEmpty()) {
+            emptyListMessage()
+        } else {
+            LazyColumn() {
+                items(list) { task ->
                     itemsState[task.id] = task.isCompleted
                     TaskItem(
                         navController = navController,
                         task = task,
-                        onChecked = {checked ->
+                        onChecked = { checked ->
                             task.isCompleted = checked
                             onItemChecked(task)
                         }
@@ -41,5 +40,4 @@ fun TaskList(
             }
         }
     }
-
 }
