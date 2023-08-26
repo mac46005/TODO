@@ -26,7 +26,10 @@ fun BottomBar(
     onCompleteButtonClicked: ()->Unit,
     onAddListItemClicked: () -> Unit
 ) {
-
+    //TODO Make ui view changes of this value when user presses new list item
+    val listIdState = remember {
+        mutableStateOf(listId)
+    }
 
     val isIncompleteButtonEnabled = remember {
         mutableStateOf(false)
