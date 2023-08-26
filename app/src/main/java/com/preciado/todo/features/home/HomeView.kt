@@ -68,9 +68,6 @@ fun HomeView(
                 } else {
 
 
-                    Log.i(TAG, "HomeView: incomplete enabled $isIncompleteTasksEnabled")
-                    Log.i(TAG, "HomeView: complete enabled $isCompletedTasksEnabled")
-
                     TaskListsView(
                         navController = navController,
                         listId = listId.value!!,

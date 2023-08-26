@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -28,7 +29,7 @@ fun BottomBar(
 
 
     val isIncompleteButtonEnabled = remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
 
     Log.i(TAG, "BottomBar: listId: $listId")
@@ -36,8 +37,12 @@ fun BottomBar(
     val isCompleteButtonEnabled = remember {
         mutableStateOf(false)
     }
-
+    if(listId != 0){
+        isIncompleteButtonEnabled.value = true
+    }
     BottomAppBar(containerColor = MaterialTheme.colorScheme.primaryContainer) {
+
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -73,7 +78,10 @@ fun BottomBar(
                 }
             }
 
-            Button(onClick = onAddListItemClicked) {
+            Button(
+                onClick = onAddListItemClicked,
+                enabled = listId != 0
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_add_24),
                     contentDescription = "Add new Task"
