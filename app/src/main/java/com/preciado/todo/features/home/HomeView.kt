@@ -38,16 +38,16 @@ fun HomeView(
 
         Scaffold(
             bottomBar = {
-                BottomBar(listId = listId.value!!,
+                BottomBar(
+                    navController = navController,
+                    listId = listId.value!!,
                     onIncompleteButtonClicked = {
                         vm.toggleTasks()
                     },
                     onCompleteButtonClicked = {
                         vm.toggleTasks()
                     }
-                ) {
-                    navController.navigate("add_edit_list_task/${CRUDEnum.CREATE.ordinal}/${listId.value}/0")
-                }
+                )
             }
         ) {
             val padding = it
