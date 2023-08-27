@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -25,36 +26,35 @@ import com.preciado.todo.features.home.core.BottomBarViewModel
 
 private const val TAG = "BottomBar"
 
+
+
 @Composable
 fun BottomBar(
     navController: NavController,
-    listId: Int,
+    listId: Int = 0,
     onIncompleteButtonClicked: () -> Unit,
     onCompleteButtonClicked: () -> Unit,
-    vm: BottomBarViewModel = hiltViewModel()
 ) {
-    //TODO Make ui view changes of this value when user presses new list item
-    val listIdState by vm.listId.observeAsState()
-
-    val isIncompleteButtonEnabled by vm.isIncompleteTaskButtonEnabled.observeAsState()
-    val isCompleteButtonEnabled by vm.isCompleteTaskButtonEnabled.observeAsState()
-
-
+    var listIdState = remember {
+        mutableStateOf(listId)
+    }
+    var isIncompleteButtonEnabled = remember {
+        mutableStateOf(false)
+    }
+    var isCompleteButtonEnabled = remember {
+        mutableStateOf(false)
+    }
 //    if(listId != 0){
 //        vm.setIncompleteButtonEnabled(true)
 //    }
-    if(listId == 0){
-        vm.setListId(listId)
-        vm.setIncompleteButtonEnabled(false)
-        vm.setCompleteButtonEnabled(false)
+    if(listId != 0 && !listIdState.value.equals(listId)){
+        listIdState.value = listId
+        isCompleteButtonEnabled.value = true
+        isIncompleteButtonEnabled.value = false
     }
-    if(listId != 0 && vm.isListIdNew(listId)){
-        vm.setListId(listId)
-        vm.setIncompleteButtonEnabled(true)
-        vm.setCompleteButtonEnabled(false)
-    }
-
     BottomAppBar(containerColor = MaterialTheme.colorScheme.primaryContainer) {
+
+
 
 
         Row(
@@ -65,9 +65,9 @@ fun BottomBar(
                 Button(
                     onClick = {
                         onIncompleteButtonClicked()
-                        vm.toggleButtons()
+                        toggleEnablers(isIncompleteButtonEnabled, isCompleteButtonEnabled)
                     },
-                    enabled = isIncompleteButtonEnabled!!
+                    enabled = isIncompleteButtonEnabled.value
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_close_24),
@@ -78,9 +78,9 @@ fun BottomBar(
                 Button(
                     onClick = {
                         onCompleteButtonClicked()
-                        vm.toggleButtons()
+                        toggleEnablers(isIncompleteButtonEnabled,isCompleteButtonEnabled)
                     },
-                    enabled = isCompleteButtonEnabled!!
+                    enabled = isCompleteButtonEnabled.value
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_check_24),
@@ -93,7 +93,7 @@ fun BottomBar(
                 onClick = {
                     navController.navigate("add_edit_list_task/${CRUDEnum.CREATE.ordinal}/${listId}/0")
                 },
-                enabled = listIdState != 0
+                enabled = listIdState.value != 0
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_add_24),
@@ -102,6 +102,14 @@ fun BottomBar(
             }
         }
     }
+}
+
+
+
+
+fun toggleEnablers(b1: MutableState<Boolean>, b2: MutableState<Boolean>){
+    b1.value = b1.value == false
+    b2.value = b2.value != true
 }
 
 
