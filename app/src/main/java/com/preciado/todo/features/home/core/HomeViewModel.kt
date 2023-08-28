@@ -19,32 +19,4 @@ class HomeViewModel @Inject constructor(
     private val tasksTable: TasksTable
 ) : ViewModel() {
 
-
-    companion object {
-        private const val TAG = "HomeViewModel"
-    }
-
-    //listID
-    var _selectedTODOListId: MutableLiveData<Int> = MutableLiveData(0)
-    val selectedTODOListId: LiveData<Int> = _selectedTODOListId
-
-
-    //enable/disable visibility of tasks lists
-    //enable/disable visibility of incomplete tasks
-    private var _incompleteTasksEnabled: MutableLiveData<Boolean> = MutableLiveData(true)
-    val incompleteTasksEnabled: LiveData<Boolean> = _incompleteTasksEnabled
-    //enable/disable visibility of complete tasks
-    private var _completedTasksEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
-    val completedTasksEnabled: LiveData<Boolean> = _completedTasksEnabled
-
-    fun toggleTasks(){
-        _incompleteTasksEnabled.value = _incompleteTasksEnabled.value != true
-        _completedTasksEnabled.value = _completedTasksEnabled.value == false
-    }
-
-
-    fun resetListView(){
-        _incompleteTasksEnabled.value = true
-        _completedTasksEnabled.value = false
-    }
 }
