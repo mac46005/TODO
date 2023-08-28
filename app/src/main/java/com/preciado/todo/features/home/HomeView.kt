@@ -1,6 +1,7 @@
 package com.preciado.todo.features.home
 
 import android.util.Log
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -27,56 +28,16 @@ fun HomeView(
     vm: HomeViewModel = hiltViewModel(),
     navController: NavController
 ) {
+    Scaffold(
+        bottomBar = {
 
-    val listId = vm.selectedTODOListId.observeAsState()
-
-    val isIncompleteTasksEnabled = vm.incompleteTasksEnabled.observeAsState(true)
-    val isCompletedTasksEnabled = vm.completedTasksEnabled.observeAsState(false)
-
-    TODOTheme {
-
-
-        Scaffold(
-            bottomBar = {
-                BottomBar(
-                    navController = navController,
-                    listId = listId.value!!,
-                    onIncompleteButtonClicked = {
-                        vm.toggleTasks()
-                    },
-                    onCompleteButtonClicked = {
-                        vm.toggleTasks()
-                    }
-                )
-            }
-        ) {
-            val padding = it
-
-            BaseView {
-
-
-                TODOListView(navController = navController) { listId ->
-                    vm.resetListView()
-                    vm._selectedTODOListId.value = listId
-                }
-                Divider()
-
-
-
-                if (listId.value == 0) {
-                    BigMessage(message = "No TODO List Selected")
-                } else {
-
-
-                    TaskListsView(
-                        navController = navController,
-                        listId = listId.value!!,
-                        isIncompleteTaskListEnabled = isIncompleteTasksEnabled.value,
-                        isCompletedTaskListEnabled = isCompletedTasksEnabled.value
-                    )
-                }
-            }
         }
+    ){
+        paddingValues ->
+        var pv = paddingValues
+        
+         LazyColumn(content = )
+
     }
 }
 
