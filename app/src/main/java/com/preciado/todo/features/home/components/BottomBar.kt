@@ -47,7 +47,7 @@ fun BottomBar(
 //    if(listId != 0){
 //        vm.setIncompleteButtonEnabled(true)
 //    }
-    if(listId != 0 && !listIdState.value.equals(listId)){
+    if(listId != 0 && listIdState.value != listId){
         listIdState.value = listId
         isCompleteButtonEnabled.value = true
         isIncompleteButtonEnabled.value = false
