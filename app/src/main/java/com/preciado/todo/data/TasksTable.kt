@@ -91,7 +91,7 @@ class TasksTable @Inject constructor(
                 foreignKeys,
                 null,
                 null,
-                null
+                "${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 0"
             )
             var todoTaskList = mutableListOf<Task>()
 
