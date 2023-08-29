@@ -36,7 +36,6 @@ fun HomeView(
         paddingValues ->
         var pv = paddingValues
         
-         LazyColumn(content = )
 
     }
 }
