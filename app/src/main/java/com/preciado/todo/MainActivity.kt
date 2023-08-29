@@ -15,6 +15,8 @@ import com.preciado.todo.features.add_edit_list.AddEditListView
 import com.preciado.todo.features.add_edit_task.AddEditTaskView
 import com.preciado.todo.features.home.HomeView
 import com.preciado.todo.features.home.core.HomeViewModel
+import com.preciado.todo.features.todo_lists.TodoLists
+import com.preciado.todo.features.todo_tasks.TodoTasks
 import com.preciado.todo.ui.theme.TODOTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,9 +28,24 @@ class MainActivity : ComponentActivity() {
         setContent {
                     var navController = rememberNavController()
 
-                    NavHost(navController = navController, startDestination = "home") {
+                    NavHost(navController = navController, startDestination = "todo_lists") {
+                        
+                        composable("todo_lists"){
+                            TodoLists(navController = navController)
+                        }
 
-
+                        composable("todo_tasks/{list_id}",
+                        arguments = listOf(
+                            navArgument("list_id"){
+                                type = NavType.IntType
+                                defaultValue = 0
+                            }
+                        )){
+                            backStackEntry ->
+                            TodoTasks(
+                                navController = navController,
+                                listId = backStackEntry.arguments!!.getInt("list_id"))
+                        }
                         composable("home") {
                             HomeView(
                                 navController = navController
