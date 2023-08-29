@@ -34,17 +34,24 @@ class MainActivity : ComponentActivity() {
                             TodoLists(navController = navController)
                         }
 
-                        composable("todo_tasks/{list_id}",
+                        composable("todo_tasks/{list_id}/{list_name}",
                         arguments = listOf(
                             navArgument("list_id"){
                                 type = NavType.IntType
                                 defaultValue = 0
+                            },
+                            navArgument("list_name"){
+                                type = NavType.StringType
+                                defaultValue = ""
                             }
                         )){
                             backStackEntry ->
                             TodoTasks(
                                 navController = navController,
-                                listId = backStackEntry.arguments!!.getInt("list_id"))
+                                listId = backStackEntry.arguments!!.getInt("list_id"),
+                                listName = backStackEntry.arguments!!.getString("list_name")!!
+                            )
+
                         }
                         composable("home") {
                             HomeView(

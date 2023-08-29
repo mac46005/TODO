@@ -37,7 +37,7 @@ fun TodoLists(
         LazyColumn(){
             items(list!!){ item ->
                 Item(name = item.name){
-                    navController.navigate("todo_tasks/${item.id}")
+                    navController.navigate("todo_tasks/${item.id}/${item.name}")
                 }
             }
         }
