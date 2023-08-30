@@ -10,6 +10,7 @@ import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -72,7 +73,8 @@ class AddEditTaskViewModel @Inject constructor(
                         Task(
                             todoList_id = _listId.value!!,
                             taskName = _taskName.value!!,
-                            details = _taskDetails.value!!
+                            details = _taskDetails.value!!,
+                            createdOn = LocalDateTime.now()
                         )
                     )
                 }else{

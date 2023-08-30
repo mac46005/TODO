@@ -3,6 +3,7 @@ package com.preciado.todo.data
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.preciado.todo.core.models.TimeFrequency
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -23,7 +24,10 @@ class DatabaseHelper @Inject constructor(context: Context) :
         const val COLUMN_TASKS_TASK_NAME = "task_name"
         const val COLUMN_TASKS_DETAILS = "details"
         const val COLUMN_TASKS_IS_COMPLETED = "is_completed"
-        const val COLUMN_TASKS_DATE_CREATED = "date_created"
+        const val COLUMN_TASKS_CREATED_ON = "created_on"
+        const val COLUMN_TASKS_COMPLETED_ON = "completed_on"
+        const val COLUMN_TASKS_DUE_ON = "due_on"
+        const val COLUMN_TASKS_FREQUENCY = "frequency"
         const val COLUMN_TASKS_LIST_ID_FOREIGN_KEY = "list_id_fk"
 
         const val TABLE_NAME_SUBTASKS = "subtasks"
@@ -50,7 +54,10 @@ class DatabaseHelper @Inject constructor(context: Context) :
                     "$COLUMN_TASKS_TASK_NAME TEXT NOT NULL UNIQUE," +
                     "$COLUMN_TASKS_DETAILS TEXT," +
                     "$COLUMN_TASKS_IS_COMPLETED BOOLEAN DEFAULT 0," +
-                    "$COLUMN_TASKS_DATE_CREATED TEXT DEFAULT ${LocalDateTime.now()}," +
+                    "$COLUMN_TASKS_CREATED_ON TEXT NULL," +
+                    "$COLUMN_TASKS_COMPLETED_ON TEXT NULL," +
+                    "$COLUMN_TASKS_DUE_ON TEXT NULL," +
+                    "$COLUMN_TASKS_FREQUENCY TEXT DEFAULT ${TimeFrequency.None.name}," +
                     "$COLUMN_TASKS_LIST_ID_FOREIGN_KEY INTEGER," +
                     "FOREIGN KEY($COLUMN_TASKS_LIST_ID_FOREIGN_KEY) REFERENCES $TABLE_NAME_LISTS($COLUMN_LISTS_ID)" +
                     ")"

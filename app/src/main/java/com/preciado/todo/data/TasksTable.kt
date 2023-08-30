@@ -7,6 +7,7 @@ import com.preciado.todo.core.models.Task
 import com.preciado.todo.data.interfaces.ICRUD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class TasksTable @Inject constructor(
@@ -22,6 +23,11 @@ class TasksTable @Inject constructor(
             var contentValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.taskName)
                 put(DatabaseHelper.COLUMN_TASKS_DETAILS, obj.details)
+                put(DatabaseHelper.COLUMN_TASKS_CREATED_ON, obj.createdOn.toString())
+                if(obj.dueOn != null){
+                    put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
+                }
+                put(DatabaseHelper.COLUMN_TASKS_FREQUENCY, obj.frequency.name)
                 put(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY, obj.todoList_id)
             }
             db.insert(
@@ -47,7 +53,11 @@ class TasksTable @Inject constructor(
                     DatabaseHelper.COLUMN_TASKS_ID,
                     DatabaseHelper.COLUMN_TASKS_TASK_NAME,
                     DatabaseHelper.COLUMN_TASKS_DETAILS,
+                    DatabaseHelper.COLUMN_TASKS_CREATED_ON,
                     DatabaseHelper.COLUMN_TASKS_IS_COMPLETED,
+                    DatabaseHelper.COLUMN_TASKS_COMPLETED_ON,
+                    DatabaseHelper.COLUMN_TASKS_DUE_ON,
+                    DatabaseHelper.COLUMN_TASKS_FREQUENCY,
                     DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY
                 ),
                 "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ?",
@@ -60,16 +70,31 @@ class TasksTable @Inject constructor(
                 null
             )
 
-            var todolistTask: Task = Task()
+            var task: Task = Task()
 
             while(cursor.moveToNext()){
-                todolistTask.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                todolistTask.taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
-                todolistTask.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
-                todolistTask.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
+                task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
+                task.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
+                task.taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
+                task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
+                task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
+                task.isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
+
+                val completedOn = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_COMPLETED_ON))
+                if(completedOn.isNotEmpty() || completedOn.isNotBlank()){
+                    task.completedOn = LocalDateTime.parse(completedOn)
+                }
+
+                val dueOn = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DUE_ON))
+                if(dueOn.isNotEmpty() || completedOn.isNotBlank()){
+                    task.dueOn = LocalDateTime.parse(dueOn)
+                }
+
+
+
             }
 
-            return todolistTask
+            return task
         }catch (e: Exception){
             throw e
         }
@@ -84,7 +109,11 @@ class TasksTable @Inject constructor(
                     DatabaseHelper.COLUMN_TASKS_ID,
                     DatabaseHelper.COLUMN_TASKS_TASK_NAME,
                     DatabaseHelper.COLUMN_TASKS_DETAILS,
+                    DatabaseHelper.COLUMN_TASKS_CREATED_ON,
                     DatabaseHelper.COLUMN_TASKS_IS_COMPLETED,
+                    DatabaseHelper.COLUMN_TASKS_COMPLETED_ON,
+                    DatabaseHelper.COLUMN_TASKS_DUE_ON,
+                    DatabaseHelper.COLUMN_TASKS_FREQUENCY,
                     DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY
                 ),
                 "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ?",
@@ -93,18 +122,38 @@ class TasksTable @Inject constructor(
                 null,
                 "${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} ASC"
             )
-            var todoTaskList = mutableListOf<Task>()
+            var list = mutableListOf<Task>()
 
             while(cursor.moveToNext()){
-                var id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                var taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
-                var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
-                var listId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
-                var isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
-                todoTaskList.add(Task(id, listId, taskName, details, isCompleted))
+
+                var task: Task = Task()
+
+                task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
+                task.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
+                task.taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
+                task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
+                task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
+                task.isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
+
+                val completedOn = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_COMPLETED_ON))
+                if(completedOn != null){
+                    task.completedOn = LocalDateTime.parse(completedOn)
+                }
+
+                val dueOn = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DUE_ON))
+                if(dueOn != null){
+                    task.dueOn = LocalDateTime.parse(dueOn)
+                }
+
+
+
+
+                list.add(
+                    task
+                )
             }
             return flow {
-                emit(todoTaskList)
+                emit(list)
             }
 
         }catch (e: Exception){
@@ -120,6 +169,12 @@ class TasksTable @Inject constructor(
                 put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.taskName)
                 put(DatabaseHelper.COLUMN_TASKS_DETAILS, obj.details)
                 put(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED, obj.isCompleted)
+                if(obj.isCompleted){
+                    put(DatabaseHelper.COLUMN_TASKS_COMPLETED_ON, obj.completedOn.toString())
+                }
+                if(obj.dueOn != null){
+                    put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
+                }
                 put(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY, obj.todoList_id)
             }
             db.update(
@@ -135,6 +190,26 @@ class TasksTable @Inject constructor(
             throw e
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     fun getInCompleteTasks(foreignKeys: Array<out String>): Flow<List<Task>> = flow {
         var db = dbHelper.readableDatabase
@@ -159,7 +234,15 @@ class TasksTable @Inject constructor(
             var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
             var isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
 
-            tasks.add(Task(id, foreignKeys[0].toInt(), taskName, details, isCompleted))
+            tasks.add(
+                Task(
+                    id = id,
+                    todoList_id =  foreignKeys[0].toInt(),
+                    taskName =  taskName,
+                    details = details,
+                    isCompleted = isCompleted
+                )
+            )
         }
 
         emit(tasks)
@@ -190,7 +273,12 @@ class TasksTable @Inject constructor(
             var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
             var isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
 
-            tasks.add(Task(id, fk, taskName, details, isCompleted))
+            tasks.add(Task(
+                id = id,
+                todoList_id = fk,
+                taskName = taskName,
+                details = details,
+                isCompleted = isCompleted))
         }
 
         emit(tasks)
