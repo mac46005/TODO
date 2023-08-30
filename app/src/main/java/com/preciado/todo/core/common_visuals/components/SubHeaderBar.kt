@@ -21,7 +21,7 @@ fun SubHeaderBar(
     ){
         Text(
             text = header,
-            fontSize = 20.sp,
+            fontSize = 35.sp,
             fontWeight = FontWeight.Bold
         )
         Divider(
