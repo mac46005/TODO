@@ -91,7 +91,7 @@ class TasksTable @Inject constructor(
                 foreignKeys,
                 null,
                 null,
-                "${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 0"
+                "${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} ASC"
             )
             var todoTaskList = mutableListOf<Task>()
 
@@ -100,7 +100,8 @@ class TasksTable @Inject constructor(
                 var taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 var listId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
-                todoTaskList.add(Task(id, listId, taskName, details))
+                var isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
+                todoTaskList.add(Task(id, listId, taskName, details, isCompleted))
             }
             return flow {
                 emit(todoTaskList)
