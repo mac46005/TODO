@@ -20,15 +20,16 @@ import com.preciado.todo.ui.theme.TODOTheme
 @Composable
 fun AddEditTaskView(
     navController: NavController,
-    crudOperaton: CRUDEnum = CRUDEnum.CREATE,
+    crudEnum: CRUDEnum = CRUDEnum.CREATE,
     listId: Int = 0,
     taskId: Int = 0,
+    listName: String = "",
     vm: AddEditTaskViewModel = hiltViewModel()
 ) {
 
 
     LaunchedEffect(key1 = true) {
-        vm.initialize(crudOperaton, listId,taskId)
+        vm.initialize(crudEnum, listId,taskId)
     }
 
     val isEnabled by vm.isEnabled.observeAsState(false)
@@ -37,14 +38,14 @@ fun AddEditTaskView(
 
     TODOTheme() {
         ActionView(
-            title = "Title",
+            title = if(crudEnum == CRUDEnum.CREATE) "Add new task to $listName" else "Edit task from $listName",
             navController = navController,
             submit = {
                 vm.submit()
-                navController.popBackStack("home", false)
+                navController.popBackStack("todo_tasks/$listId/$listName", false)
             },
             backButtonClick = {
-                navController.popBackStack("home",false)
+                navController.popBackStack("todo_tasks/$listId/$listName",false)
             },
             doneButtonEnabled = isEnabled
         ) {

@@ -29,7 +29,7 @@ fun TodoTasks(
         navController = navController,
         subHeader = "$listName",
         popBackStackDestination = "todo_lists",
-        onFabClickedDestination = "add_edit_list_task/${CRUDEnum.CREATE.ordinal}/$listId/0"
+        onFabClickedDestination = "add_edit_task/${CRUDEnum.CREATE.ordinal}/$listId/$listName/0"
     ) {
         if (list!!.isEmpty()){
             BigMessage(message = "No tasks")
