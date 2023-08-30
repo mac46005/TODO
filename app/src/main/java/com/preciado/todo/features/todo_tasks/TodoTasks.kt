@@ -37,7 +37,6 @@ fun TodoTasks(
             LazyColumn(){
                 items(list!!){item ->
                     TaskItem(navController = navController, task = item){
-
                     }
                 }
             }

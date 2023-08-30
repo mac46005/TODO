@@ -28,9 +28,10 @@ fun TaskItem(
     var checkedState = remember {
         mutableStateOf(task.isCompleted)
     }
-    val colorState by animateColorAsState(targetValue = if(checkedState.value) Color.Transparent else Color.Green)
+    val colorState by animateColorAsState(targetValue = if(checkedState.value == true) Color.Green else Color.Transparent)
 
     ListItem(
+        background = colorState,
         onClick = {
             navController.navigate("task_details/${task.todoList_id}/${task.id}")
         }
@@ -71,7 +72,7 @@ fun TaskItem(
 @Preview
 @Composable
 fun PreviewTaskItem(){
-    TaskItem(navController = rememberNavController(),task = Task(taskName = "Task", isCompleted = false, createdOn = LocalDateTime.now())){
+    TaskItem(navController = rememberNavController(),task = Task(taskName = "Task", isCompleted = true, createdOn = LocalDateTime.now())){
 
     }
 }
