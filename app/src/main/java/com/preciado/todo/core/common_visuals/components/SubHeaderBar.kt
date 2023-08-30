@@ -21,7 +21,7 @@ fun SubHeaderBar(
     ){
         Text(
             text = header,
-            fontSize = 35.sp,
+            fontSize = 30.sp,
             fontWeight = FontWeight.Bold
         )
         Divider(
@@ -29,7 +29,6 @@ fun SubHeaderBar(
         )
     }
 }
-
 @Preview
 @Composable
 fun PreviewSubTitleBar(){

@@ -2,6 +2,7 @@ package com.preciado.todo.core.common_visuals.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,15 +17,15 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ListItem(
     onClick: () -> Unit,
-    itemContent: @Composable (() -> Unit),
+    itemContent: @Composable (BoxScope.() -> Unit),
 
-){
+    ){
     Box(
         modifier = Modifier.fillMaxWidth().padding(top = 5.dp).clickable{
             onClick()
         }
     ){
-        itemContent()
+        itemContent(this)
         Divider(modifier = Modifier.align(Alignment.BottomCenter).padding(top = 25.dp))
     }
 }

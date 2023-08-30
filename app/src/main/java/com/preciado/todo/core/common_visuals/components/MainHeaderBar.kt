@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,21 +39,21 @@ fun MainHeaderBar(
                 onClick = {
                     navController.popBackStack(popBackDestination,false,false)
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent, contentColor = MaterialTheme.colorScheme.primary)
             ) {
                 Icon(painter = painterResource(id = R.drawable.baseline_arrow_back_24), contentDescription = "Back Button")
             }
         }
         Text(
             text = "TODO",
-            fontSize = 60.sp,
+            fontSize = 45.sp,
             fontWeight = FontWeight.Bold
         )
         Button(
             modifier = Modifier.align(Alignment.CenterEnd),
             //TODO add navigation to edit user preferences
             onClick = { navController.navigate("") },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent, contentColor = MaterialTheme.colorScheme.primary)
         ) {
             Icon(painter = painterResource(id = R.drawable.baseline_attribution_24), contentDescription = "")
         }
