@@ -36,7 +36,9 @@ fun TodoTasks(
         }else{
             LazyColumn(){
                 items(list!!){item ->
-                    TaskItem(navController = navController, task = item){
+                    TaskItem(navController = navController, task = item){ checked ->
+                        item.isCompleted = checked
+                        vm!!.updateTask(item)
                     }
                 }
             }

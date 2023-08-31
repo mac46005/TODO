@@ -1,8 +1,10 @@
 package com.preciado.todo.features.todo_tasks.components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,9 +17,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.preciado.todo.R
 import com.preciado.todo.core.common_visuals.components.ListItem
 import com.preciado.todo.core.models.Task
 import java.time.LocalDateTime
+import com.preciado.todo.ui.theme.lightGreen
+import com.preciado.todo.ui.theme.darkGreen
 
 @Composable
 fun TaskItem(
@@ -25,11 +30,13 @@ fun TaskItem(
     task: Task,
     onChecked: (Boolean)->Unit
 ){
+    val isDarkMode = isSystemInDarkTheme()
+    val green = if(isDarkMode) darkGreen else lightGreen
+
     var checkedState = remember {
         mutableStateOf(task.isCompleted)
     }
-    val colorState by animateColorAsState(targetValue = if(checkedState.value == true) Color.Green else Color.Transparent)
-
+    val colorState by animateColorAsState(targetValue = if(checkedState.value == true) green  else Color.Transparent)
     ListItem(
         background = colorState,
         onClick = {
