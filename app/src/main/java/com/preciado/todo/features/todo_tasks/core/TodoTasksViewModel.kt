@@ -14,6 +14,10 @@ class TodoTasksViewModel @Inject constructor(
     private val tasksTable: TasksTable
 ) : ViewModel() {
 
+
+
+
+
     fun loadTasks(listId: Int) = tasksTable.readAll(arrayOf(listId.toString()))
     fun updateTask(task: Task){
         viewModelScope.launch {
