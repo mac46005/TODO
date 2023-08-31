@@ -27,7 +27,7 @@ fun TodoTasks(
 
     MainView(
         navController = navController,
-        subHeader = "$listName",
+        subHeader = listName,
         popBackStackDestination = "todo_lists",
         onFabClickedDestination = "add_edit_task/${CRUDEnum.CREATE.ordinal}/$listId/$listName/0"
     ) {

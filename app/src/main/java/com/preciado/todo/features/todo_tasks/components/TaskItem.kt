@@ -60,13 +60,13 @@ fun TaskItem(
             modifier = Modifier.align(Alignment.BottomEnd)
         ) {
             Text(
-                text = "created: ${task.createdOn.toLocalDate().toString()}",
+                text = "created: ${task.createdOn.toLocalDate()}",
                 color = Color.Gray,
                 fontSize = 10.sp
             )
             if(task.isCompleted == true){
                 Text(
-                    text = "completed: ",
+                    text = "completed: ${task.completedOn!!.toLocalDate()}",
                     color = Color.Gray,
                     fontSize = 10.sp
                 )
