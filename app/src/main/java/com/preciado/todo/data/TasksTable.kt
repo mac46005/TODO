@@ -199,8 +199,23 @@ class TasksTable @Inject constructor(
 
 
 
+    fun getIncompleteAmount(selectionArgs: Array<out String>): Int{
+        var db = dbHelper.readableDatabase
+        var cursor = db.rawQuery(
+            "SELECT * FROM tasks WHERE ${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 0",
+            selectionArgs
+        )
+        return cursor.columnCount
+    }
 
-
+    fun getCompleteAmount(selectionArgs: Array<out String>): Int{
+        var db = dbHelper.readableDatabase
+        var cursor = db.rawQuery(
+            "SELECT * FROM tasks WHERE ${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 1",
+            selectionArgs
+        )
+        return cursor.columnCount
+    }
 
 
 
