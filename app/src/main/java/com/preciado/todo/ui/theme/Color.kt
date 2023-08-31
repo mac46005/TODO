@@ -16,3 +16,6 @@ val Red40 = Color(0xFFcc0000)
 val Red30 = Color(0xFF990000)
 
 val Purple60 = Color(0XFFad33ff)
+
+val lightGreen = Color(0XFF00e600)
+val darkGreen = Color(0XFF009900)
