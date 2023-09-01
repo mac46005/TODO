@@ -44,7 +44,7 @@ class TasksTable @Inject constructor(
         //TODO Implement delete function for TODOListTasksTable.delete()
     }
 
-    override suspend fun read(id: Int, foreignKeys: Array<Int>): Task? {
+    override suspend fun read(id: Int, foreignKeys: Array<out String>): Task? {
         try {
             val db = dbHelper.readableDatabase
             var cursor = db.query(

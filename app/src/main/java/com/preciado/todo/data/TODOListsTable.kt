@@ -40,9 +40,9 @@ class TODOListsTable @Inject constructor(
         db.close()
     }
 
-    override suspend fun read(id: Int, foreignKeys: Array<Int>): TODOList? {
+    override suspend fun read(id: Int, foreignKeys: Array<out String>): TODOList? {
         val db = dbHelper.readableDatabase
-        var cursor = db.query(
+        val cursor = db.query(
             TABLE_NAME,
             arrayOf(DatabaseHelper.COLUMN_LISTS_ID, DatabaseHelper.COLUMN_LISTS_NAME),
             "${DatabaseHelper.COLUMN_LISTS_ID} = ?",
