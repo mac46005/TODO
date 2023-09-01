@@ -4,6 +4,6 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface IRead<T> {
-    suspend fun read(id: Int, foreignKeys: Array<Int> = emptyArray()): T?
+    suspend fun read(id: Int, foreignKeys: Array<out String> = emptyArray()): T?
     fun readAll(foreignKeys: Array<out String> = emptyArray()): Flow<List<T>?>
 }

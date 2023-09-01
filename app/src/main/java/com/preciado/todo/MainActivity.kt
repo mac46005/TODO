@@ -12,6 +12,7 @@ import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.add_edit_list.AddEditListView
 import com.preciado.todo.features.add_edit_task.AddEditTaskView
 import com.preciado.todo.features.home.HomeView
+import com.preciado.todo.features.task_details.TaskDetails
 import com.preciado.todo.features.todo_lists.TodoLists
 import com.preciado.todo.features.todo_tasks.TodoTasks
 import dagger.hilt.android.AndroidEntryPoint
@@ -111,7 +112,11 @@ class MainActivity : ComponentActivity() {
                         }
                     )
                 ) { backStack ->
-
+                    TaskDetails(
+                        navController = navController,
+                        taskId = backStack.arguments!!.getInt("list_id"),
+                        listId = backStack.arguments!!.getInt("task_id")
+                    )
                 }
 
 
