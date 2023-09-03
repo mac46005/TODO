@@ -37,6 +37,15 @@ import java.time.LocalDateTime
 import com.preciado.todo.ui.theme.lightGreen
 import com.preciado.todo.ui.theme.darkGreen
 
+
+
+
+
+
+
+
+
+
 @Composable
 fun TaskItem(
     navController: NavController,
@@ -46,25 +55,15 @@ fun TaskItem(
     val isDarkMode = isSystemInDarkTheme()
     val green = if(isDarkMode) darkGreen else lightGreen
 
-    val animatable = remember {
-        Animatable(initialValue = 0f)
-    }
-
-    LaunchedEffect(key1 = animatable){
-        animatable.animateTo(
-            targetValue = 4f,
-            animationSpec = tween(
-                durationMillis = 5000,
-                delayMillis = 1000,
-                easing = EaseIn
-            )
-        )
-    }
-
     var checkedState = remember {
         mutableStateOf(task.isCompleted)
     }
     val colorState by animateColorAsState(targetValue = if(checkedState.value == true) green  else Color.Transparent)
+
+
+
+
+
     ListItem(
         background = colorState,
         onClick = {
@@ -103,6 +102,16 @@ fun TaskItem(
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 @Preview
 @Composable

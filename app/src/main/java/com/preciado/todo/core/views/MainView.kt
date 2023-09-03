@@ -26,6 +26,7 @@ fun MainView(
     subHeader: String = "SubHeader",
     backButtonEnabled: Boolean = true,
     popBackStackDestination: String = "",
+    onBackButtonClicked: ((NavController) -> Unit)? = null,
     fabEnabled: Boolean = true,
     onFabClickedDestination: String = "",
     listContent: @Composable (ColumnScope.() -> Unit)
@@ -34,7 +35,11 @@ fun MainView(
         Scaffold(
             floatingActionButton = {
                 Button(
-                    onClick = { navController.navigate(onFabClickedDestination) },
+                    onClick = {
+                        navController.navigate(onFabClickedDestination)
+                        onBackButtonClicked!!(navController)
+
+                              },
                     enabled = fabEnabled
                 ) {
                     Icon(painter = painterResource(id = R.drawable.baseline_add_24), contentDescription = "Add new list")
