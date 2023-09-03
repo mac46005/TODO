@@ -33,7 +33,8 @@ class TaskDetailsViewModel @Inject constructor(
         }
     }
 
-    fun backButton(navController: NavController){
+    fun onBackButtonClicked(navController: NavController): Unit{
         navController.navigate("todo_tasks/${_list.value!!.id}/${_list.value!!.name}")
     }
+
 }

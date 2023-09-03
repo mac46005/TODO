@@ -86,7 +86,7 @@ class TasksTable @Inject constructor(
                 }
 
                 val dueOn = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DUE_ON))
-                if(dueOn.isNotEmpty() || completedOn.isNotBlank()){
+                if(dueOn != null){
                     task.dueOn = LocalDateTime.parse(dueOn)
                 }
 
