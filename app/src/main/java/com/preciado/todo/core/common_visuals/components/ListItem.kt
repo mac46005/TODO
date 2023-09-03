@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ListItem(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     contentAlignment: Alignment = Alignment.TopStart,
     background: Color = Color.Transparent,
