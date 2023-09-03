@@ -3,12 +3,17 @@ package com.preciado.todo.features.todo_tasks.components
 import android.transition.Transition
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.InfiniteRepeatableSpec
 import androidx.compose.animation.core.KeyframesSpec
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Checkbox
@@ -47,7 +52,12 @@ fun TaskItem(
 
     LaunchedEffect(key1 = animatable){
         animatable.animateTo(
-            animationSpec =
+            targetValue = 4f,
+            animationSpec = tween(
+                durationMillis = 5000,
+                delayMillis = 1000,
+                easing = EaseIn
+            )
         )
     }
 
@@ -56,8 +66,6 @@ fun TaskItem(
     }
     val colorState by animateColorAsState(targetValue = if(checkedState.value == true) green  else Color.Transparent)
     ListItem(
-        modifier = Modifier
-            .alpha(),
         background = colorState,
         onClick = {
             navController.navigate("task_details/${task.todoList_id}/${task.id}")
