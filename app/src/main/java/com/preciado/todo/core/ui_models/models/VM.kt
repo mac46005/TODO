@@ -7,29 +7,31 @@ import com.preciado.todo.core.ui_models.interfaces.IVM
 
 abstract class VM<T> () : ViewModel() ,IVM<T> {
 
-    private lateinit var _navController: NavController
-    override var navController: NavController
-        get() = _navController
+    private var _navController: NavController? = null
+    override var navController: NavController?
+        get(){
+            return _navController
+        }
         set(value) {
-            _navController = navController
+            _navController = value
         }
 
-    private lateinit var _title: String
+    private var _title: String = ""
     override var title: String
         get() = _title
         set(value) {
             _title = value
         }
 
-    private lateinit var _headers: List<String>
+    private var _headers: List<String> = emptyList()
     override var headers: List<String>
         get() = _headers
         set(value) {
             _headers = value
         }
 
-    private lateinit var _model: LiveData<T>
-    override var model: LiveData<T>
+    private var _model: LiveData<T>? = null
+    override var model: LiveData<T>?
         get() = _model
         set(value) {
             _model = value

@@ -1,37 +1,22 @@
 package com.preciado.todo.features.todo_tasks.components
 
-import android.transition.Transition
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.InfiniteRepeatableSpec
-import androidx.compose.animation.core.KeyframesSpec
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.SpringSpec
-import androidx.compose.animation.core.animate
-import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.preciado.todo.core.common_visuals.components.ListItem
+import com.preciado.todo.core.common_visuals.components.ListItemTemplate
 import com.preciado.todo.core.models.Task
 import java.time.LocalDateTime
 import com.preciado.todo.ui.theme.lightGreen
@@ -64,7 +49,7 @@ fun TaskItem(
 
 
 
-    ListItem(
+    ListItemTemplate(
         background = colorState,
         onClick = {
             navController.navigate("task_details/${task.todoList_id}/${task.id}")
