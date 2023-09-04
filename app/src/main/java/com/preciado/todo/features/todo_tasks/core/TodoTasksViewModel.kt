@@ -29,6 +29,6 @@ class TodoTasksViewModel @Inject constructor(
     }
 
     fun onBackButtonClicked(navController: NavController){
-        navController.navigate("add_edit_task/${CRUDEnum.CREATE.ordinal}/$listId/$listName/0")
+        //navController.navigate("add_edit_task/${CRUDEnum.CREATE.ordinal}/$listId/$listName/0")
     }
 }
