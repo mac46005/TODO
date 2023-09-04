@@ -5,16 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.preciado.todo.core.common_visuals.components.ListItem
+import com.preciado.todo.core.common_visuals.components.ListItemTemplate
 
 @Composable
-fun Item(
+fun ListItem(
     name: String,
     onClick: () -> Unit
 ){
-    ListItem(
+    ListItemTemplate(
         onClick = {
             onClick()
         },
@@ -27,7 +25,7 @@ fun Item(
 @Preview
 @Composable
 fun PreviewListItem(){
-    Item(name = "List Item"){
+    ListItem(name = "List Item"){
 
     }
 }
