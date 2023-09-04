@@ -6,6 +6,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,10 +15,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.preciado.todo.core.common_visuals.views.TODOListView
+import com.preciado.todo.core.models.TODOList
 import com.preciado.todo.core.views.BaseView
 import com.preciado.todo.core.views.MainView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.todo_lists.components.Item
+import com.preciado.todo.features.todo_lists.core.TodoListVM
 import com.preciado.todo.features.todo_lists.core.TodoListsViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
@@ -25,22 +29,16 @@ import com.preciado.todo.ui.theme.TODOTheme
 @Composable
 fun TodoLists(
     navController: NavController,
-    vm: TodoListsViewModel? = hiltViewModel()
+    vm: TodoListVM = hiltViewModel()
 ){
-    val list by vm!!.loadLists().collectAsStateWithLifecycle(initialValue = emptyList())
-    MainView(
-        navController = navController,
-        subHeader = "Your Lists",
-        backButtonEnabled = false,
-        onFabClickedDestination = "add_edit_list/${CRUDEnum.CREATE.ordinal}/0"
-    ) {
-        LazyColumn(){
-            items(list!!){ item ->
-                Item(name = item.name){
-                    navController.navigate("todo_tasks/${item.id}/${item.name}")
-                }
-            }
-        }
+    LaunchedEffect(key1 = vm){
+        vm.navController = navController
+    }
+
+    val list by vm!!.loadList().collectAsStateWithLifecycle(initialValue = emptyList())
+
+    TODOListView<TODOList>(onFloatingActionButtonClicked = { vm.onNavigateTo() }, list = list?: emptyList()) {
+
     }
 }
 

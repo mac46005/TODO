@@ -1,15 +1,15 @@
-package com.preciado.todo.core.interfaces
+package com.preciado.todo.core.ui_models.interfaces
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 
-interface IViewModel<T> {
-    var header: String
-    var subHeaders: List<String>
+interface IVM<T> {
+    var title: String
+    var headers: List<String>
     var model: LiveData<T>
+    var navController: NavController
     fun onLoad(vararg args: Any)
     fun onBackButtonClicked()
-    fun onNavigateTo()
+    fun onNavigateTo(vararg args: Any)
     fun setNavigator(navController: NavController)
 }
