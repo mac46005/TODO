@@ -14,7 +14,6 @@ import com.preciado.todo.features.add_edit_task.AddEditTaskView
 import com.preciado.todo.features.home.HomeView
 import com.preciado.todo.features.task_details.TaskDetails
 import com.preciado.todo.features.todo_lists.TodoLists
-import com.preciado.todo.features.todo_tasks.TodoTasks
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -42,11 +41,6 @@ class MainActivity : ComponentActivity() {
                             defaultValue = ""
                         }
                     )) { backStackEntry ->
-                    TodoTasks(
-                        navController = navController,
-                        listId = backStackEntry.arguments!!.getInt("list_id"),
-                        listName = backStackEntry.arguments!!.getString("list_name")!!
-                    )
 
                 }
 

@@ -9,8 +9,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.preciado.todo.core.common_visuals.components.EmptyListMessage
-import com.preciado.todo.core.common_visuals.views.TODOListView
+import com.preciado.todo.core.composables_todo.components.EmptyListMessage
+import com.preciado.todo.core.composables_todo.views.TODOListView
 import com.preciado.todo.core.models.TODOList
 import com.preciado.todo.features.todo_lists.components.ListItem
 import com.preciado.todo.features.todo_lists.core.TodoListVM
@@ -28,6 +28,7 @@ fun TodoLists(
     val list by vm!!.loadList().collectAsStateWithLifecycle(initialValue = emptyList())
 
     TODOListView<TODOList>(
+        backButtonVisible = false,
         onFloatingActionButtonClicked = { vm!!.onNavigateTo() },
         list = list?: emptyList(),
         emptyListMessage = {

@@ -1,4 +1,4 @@
-package com.preciado.todo.core.common_visuals.components
+package com.preciado.todo.core.composable_templates.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
