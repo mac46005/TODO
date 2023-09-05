@@ -1,4 +1,4 @@
-package com.preciado.todo.core.common_visuals.components
+package com.preciado.todo.core.composables_todo.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-
+import com.preciado.todo.core.composable_templates.components.ListItemTemplate
 
 
 @Composable

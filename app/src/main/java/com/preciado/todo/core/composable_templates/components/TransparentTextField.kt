@@ -1,8 +1,7 @@
-package com.preciado.todo.core.common_visuals.components
+package com.preciado.todo.core.composable_templates.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults

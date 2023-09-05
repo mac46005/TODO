@@ -1,4 +1,4 @@
-package com.preciado.todo.core.common_visuals.components
+package com.preciado.todo.core.composable_templates.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope

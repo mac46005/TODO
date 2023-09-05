@@ -1,4 +1,4 @@
-package com.preciado.todo.core.common_visuals.components
+package com.preciado.todo.core.composables_todo.components
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.material3.Button
@@ -7,7 +7,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -15,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.preciado.todo.R
+import com.preciado.todo.core.composable_templates.components.TitleBarTemplate
 import com.preciado.todo.ui.theme.TODOTheme
 
 @Composable
@@ -38,7 +38,7 @@ fun TODOTitleBar(
             title = { modifier ->
                 Text(
                     modifier = modifier,
-                    text = "TODO", fontSize = 20.sp
+                    text = "TODO", fontSize = 70.sp
                 )
             },
             moreOptions = { modifier ->
