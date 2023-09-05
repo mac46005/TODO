@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.composables_todo.components.EmptyListMessage
 import com.preciado.todo.core.composables_todo.views.TODOListView
 import com.preciado.todo.core.models.TODOList
+import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.todo_lists.components.ListItem
 import com.preciado.todo.features.todo_lists.core.TodoListVM
 
@@ -29,7 +30,7 @@ fun TodoLists(
 
     TODOListView<TODOList>(
         backButtonVisible = false,
-        onFloatingActionButtonClicked = { vm!!.onNavigateTo() },
+        onFloatingActionButtonClicked = { vm!!.onNavigateTo(CRUDEnum.CREATE) },
         list = list?: emptyList(),
         emptyListMessage = {
             EmptyListMessage()
