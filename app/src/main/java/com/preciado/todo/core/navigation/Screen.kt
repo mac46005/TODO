@@ -6,14 +6,14 @@ import com.preciado.todo.core.Argument
 
 sealed class Screen(
     private val baseRoute: String,
-    private val arguments: Map<String, Argument>? = null
+    val arguments: Map<String, Argument>? = null
 ){
 
     object TODOLists: Screen("todo_lists")
     object TODOTasks: Screen(
         "todo_tasks",
         mapOf(
-            Argument.ID.name to Argument.ID.buildNavArgument{
+            Argument.ListId.name to Argument.ListId.buildNavArgument {
                 type = NavType.IntType
                 defaultValue = 0
             }
@@ -23,7 +23,7 @@ sealed class Screen(
     fun fullRoute(): String{
         return buildString {
             append(baseRoute)
-            arguments!!.forEach { (name, _) ->
+            arguments?.forEach { (name, _) ->
                 append("/{$name}")
             }
         }
@@ -31,7 +31,7 @@ sealed class Screen(
 
     fun namedNavArguments() : List<NamedNavArgument>{
         var argsList = mutableListOf<NamedNavArgument>()
-        arguments!!.forEach { (_, argument) ->
+        arguments!!.forEach { (name, argument) ->
             argsList.add(argument.navArgument!!)
         }
         return argsList
