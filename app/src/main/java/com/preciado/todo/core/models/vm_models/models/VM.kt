@@ -34,13 +34,4 @@ abstract class VM<T> () : ViewModel() , IVM<T> {
     protected var _model: MutableLiveData<T> = MutableLiveData()
     override var model: LiveData<T>? = _model
 
-    abstract override fun setModel(model: T)
-    abstract override fun onLoad(vararg args: Any)
-
-    abstract override fun onBackButtonClicked()
-
-    abstract override fun navigateTo(route: String)
-
-    abstract override fun setNavigator(navController: NavController)
-
 }

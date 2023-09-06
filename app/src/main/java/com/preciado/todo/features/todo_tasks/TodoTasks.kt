@@ -8,6 +8,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.preciado.todo.core.composables.composables_todo.views.TODOListView
 import com.preciado.todo.core.models.app_models.Task
+import com.preciado.todo.core.navigation.Screen
+import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.features.todo_tasks.components.TaskItem
 import com.preciado.todo.features.todo_tasks.core.TodoTasksVM
 
 @Composable
@@ -23,13 +26,17 @@ fun TodoTasks(
     val list by vm!!.loadList(listId).collectAsStateWithLifecycle(initialValue = emptyList())
 
     TODOListView<Task>(
+        backButtonVisible = true,
+        onBackButtonClicked = {
+            vm!!.onBackButtonClicked()                  
+        },
         onFloatingActionButtonClicked = {
-            vm!!.navigateTo()
+            vm!!.navigateTo(Screen.AddEditList.withArgs(CRUDEnum.CREATE.ordinal.toString(), "0"))
         },
         list = list?: emptyList(),
         emptyListMessage = {
-
+            
         }) {task ->
-
+        TaskItem(navController = , task = , onChecked = )
     }
 }

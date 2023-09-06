@@ -28,8 +28,6 @@ fun TodoLists(
     val list by vm!!.loadList().collectAsStateWithLifecycle(initialValue = emptyList())
 
     TODOListView<TODOList>(
-        backButtonVisible = false,
-        onFloatingActionButtonClicked = { vm!!.navigateTo() },
         list = list?: emptyList(),
         emptyListMessage = {
             EmptyListMessage()

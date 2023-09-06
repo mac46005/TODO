@@ -27,6 +27,10 @@ sealed class Screen(
     object AddEditList: Screen(
         "add_edit_list",
         listOf(
+            Argument.CrudOperation.buildNavArgument {
+                type = NavType.IntType
+                defaultValue = CRUDEnum.CREATE.ordinal
+            },
             Argument.ID.buildNavArgument {
                 type = NavType.IntType
                 defaultValue = 0
@@ -83,7 +87,7 @@ sealed class Screen(
         return argsList
     }
 
-    fun supplyArgs(vararg args: String): String{
+    fun withArgs(vararg args: String): String{
         return buildString{
             append(baseRoute)
             args.forEach { arg ->
