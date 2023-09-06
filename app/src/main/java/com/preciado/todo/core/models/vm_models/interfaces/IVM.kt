@@ -8,8 +8,10 @@ interface IVM<T> {
     var headers: List<String>
     var model: LiveData<T>?
     var navController: NavController?
+
+    fun setModel(model: T)
     fun onLoad(vararg args: Any)
     fun onBackButtonClicked()
-    fun onNavigateTo(vararg args: Any)
+    fun navigateTo(route: String)
     fun setNavigator(navController: NavController)
 }

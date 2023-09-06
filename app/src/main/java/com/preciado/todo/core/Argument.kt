@@ -24,5 +24,11 @@ sealed class Argument(val name: String){
 
     }
 
+    object CrudOperation: Argument("crud_operation"){
+        override fun buildNavArgument(navArgumentBuilder: NavArgumentBuilder.() -> Unit): Argument {
+            navArgument = navArgument(name, navArgumentBuilder)
+            return this
+        }
+    }
     abstract fun buildNavArgument(navArgumentBuilder: NavArgumentBuilder.() -> Unit): Argument
 }
