@@ -55,6 +55,20 @@ sealed class Screen(
             }
         )
     )
+
+    object TaskDetails: Screen(
+        "task_details",
+        listOf(
+            Argument.ListId.buildNavArgument {
+                type = NavType.IntType
+                defaultValue = 0
+            },
+            Argument.ID.buildNavArgument {
+                type = NavType.IntType
+                defaultValue = 0
+            }
+        )
+    )
     // ======================== END ROUTES ==========================================
 
 
