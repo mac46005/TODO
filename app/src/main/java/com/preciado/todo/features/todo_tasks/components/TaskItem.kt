@@ -33,7 +33,7 @@ import com.preciado.todo.ui.theme.darkGreen
 
 @Composable
 fun TaskItem(
-    navController: NavController,
+    onClick: () -> Unit,
     task: Task,
     onChecked: (Boolean)->Unit
 ){
@@ -51,9 +51,7 @@ fun TaskItem(
 
     ListItemTemplate(
         background = colorState,
-        onClick = {
-            navController.navigate("task_details/${task.todoList_id}/${task.id}")
-        }
+        onClick = onClick
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -101,7 +99,7 @@ fun TaskItem(
 @Preview
 @Composable
 fun PreviewTaskItem(){
-    TaskItem(navController = rememberNavController(),task = Task(taskName = "Task", isCompleted = true, createdOn = LocalDateTime.now())){
+    TaskItem(onClick = {},task = Task(taskName = "Task", isCompleted = true, createdOn = LocalDateTime.now())){
 
     }
 }

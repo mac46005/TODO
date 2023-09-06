@@ -6,9 +6,11 @@ import com.preciado.todo.core.models.vm_models.models.ListVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.TODOListsTable
 import com.preciado.todo.data.TasksTable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+@HiltViewModel
 class TodoTasksVM @Inject constructor(
     private var todoListsTable: TODOListsTable,
     private var tasksTable: TasksTable
@@ -42,7 +44,7 @@ class TodoTasksVM @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun setNavigator(navController: NavController) {
+    override fun setInfo(key: String, obj: Any) {
         TODO("Not yet implemented")
     }
 

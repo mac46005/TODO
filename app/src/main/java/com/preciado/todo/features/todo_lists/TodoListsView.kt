@@ -9,15 +9,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.preciado.todo.core.Argument
 import com.preciado.todo.core.composables.composables_todo.components.EmptyListMessage
 import com.preciado.todo.core.composables.composables_todo.views.TODOListView
 import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.navigation.Screen
+import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.todo_lists.components.ListItem
 import com.preciado.todo.features.todo_lists.core.TodoListVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodoLists(
+fun TodoListsView(
     navController: NavController,
     vm: TodoListVM? = hiltViewModel()
 ){
@@ -28,6 +31,9 @@ fun TodoLists(
     val list by vm!!.loadList().collectAsStateWithLifecycle(initialValue = emptyList())
 
     TODOListView<TODOList>(
+        onFloatingActionButtonClicked = {
+            vm!!.navigateTo(Screen.AddEditList.withArgs(CRUDEnum.CREATE.ordinal.toString(), "0"))
+        },
         list = list?: emptyList(),
         emptyListMessage = {
             EmptyListMessage()
@@ -43,7 +49,7 @@ fun TodoLists(
 @Preview
 @Composable
 fun PreviewTodoLists(){
-    TodoLists(
+    TodoListsView(
         navController = rememberNavController(),
         vm = null
     )

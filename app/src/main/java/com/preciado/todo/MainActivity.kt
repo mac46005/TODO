@@ -15,8 +15,8 @@ import com.preciado.todo.features.add_edit_list.AddEditListView
 import com.preciado.todo.features.add_edit_task.AddEditTaskView
 import com.preciado.todo.features.home.HomeView
 import com.preciado.todo.features.task_details.TaskDetails
-import com.preciado.todo.features.todo_lists.TodoLists
-import com.preciado.todo.features.todo_tasks.TodoTasks
+import com.preciado.todo.features.todo_lists.TodoListsView
+import com.preciado.todo.features.todo_tasks.TodoTasksView
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,13 +30,13 @@ class MainActivity : ComponentActivity() {
             NavHost(navController = navController, startDestination = "todo_lists") {
 
                 composable(Screen.TODOLists.fullRoute()) {
-                    TodoLists(navController = navController)
+                    TodoListsView(navController = navController)
                 }
 
                 composable(Screen.TODOTasks.fullRoute(),
                     arguments = Screen.TODOTasks.namedNavArguments()
                     ) { backStackEntry ->
-                    TodoTasks(
+                    TodoTasksView(
                         navController = navController,
                         listId = backStackEntry.arguments!!.getInt(Argument.ListId.name)
                     )
@@ -44,20 +44,13 @@ class MainActivity : ComponentActivity() {
 
 
                 composable(
-                    "add_edit_list/{crud_operation}/{list_id}",
-                    arguments = listOf(
-                        navArgument("crud_operation") {
-                            defaultValue = CRUDEnum.CREATE.ordinal
-                        },
-                        navArgument("list_id") {
-                            defaultValue = 0
-                        }
-                    )
+                    Screen.AddEditList.fullRoute(),
+                    Screen.AddEditList.namedNavArguments()
                 ) { backStackEntry ->
                     AddEditListView(
                         navController = navController,
-                        crudOperation = CRUDEnum.fromInt(backStackEntry.arguments!!.getInt("crud_operation")),
-                        tableId = backStackEntry.arguments!!.getInt("list_id"),
+                        crudOperation = CRUDEnum.fromInt(backStackEntry.arguments!!.getInt(Argument.CrudOperation.name)),
+                        tableId = backStackEntry.arguments!!.getInt(Argument.ListId.name),
                     )
                 }
 
@@ -94,20 +87,13 @@ class MainActivity : ComponentActivity() {
 
 
                 composable(
-                    "task_details/{list_id}/{task_id}",
-                    listOf(
-                        navArgument("list_id") {
-                            type = NavType.IntType
-                        },
-                        navArgument("task_id") {
-                            type = NavType.IntType
-                        }
-                    )
+                    Screen.TaskDetails.fullRoute(),
+                    Screen.TaskDetails.namedNavArguments()
                 ) { backStack ->
                     TaskDetails(
                         navController = navController,
-                        taskId = backStack.arguments!!.getInt("list_id"),
-                        listId = backStack.arguments!!.getInt("task_id")
+                        taskId = backStack.arguments!!.getInt(Argument.ListId.name),
+                        listId = backStack.arguments!!.getInt(Argument.ID.name)
                     )
                 }
 

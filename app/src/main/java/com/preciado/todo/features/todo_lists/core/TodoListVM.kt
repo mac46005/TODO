@@ -46,10 +46,6 @@ class TodoListVM @Inject constructor (
         navController!!.navigate(route)
     }
 
-    override fun setNavigator(navController: NavController) {
-        TODO("Not yet implemented")
-    }
-
     override fun setInfo(key: String, obj: Any) {
         TODO("Not yet implemented")
     }

@@ -14,12 +14,12 @@ import com.preciado.todo.features.todo_tasks.components.TaskItem
 import com.preciado.todo.features.todo_tasks.core.TodoTasksVM
 
 @Composable
-fun TodoTasks(
+fun TodoTasksView(
     navController: NavController,
     listId: Int,
     vm: TodoTasksVM? = hiltViewModel()
-){
-    LaunchedEffect(key1 = vm){
+) {
+    LaunchedEffect(key1 = vm) {
         vm!!.navController = navController
     }
 
@@ -28,15 +28,23 @@ fun TodoTasks(
     TODOListView<Task>(
         backButtonVisible = true,
         onBackButtonClicked = {
-            vm!!.onBackButtonClicked()                  
+            vm!!.onBackButtonClicked()
         },
         onFloatingActionButtonClicked = {
             vm!!.navigateTo(Screen.AddEditList.withArgs(CRUDEnum.CREATE.ordinal.toString(), "0"))
         },
-        list = list?: emptyList(),
+        list = list ?: emptyList(),
         emptyListMessage = {
-            
-        }) {task ->
-        TaskItem(navController = , task = , onChecked = )
+
+        }) { task ->
+        TaskItem(
+            onClick = {
+                vm!!.navigateTo("")
+            },
+            task = task,
+            onChecked = {
+
+            }
+        )
     }
 }

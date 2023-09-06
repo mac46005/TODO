@@ -13,5 +13,4 @@ interface IVM<T> {
     fun onLoad(vararg args: Any)
     fun onBackButtonClicked()
     fun navigateTo(route: String)
-    fun setNavigator(navController: NavController)
 }
