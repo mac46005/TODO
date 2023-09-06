@@ -3,6 +3,7 @@ package com.preciado.todo.features.todo_lists.core
 import androidx.navigation.NavController
 import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.core.models.vm_models.models.ListVM
+import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.data.TODOListsTable
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,7 +39,7 @@ class TodoListVM @Inject constructor (
     }
 
     override fun onBackButtonClicked() {
-        TODO("Not yet implemented")
+        navController!!.navigate(Screen.TODOLists.fullRoute())
     }
 
     override fun navigateTo(route: String) {
@@ -49,6 +50,9 @@ class TodoListVM @Inject constructor (
         TODO("Not yet implemented")
     }
 
+    override fun setInfo(key: String, obj: Any) {
+        TODO("Not yet implemented")
+    }
 
 
 }

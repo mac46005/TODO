@@ -18,7 +18,7 @@ import com.preciado.todo.ui.theme.TODOTheme
 fun <T> TODOListView(
     backButtonVisible: Boolean = true,
     onBackButtonClicked: (() -> Unit) = {},
-    onFloatingActionButtonClicked: (() -> Unit),
+    onFloatingActionButtonClicked: (() -> Unit) = {},
     list: List<T>,
     emptyListMessage: @Composable () -> Unit,
     extraInfo: @Composable (() -> Unit) = {},
@@ -49,11 +49,8 @@ fun <T> TODOListView(
                     }
                 }
             }
-
-
         }
     }
-
 }
 
 @Preview

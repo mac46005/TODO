@@ -19,8 +19,4 @@ abstract class ListVM<T>: VM<T>(), IListVM<T> {
         set(value) {
             _selectedItem = value
         }
-
-    abstract override fun loadList(vararg args: Any): Flow<List<T>?>
-    abstract override fun updateList()
-    abstract override fun onItemSelected(item: T)
 }
