@@ -3,8 +3,7 @@ package com.preciado.todo.data
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.preciado.todo.core.models.TimeFrequency
-import java.time.LocalDateTime
+import com.preciado.todo.core.models.app_models.TimeFrequency
 import javax.inject.Inject
 
 class DatabaseHelper @Inject constructor(context: Context) :

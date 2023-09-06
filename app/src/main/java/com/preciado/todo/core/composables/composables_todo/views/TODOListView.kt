@@ -1,4 +1,4 @@
-package com.preciado.todo.core.composables_todo.views
+package com.preciado.todo.core.composables.composables_todo.views
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,8 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.preciado.todo.core.composables_todo.components.Header
-import com.preciado.todo.core.models.TODOList
+import com.preciado.todo.core.composables.composables_todo.components.Header
+import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.ui.theme.TODOTheme
 
 @Composable

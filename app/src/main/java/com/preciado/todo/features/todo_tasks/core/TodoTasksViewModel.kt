@@ -3,8 +3,7 @@ package com.preciado.todo.features.todo_tasks.core
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.preciado.todo.core.models.Task
-import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

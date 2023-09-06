@@ -16,8 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.preciado.todo.core.composable_templates.components.ListItemTemplate
-import com.preciado.todo.core.models.Task
+import com.preciado.todo.core.composables.composable_templates.components.ListItemTemplate
+import com.preciado.todo.core.models.app_models.Task
 import java.time.LocalDateTime
 import com.preciado.todo.ui.theme.lightGreen
 import com.preciado.todo.ui.theme.darkGreen

@@ -8,7 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.preciado.todo.core.composable_templates.components.TransparentButton
+import com.preciado.todo.core.composables.composable_templates.components.TransparentButton
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.home.core.TODOListViewModel
 import com.preciado.todo.ui.theme.TODOTheme

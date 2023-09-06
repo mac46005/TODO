@@ -3,7 +3,7 @@ package com.preciado.todo.data
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
-import com.preciado.todo.core.models.Task
+import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.data.interfaces.ICRUD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -288,12 +288,14 @@ class TasksTable @Inject constructor(
             var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
             var isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
 
-            tasks.add(Task(
+            tasks.add(
+                Task(
                 id = id,
                 todoList_id = fk,
                 taskName = taskName,
                 details = details,
-                isCompleted = isCompleted))
+                isCompleted = isCompleted)
+            )
         }
 
         emit(tasks)

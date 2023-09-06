@@ -1,4 +1,4 @@
-package com.preciado.todo.core.composables_todo.components
+package com.preciado.todo.core.composables.composables_todo.components
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.material3.Button
@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.preciado.todo.R
-import com.preciado.todo.core.composable_templates.components.TitleBarTemplate
+import com.preciado.todo.core.composables.composable_templates.components.TitleBarTemplate
 import com.preciado.todo.ui.theme.TODOTheme
 
 @Composable

@@ -1,4 +1,4 @@
-package com.preciado.todo.core.models
+package com.preciado.todo.core.models.app_models
 
 import java.time.LocalDateTime
 

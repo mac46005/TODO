@@ -1,13 +1,12 @@
 package com.preciado.todo.features.task_details.core
 
-import android.icu.number.IntegerWidth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.preciado.todo.core.models.TODOList
-import com.preciado.todo.core.models.Task
+import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.data.TODOListsTable
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel

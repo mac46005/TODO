@@ -1,4 +1,4 @@
-package com.preciado.todo.core.composable_templates.components
+package com.preciado.todo.core.composables.composable_templates.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api

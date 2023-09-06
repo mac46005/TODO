@@ -1,11 +1,11 @@
-package com.preciado.todo.core.ui_models.models
+package com.preciado.todo.core.models.vm_models.models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.preciado.todo.core.ui_models.interfaces.IVM
+import com.preciado.todo.core.models.vm_models.interfaces.IVM
 
-abstract class VM<T> () : ViewModel() ,IVM<T> {
+abstract class VM<T> () : ViewModel() , IVM<T> {
 
     private var _navController: NavController? = null
     override var navController: NavController?

@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.preciado.todo.core.composable_templates.components.LoadBar
+import com.preciado.todo.core.composables.composable_templates.components.LoadBar
 import com.preciado.todo.features.task_details.core.TaskDetailsViewModel
 
 @Composable
