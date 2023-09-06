@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.preciado.todo.core.Argument
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.add_edit_list.AddEditListView
@@ -15,6 +16,7 @@ import com.preciado.todo.features.add_edit_task.AddEditTaskView
 import com.preciado.todo.features.home.HomeView
 import com.preciado.todo.features.task_details.TaskDetails
 import com.preciado.todo.features.todo_lists.TodoLists
+import com.preciado.todo.features.todo_tasks.TodoTasks
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -34,7 +36,9 @@ class MainActivity : ComponentActivity() {
                 composable(Screen.TODOTasks.fullRoute(),
                     arguments = Screen.TODOTasks.namedNavArguments()
                     ) { backStackEntry ->
-
+                    TodoTasks(
+                        navController = navController,
+                        listId = backStackEntry.arguments!!.getInt(Screen.TODOTasks.arguments!!.get(Argument.ListId.name)!!.name))
                 }
 
 
