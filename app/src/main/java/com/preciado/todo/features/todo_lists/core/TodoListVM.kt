@@ -13,7 +13,6 @@ import javax.inject.Inject
 class TodoListVM @Inject constructor (
     private val todoListsTable: TODOListsTable
 ) : ListVM<TODOList>() {
-
     init {
         title = "Your Lists"
     }
@@ -24,6 +23,10 @@ class TodoListVM @Inject constructor (
 
     override fun updateList() {
         TODO("Not yet implemented")
+    }
+
+    override fun setModel(model: TODOList) {
+
     }
 
     override fun onItemSelected(item: TODOList) {
@@ -38,20 +41,14 @@ class TodoListVM @Inject constructor (
         TODO("Not yet implemented")
     }
 
-    override fun onNavigateTo(vararg args: Any) {
-        if(args[0] is CRUDEnum){
-            val crudOp = args[0] as CRUDEnum
-            when(crudOp){
-                CRUDEnum.CREATE -> navController!!.navigate("add_edit_list/${crudOp.ordinal}/0")
-                CRUDEnum.READ -> TODO()
-                CRUDEnum.UPDATE -> TODO()
-                CRUDEnum.DELETE -> TODO()
-            }
-        }
+    override fun navigateTo(route: String) {
+        navController!!.navigate(route)
     }
 
     override fun setNavigator(navController: NavController) {
         TODO("Not yet implemented")
     }
+
+
 
 }

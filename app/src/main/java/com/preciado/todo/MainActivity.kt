@@ -38,7 +38,8 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                     TodoTasks(
                         navController = navController,
-                        listId = backStackEntry.arguments!!.getInt(Screen.TODOTasks.arguments!!.get(Argument.ListId.name)!!.name))
+                        listId = backStackEntry.arguments!!.getInt(Argument.ListId.name)
+                    )
                 }
 
 
