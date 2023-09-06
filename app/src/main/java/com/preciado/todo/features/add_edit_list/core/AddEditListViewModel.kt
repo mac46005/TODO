@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.preciado.todo.core.models.TODOList
+import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.data.TODOListsTable
 import dagger.hilt.android.lifecycle.HiltViewModel

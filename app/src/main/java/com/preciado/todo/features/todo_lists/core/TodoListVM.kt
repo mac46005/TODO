@@ -1,10 +1,8 @@
 package com.preciado.todo.features.todo_lists.core
 
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.preciado.todo.core.ui_models.interfaces.IVM
-import com.preciado.todo.core.models.TODOList
-import com.preciado.todo.core.ui_models.models.ListVM
+import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.vm_models.models.ListVM
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.data.TODOListsTable
 import dagger.hilt.android.lifecycle.HiltViewModel

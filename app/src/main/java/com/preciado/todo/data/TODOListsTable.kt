@@ -2,7 +2,7 @@ package com.preciado.todo.data
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
-import com.preciado.todo.core.models.TODOList
+import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.data.interfaces.ICRUD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

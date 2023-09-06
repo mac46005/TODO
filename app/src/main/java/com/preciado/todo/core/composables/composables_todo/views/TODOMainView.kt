@@ -1,4 +1,4 @@
-package com.preciado.todo.core.composables_todo.views
+package com.preciado.todo.core.composables.composables_todo.views
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Button
@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.preciado.todo.R
-import com.preciado.todo.core.composables_todo.components.TODOTitleBar
+import com.preciado.todo.core.composables.composables_todo.components.TODOTitleBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

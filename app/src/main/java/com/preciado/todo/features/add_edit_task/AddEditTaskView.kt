@@ -10,8 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.preciado.todo.core.composable_templates.components.TransparentTextField
-import com.preciado.todo.core.composables_todo.views.ActionView
+import com.preciado.todo.core.composables.composable_templates.components.TransparentTextField
+import com.preciado.todo.core.composables.composables_todo.views.ActionView
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.add_edit_task.core.AddEditTaskViewModel
 import com.preciado.todo.ui.theme.TODOTheme

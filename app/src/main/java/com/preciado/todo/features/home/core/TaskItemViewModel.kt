@@ -1,14 +1,11 @@
 package com.preciado.todo.features.home.core
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.preciado.todo.core.models.Task
+import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

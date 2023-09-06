@@ -9,9 +9,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.preciado.todo.core.composables_todo.components.EmptyListMessage
-import com.preciado.todo.core.composables_todo.views.TODOListView
-import com.preciado.todo.core.models.TODOList
+import com.preciado.todo.core.composables.composables_todo.components.EmptyListMessage
+import com.preciado.todo.core.composables.composables_todo.views.TODOListView
+import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.data.CRUDEnum
 import com.preciado.todo.features.todo_lists.components.ListItem
 import com.preciado.todo.features.todo_lists.core.TodoListVM

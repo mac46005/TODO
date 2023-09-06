@@ -1,4 +1,4 @@
-package com.preciado.todo.core.composable_templates.components
+package com.preciado.todo.core.composables.composable_templates.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.InfiniteRepeatableSpec

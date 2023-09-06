@@ -1,4 +1,4 @@
-package com.preciado.todo.core.ui_models.interfaces
+package com.preciado.todo.core.models.vm_models.interfaces
 
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
