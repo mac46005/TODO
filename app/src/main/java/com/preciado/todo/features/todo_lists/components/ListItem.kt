@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.preciado.todo.core.composables.composable_templates.components.ListItemTemplate
+import com.preciado.todo.core.composables.composable_templates.views.ListItemTemplate
 
 @Composable
 fun ListItem(
