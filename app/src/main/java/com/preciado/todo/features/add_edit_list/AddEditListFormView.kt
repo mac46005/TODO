@@ -9,7 +9,8 @@ import com.preciado.todo.core.models.app_models.TODOList
 
 @Composable
 fun  AddEditListFormView(
-    navController: NavController
+    navController: NavController,
+    todoList: TODOList
 ) {
 
     FormView<TODOList>(
