@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.preciado.todo.core.models.app_models.Task
-import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ class AddEditTaskViewModel @Inject constructor(
     private val tasksTable: TasksTable
 ): ViewModel(){
 
-    private var crudOperation: CRUDEnum = CRUDEnum.CREATE
+    private var crudOperation: CRUD_Operation = CRUD_Operation.CREATE
 
     private val _listId: MutableLiveData<Int> = MutableLiveData(0)
     val listId: LiveData<Int> = _listId
@@ -36,13 +36,13 @@ class AddEditTaskViewModel @Inject constructor(
     val isEnabled: LiveData<Boolean> = _isEnabled
 
 
-    fun initialize(crudOperation: CRUDEnum, listId: Int,taskId: Int){
+    fun initialize(crudOperation: CRUD_Operation, listId: Int, taskId: Int){
 
         this.crudOperation = crudOperation
 
         _listId.value = listId
 
-        if(this.crudOperation.equals(CRUDEnum.UPDATE)){
+        if(this.crudOperation.equals(CRUD_Operation.UPDATE)){
             viewModelScope.launch {
                 var task = tasksTable.read(taskId)
                 if(task != null){
@@ -68,7 +68,7 @@ class AddEditTaskViewModel @Inject constructor(
     fun submit(){
         try {
             viewModelScope.launch {
-                if(crudOperation.equals(CRUDEnum.CREATE)){
+                if(crudOperation.equals(CRUD_Operation.CREATE)){
                     tasksTable.create(
                         Task(
                             todoList_id = _listId.value!!,

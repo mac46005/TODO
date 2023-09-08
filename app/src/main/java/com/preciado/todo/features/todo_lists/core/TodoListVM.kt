@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.core.models.vm_models.models.ListVM
 import com.preciado.todo.core.navigation.Screen
-import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.data.TODOListsTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +31,7 @@ class TodoListVM @Inject constructor (
     }
 
     override fun onItemSelected(item: TODOList) {
-        navController!!.navigate("")
+        navController!!.navigate(Screen.TODOTasks.withArgs(item.id.toString()))
     }
 
     override fun onLoad(vararg args: Any) {

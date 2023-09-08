@@ -2,8 +2,7 @@ package com.preciado.todo.core.navigation
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
-import com.preciado.todo.core.Argument
-import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.data.CRUD_Operation
 
 sealed class Screen(
     private val baseRoute: String,
@@ -29,7 +28,7 @@ sealed class Screen(
         listOf(
             Argument.CrudOperation.buildNavArgument {
                 type = NavType.IntType
-                defaultValue = CRUDEnum.CREATE.ordinal
+                defaultValue = CRUD_Operation.CREATE.ordinal
             },
             Argument.ID.buildNavArgument {
                 type = NavType.IntType
@@ -43,7 +42,7 @@ sealed class Screen(
         listOf(
             Argument.CrudOperation.buildNavArgument {
                 type = NavType.IntType
-                defaultValue = CRUDEnum.CREATE.ordinal
+                defaultValue = CRUD_Operation.CREATE.ordinal
             },
             Argument.ID.buildNavArgument {
                 type = NavType.IntType
@@ -69,6 +68,7 @@ sealed class Screen(
             }
         )
     )
+
     // ======================== END ROUTES ==========================================
 
 

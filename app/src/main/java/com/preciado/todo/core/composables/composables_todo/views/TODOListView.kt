@@ -16,6 +16,7 @@ import com.preciado.todo.ui.theme.TODOTheme
 
 @Composable
 fun <T> TODOListView(
+    title: String,
     backButtonVisible: Boolean = true,
     onBackButtonClicked: (() -> Unit) = {},
     onFloatingActionButtonClicked: (() -> Unit) = {},
@@ -34,7 +35,7 @@ fun <T> TODOListView(
             Column(
                 modifier = Modifier.padding(top = it.calculateTopPadding())
             ){
-                Header(header = "Your Lists")
+                Header(header = title)
                 extraInfo()
                 Divider(modifier = Modifier.fillMaxWidth())
                 if(list.isEmpty()){
@@ -57,6 +58,7 @@ fun <T> TODOListView(
 @Composable
 fun PreviewTODOListView(){
     TODOListView(
+        title = "Your List",
         onFloatingActionButtonClicked = { /*TODO*/ },
         list = listOf<TODOList>(TODOList(0, "Starred List")),
         extraInfo = { Text(text = "Add extra info here")},

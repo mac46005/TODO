@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.composables.composable_templates.components.TransparentTextField
 import com.preciado.todo.core.composables.composables_todo.views.ActionView
-import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.add_edit_task.core.AddEditTaskViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
@@ -20,7 +20,7 @@ import com.preciado.todo.ui.theme.TODOTheme
 @Composable
 fun AddEditTaskView(
     navController: NavController,
-    crudEnum: CRUDEnum = CRUDEnum.CREATE,
+    crudOperation: CRUD_Operation = CRUD_Operation.CREATE,
     listId: Int = 0,
     taskId: Int = 0,
     listName: String = "",
@@ -28,9 +28,7 @@ fun AddEditTaskView(
 ) {
 
 
-    LaunchedEffect(key1 = true) {
-        vm.initialize(crudEnum, listId,taskId)
-    }
+    vm.initialize(crudOperation, listId,taskId)
 
     val isEnabled by vm.isEnabled.observeAsState(false)
     val taskName by vm.taskname.observeAsState("")
@@ -38,7 +36,7 @@ fun AddEditTaskView(
 
     TODOTheme() {
         ActionView(
-            title = if(crudEnum == CRUDEnum.CREATE) "Add new task to $listName" else "Edit task from $listName",
+            title = if(crudOperation == CRUD_Operation.CREATE) "Add new task to $listName" else "Edit task from $listName",
             navController = navController,
             submit = {
                 vm.submit()
