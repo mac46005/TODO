@@ -8,10 +8,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.preciado.todo.core.Argument
+import com.preciado.todo.core.navigation.Argument
+import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.core.navigation.Screen
-import com.preciado.todo.data.CRUDEnum
-import com.preciado.todo.features.add_edit_list.AddEditListView
+import com.preciado.todo.data.CRUD_Operation
+import com.preciado.todo.features.add_edit_list.AddEditListFormView
 import com.preciado.todo.features.add_edit_task.AddEditTaskView
 import com.preciado.todo.features.home.HomeView
 import com.preciado.todo.features.task_details.TaskDetails
@@ -47,10 +48,11 @@ class MainActivity : ComponentActivity() {
                     Screen.AddEditList.fullRoute(),
                     Screen.AddEditList.namedNavArguments()
                 ) { backStackEntry ->
-                    AddEditListView(
+                    AddEditListFormView(
                         navController = navController,
-                        crudOperation = CRUDEnum.fromInt(backStackEntry.arguments!!.getInt(Argument.CrudOperation.name)),
-                        tableId = backStackEntry.arguments!!.getInt(Argument.ListId.name),
+                        crudOperation = CRUD_Operation
+                            .fromInt(backStackEntry.arguments!!.getInt(Argument.CrudOperation.name)),
+                        todoList = TODOList(id = backStackEntry.arguments!!.getInt(Argument.ID.name))
                     )
                 }
 
@@ -59,7 +61,7 @@ class MainActivity : ComponentActivity() {
                     "add_edit_task/{crud_operation}/{list_id}/{list_name}/{task_id}",
                     arguments = listOf(
                         navArgument("crud_operation") {
-                            defaultValue = CRUDEnum.CREATE.ordinal
+                            defaultValue = CRUD_Operation.CREATE.ordinal
                         },
                         navArgument("list_id") {
                             type = NavType.IntType
@@ -76,7 +78,7 @@ class MainActivity : ComponentActivity() {
                 ) { backStack ->
                     AddEditTaskView(
                         navController = navController,
-                        crudEnum = CRUDEnum.fromInt(backStack.arguments!!.getInt("crud_operation")),
+                        crudOperation = CRUD_Operation.fromInt(backStack.arguments!!.getInt("crud_operation")),
                         listId = backStack.arguments!!.getInt("list_id"),
                         listName = backStack.arguments!!.getString("list_name")!!,
                         taskId = backStack.arguments!!.getInt("task_id")

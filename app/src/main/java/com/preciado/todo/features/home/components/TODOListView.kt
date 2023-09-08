@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.preciado.todo.core.composables.composable_templates.components.TransparentButton
-import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.home.core.TODOListViewModel
 import com.preciado.todo.ui.theme.TODOTheme
 
@@ -37,7 +37,7 @@ fun TODOListView(
             item{
                 ListButton(
                     onClick = {
-                        navController.navigate("add_edit_list/${CRUDEnum.CREATE.ordinal}/0")
+                        navController.navigate("add_edit_list/${CRUD_Operation.CREATE.ordinal}/0")
                     },
                     text = "+ New List"
                 )

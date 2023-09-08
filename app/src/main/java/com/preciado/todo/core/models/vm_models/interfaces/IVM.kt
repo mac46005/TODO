@@ -10,6 +10,7 @@ interface IVM<T> {
     var navController: NavController?
 
     fun setModel(model: T)
+    fun getModel() : T
     fun onLoad(vararg args: Any)
     fun onBackButtonClicked()
     fun navigateTo(route: String)

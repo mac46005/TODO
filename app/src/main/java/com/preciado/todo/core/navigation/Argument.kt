@@ -1,4 +1,4 @@
-package com.preciado.todo.core
+package com.preciado.todo.core.navigation
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavArgumentBuilder

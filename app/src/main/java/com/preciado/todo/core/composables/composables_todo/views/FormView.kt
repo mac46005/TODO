@@ -11,13 +11,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.preciado.todo.core.composables.composable_templates.views.FormTemplate
 import com.preciado.todo.core.composables.composables_todo.components.Header
-import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.data.CRUD_Operation
 
 @Composable
 fun <T> FormView(
     navController: NavController,
     header: String,
-    crudOperation: CRUDEnum = CRUDEnum.CREATE,
+    crudOperation: CRUD_Operation = CRUD_Operation.CREATE,
     model: T? = null,
     onBackButtonClicked: () -> Unit,
     submitButton: @Composable (BoxScope.() -> Unit),

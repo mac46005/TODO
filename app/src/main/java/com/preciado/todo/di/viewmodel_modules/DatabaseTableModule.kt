@@ -1,8 +1,11 @@
 package com.preciado.todo.di.viewmodel_modules
 
+import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.vm_models.interfaces.IFormVM
 import com.preciado.todo.data.DatabaseHelper
 import com.preciado.todo.data.TasksTable
 import com.preciado.todo.data.TODOListsTable
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

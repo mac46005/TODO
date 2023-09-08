@@ -1,6 +1,5 @@
 package com.preciado.todo.features.home.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,18 +8,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import com.preciado.todo.R
-import com.preciado.todo.data.CRUDEnum
+import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.home.core.BottomBarViewModel
 
 private const val TAG = "BottomBar"
@@ -91,7 +86,7 @@ fun BottomBar(
 
             Button(
                 onClick = {
-                    navController.navigate("add_edit_list_task/${CRUDEnum.CREATE.ordinal}/${listId}/0")
+                    navController.navigate("add_edit_list_task/${CRUD_Operation.CREATE.ordinal}/${listId}/0")
                 },
                 enabled = listIdState != 0
             ) {
