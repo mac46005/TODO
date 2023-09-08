@@ -1,8 +1,14 @@
 package com.preciado.todo.features.add_edit_list.core
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.vm_models.interfaces.IFormVM
 import com.preciado.todo.core.models.vm_models.models.FormVM
+import com.preciado.todo.core.models.vm_models.models.VM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.data.TODOListsTable
@@ -14,22 +20,28 @@ import javax.inject.Inject
 class AddEditListFormVM @Inject constructor(
     private var todoListsTable: TODOListsTable
 ) : FormVM<TODOList>() {
+    override fun submitForm() {
+        when(crudOperation){
+            CRUD_Operation.CREATE -> {}
+            CRUD_Operation.UPDATE -> {}
+            else -> {
 
-
-
+            }
+        }
+    }
 
     override fun onLoad(vararg args: Any) {
         crudOperation = args[0] as CRUD_Operation
-        val model = args[1] as TODOList
+        val todoList = args[1] as TODOList
         when(crudOperation){
             CRUD_Operation.CREATE -> {
-                setModel(model)
                 title = "Add new List"
+                _model.value = todoList
             }
             CRUD_Operation.UPDATE -> {
                 viewModelScope.launch {
-                    setModel(todoListsTable.read(model.id)!!)
-                    title = "Edit " + getModel().name
+                    _model.value = todoListsTable.read(todoList.id)
+                    title = "Edit " + _model.value!!.name
                 }
             }
             else -> {
@@ -39,24 +51,11 @@ class AddEditListFormVM @Inject constructor(
     }
 
     override fun onBackButtonClicked() {
-        navController!!.popBackStack(
-            Screen.TODOLists.fullRoute(),
-            true,
-            false
-        )
+        navController!!.navigate(Screen.TODOLists.fullRoute())
     }
 
-
-    override fun submitForm() {
-        viewModelScope.launch {
-            when(crudOperation){
-                CRUD_Operation.CREATE -> todoListsTable.create(getModel())
-                CRUD_Operation.UPDATE -> todoListsTable.update(getModel())
-                else -> {}
-            }.also {
-                onBackButtonClicked()
-            }
-        }
-
+    fun nameChanged(name: String){
+        _model.value!!.name = name
     }
+
 }

@@ -10,6 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.preciado.todo.R
 import com.preciado.todo.core.composables.composables_todo.components.TODOTitleBar
+import com.preciado.todo.ui.theme.TODOTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -20,23 +21,26 @@ fun TODOMainView(
     onFloatingActionButtonClicked: (() -> Unit) = {},
     content:  @Composable (PaddingValues) -> Unit
 ){
-    Scaffold(
-        topBar = {
-                 TODOTitleBar(
-                     backButtonVisible = backButtonVisible,
-                     onBackButtonClicked = onBackButtonClicked
-                 )
-        },
-        floatingActionButton = {
-            Button(
-                onClick = onFloatingActionButtonClicked,
-                enabled = floatingActionButtonEnabled
-            ) {
-                Icon(painter = painterResource(id = R.drawable.baseline_add_24), contentDescription = "Floating action button")
-            }
-        },
-        content = content
-    )
+    TODOTheme() {
+        Scaffold(
+            topBar = {
+                TODOTitleBar(
+                    backButtonVisible = backButtonVisible,
+                    onBackButtonClicked = onBackButtonClicked
+                )
+            },
+            floatingActionButton = {
+                Button(
+                    onClick = onFloatingActionButtonClicked,
+                    enabled = floatingActionButtonEnabled
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.baseline_add_24), contentDescription = "Floating action button")
+                }
+            },
+            content = content
+        )
+    }
+
 }
 
 @Preview
