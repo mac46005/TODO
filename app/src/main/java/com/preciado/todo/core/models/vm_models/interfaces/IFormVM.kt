@@ -1,5 +1,6 @@
 package com.preciado.todo.core.models.vm_models.interfaces
 
+import com.preciado.todo.core.models.vm_models.models.VM
 import com.preciado.todo.data.CRUD_Operation
 
 interface IFormVM<T>: IVM<T> {

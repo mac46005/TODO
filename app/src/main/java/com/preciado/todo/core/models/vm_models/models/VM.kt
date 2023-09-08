@@ -31,7 +31,7 @@ abstract class VM<T> : ViewModel() , IVM<T> {
             _headers = value
         }
 
-    private var _model: MutableLiveData<T> = MutableLiveData()
+    protected var _model: MutableLiveData<T> = MutableLiveData()
     override var model: LiveData<T>? = _model
 
     override fun setModel(model: T) {
