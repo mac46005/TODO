@@ -23,6 +23,19 @@ class TodoTasksVM @Inject constructor(
 
     private var _model: MutableLiveData<Task> = MutableLiveData(Task())
     override var model: LiveData<Task>? = _model
+
+
+    override fun onLoad(vararg args: Any) {
+        _navController = args[0] as NavController
+
+        viewModelScope.launch {
+            val todoList = todoListsTable.read(args[1] as Int)
+            title = todoList!!.name
+        }
+    }
+
+
+
     override fun getModel(): Task {
         return _model!!.value!!
     }
@@ -43,12 +56,7 @@ class TodoTasksVM @Inject constructor(
 
 
 
-    override fun onLoad(vararg args: Any) {
-        viewModelScope.launch {
-            val todoList = todoListsTable.read(args[0] as Int)
-            title = todoList!!.name
-        }
-    }
+
 
     override fun onBackButtonClicked() {
         _navController!!.popBackStack(
@@ -65,7 +73,6 @@ class TodoTasksVM @Inject constructor(
 
 
     override fun onItemSelected(item: Task) {
-        TODO("Not yet implemented")
     }
 
 

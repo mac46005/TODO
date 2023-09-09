@@ -28,6 +28,7 @@ fun <T> FormView(
     TODOMainView(
         backButtonVisible = true,
         onBackButtonClicked = onBackButtonClicked,
+        floatingActionButtonVisible = false
     ) { pv ->
         Column (
             modifier = Modifier.padding(top = pv.calculateTopPadding())

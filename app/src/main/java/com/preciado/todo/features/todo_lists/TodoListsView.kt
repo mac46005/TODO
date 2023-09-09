@@ -23,7 +23,8 @@ fun TodoListsView(
     navController: NavController,
     vm: TodoListVM? = hiltViewModel()
 ){
-    vm!!.navController = navController
+
+    vm!!.onLoad(navController)
 
     val list by vm.loadList().collectAsStateWithLifecycle(initialValue = emptyList())
 
