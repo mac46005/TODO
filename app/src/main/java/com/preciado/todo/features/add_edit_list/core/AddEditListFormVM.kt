@@ -29,7 +29,7 @@ class AddEditListFormVM @Inject constructor(
     val name: LiveData<String> = _name
 
     override fun onBackButtonClicked() {
-        navController!!.navigate(Screen.TODOLists.fullRoute())
+        _navController!!.navigate(Screen.TODOLists.fullRoute())
     }
 
 
@@ -48,8 +48,9 @@ class AddEditListFormVM @Inject constructor(
 
 
     override fun onLoad(vararg args: Any) {
-        crudOperation = args[0] as CRUD_Operation
-        val todoList = args[1] as TODOList
+        _navController = args[0] as NavController
+        crudOperation = args[1] as CRUD_Operation
+        val todoList = args[2] as TODOList
         when(crudOperation){
             CRUD_Operation.CREATE -> {
                 title = "Add new List"
@@ -97,7 +98,7 @@ class AddEditListFormVM @Inject constructor(
 
                 }
             }.also {
-                navController!!.navigate(Screen.TODOLists.fullRoute())
+                _navController!!.navigate(Screen.TODOLists.fullRoute())
             }
         }
 

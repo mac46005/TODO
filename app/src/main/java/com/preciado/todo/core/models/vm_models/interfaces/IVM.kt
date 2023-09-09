@@ -7,7 +7,6 @@ interface IVM<T> {
     var title: String
     var headers: List<String>
     var model: LiveData<T>?
-    var navController: NavController?
 
     fun setModel(model: T)
     fun getModel() : T

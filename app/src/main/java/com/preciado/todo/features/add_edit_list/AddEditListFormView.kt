@@ -29,15 +29,11 @@ fun  AddEditListFormView(
     vm: AddEditListFormVM? = hiltViewModel()
 ) {
 
-    vm!!.navController = navController
-    vm!!.onLoad(crudOperation,todoList)
-
-
-
+    vm!!.onLoad(navController, crudOperation,todoList)
 
     FormView<TODOList>(
         navController = navController,
-        header = vm!!.title?: "",
+        header = vm.title,
         onBackButtonClicked = {
             vm.onBackButtonClicked()
         },
@@ -52,7 +48,6 @@ fun  AddEditListFormView(
             }
         }
     ){
-        val model by vm.model!!.observeAsState()
         val name by vm.name!!.observeAsState("")
         TransparentTextField(
             value = name,
