@@ -19,15 +19,14 @@ fun TodoTasksView(
     listId: Int,
     vm: TodoTasksVM? = hiltViewModel()
 ) {
-    LaunchedEffect(key1 = vm) {
-        vm!!.navController = navController
-        vm.onLoad(listId)
-    }
 
-    val list by vm!!.loadList(listId).collectAsStateWithLifecycle(initialValue = emptyList())
+
+    vm!!.onLoad(navController, listId)
+
+    val list by vm.loadList(listId).collectAsStateWithLifecycle(initialValue = emptyList())
 
     TODOListView<Task>(
-        title = vm!!.title,
+        title = vm.title,
         backButtonVisible = true,
         onBackButtonClicked = {
             vm.onBackButtonClicked()
@@ -41,7 +40,7 @@ fun TodoTasksView(
         }) { task ->
         TaskItem(
             onClick = {
-                vm.navigateTo("")
+                vm.navigateTo(Screen.TaskDetails.fullRoute())
             },
             task = task,
             onChecked = {

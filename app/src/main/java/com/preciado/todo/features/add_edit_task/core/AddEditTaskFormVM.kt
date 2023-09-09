@@ -28,6 +28,7 @@ class AddEditTaskFormVM @Inject constructor(
 
 
 
+
     override fun onBackButtonClicked() {
         val task = _model.value
         _navController!!.navigate(Screen.TODOTasks.withArgs(task!!.todoList_id.toString()))
@@ -48,6 +49,8 @@ class AddEditTaskFormVM @Inject constructor(
     var _details: MutableLiveData<String> = MutableLiveData("")
     val details: LiveData<String> = _details
 
+    var _isCompleted: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isCompleted: LiveData<Boolean> = _isCompleted
 
 
 
@@ -71,6 +74,9 @@ class AddEditTaskFormVM @Inject constructor(
             }
         }
     }
+
+
+
 
 
 
