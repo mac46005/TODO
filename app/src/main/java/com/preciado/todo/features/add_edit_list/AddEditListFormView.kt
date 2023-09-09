@@ -26,7 +26,7 @@ fun  AddEditListFormView(
 
     vm.navController = navController
     vm.onLoad(crudOperation,todoList)
-    val model by vm.model!!.observeAsState()
+
 
 
 
@@ -40,8 +40,10 @@ fun  AddEditListFormView(
             Text(text = "hello")
         }
     ){
+        val model by vm.model!!.observeAsState()
+        val name by vm.name!!.observeAsState("")
         TransparentTextField(
-            value = model!!.name,
+            value = name,
             onValueChange = {
                 vm.nameChanged(it)
             }

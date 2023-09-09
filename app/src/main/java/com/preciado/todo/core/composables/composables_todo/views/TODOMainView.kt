@@ -17,6 +17,7 @@ import com.preciado.todo.ui.theme.TODOTheme
 fun TODOMainView(
     backButtonVisible: Boolean = true,
     onBackButtonClicked: (() -> Unit) = {},
+    floatingActionButtonVisible: Boolean = true,
     floatingActionButtonEnabled: Boolean = false,
     onFloatingActionButtonClicked: (() -> Unit) = {},
     content:  @Composable (PaddingValues) -> Unit
@@ -30,12 +31,15 @@ fun TODOMainView(
                 )
             },
             floatingActionButton = {
-                Button(
-                    onClick = onFloatingActionButtonClicked,
-                    enabled = floatingActionButtonEnabled
-                ) {
-                    Icon(painter = painterResource(id = R.drawable.baseline_add_24), contentDescription = "Floating action button")
+                if(floatingActionButtonVisible){
+                    Button(
+                        onClick = onFloatingActionButtonClicked,
+                        enabled = floatingActionButtonEnabled
+                    ) {
+                        Icon(painter = painterResource(id = R.drawable.baseline_add_24), contentDescription = "Floating action button")
+                    }
                 }
+
             },
             content = content
         )
