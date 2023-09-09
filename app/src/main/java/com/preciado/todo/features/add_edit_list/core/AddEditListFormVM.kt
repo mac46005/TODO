@@ -20,14 +20,43 @@ import javax.inject.Inject
 class AddEditListFormVM @Inject constructor(
     private var todoListsTable: TODOListsTable
 ) : FormVM<TODOList>() {
-    override fun submitForm() {
-        when(crudOperation){
-            CRUD_Operation.CREATE -> {}
-            CRUD_Operation.UPDATE -> {}
-            else -> {
 
+    private var _model: MutableLiveData<TODOList> = MutableLiveData(TODOList(0,"Test"))
+    override var model: LiveData<TODOList>? = _model
+
+
+    private val _name: MutableLiveData<String> = MutableLiveData(_model.value!!.name)
+    val name: LiveData<String> = _name
+    override fun getModel(): TODOList {
+        return model!!.value!!
+    }
+
+    override fun setModel(model: TODOList) {
+        _model.value = model
+    }
+
+
+
+
+    override fun submitForm() {
+        _model.value!!.name = _name.value!!
+
+        viewModelScope.launch {
+            when(crudOperation){
+                CRUD_Operation.CREATE -> {
+                    todoListsTable.create(_model.value!!)
+                }
+                CRUD_Operation.UPDATE -> {
+                    todoListsTable.update(_model.value!!)
+                }
+                else -> {
+
+                }
+            }.also {
+                navController!!.navigate(Screen.TODOLists.fullRoute())
             }
         }
+
     }
 
     override fun onLoad(vararg args: Any) {
@@ -54,8 +83,14 @@ class AddEditListFormVM @Inject constructor(
         navController!!.navigate(Screen.TODOLists.fullRoute())
     }
 
+
+
+
+
+
     fun nameChanged(name: String){
-        _model.value!!.name = name
+        //_model.value!!.name = name
+        _name.value = name
     }
 
 }

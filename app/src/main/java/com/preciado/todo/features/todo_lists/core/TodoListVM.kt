@@ -1,5 +1,7 @@
 package com.preciado.todo.features.todo_lists.core
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.core.models.vm_models.models.ListVM
@@ -14,6 +16,18 @@ import javax.inject.Inject
 class TodoListVM @Inject constructor (
     private val todoListsTable: TODOListsTable
 ) : ListVM<TODOList>() {
+
+    private var _model: MutableLiveData<TODOList> = MutableLiveData(TODOList())
+    override var model: LiveData<TODOList>? = _model
+
+    override fun getModel(): TODOList {
+        return _model!!.value!!
+    }
+
+    override fun setModel(model: TODOList) {
+        _model.value = model
+    }
+
     init {
         title = "Your Lists"
     }
@@ -26,9 +40,6 @@ class TodoListVM @Inject constructor (
         TODO("Not yet implemented")
     }
 
-    override fun setModel(model: TODOList) {
-
-    }
 
     override fun onItemSelected(item: TODOList) {
         navController!!.navigate(Screen.TODOTasks.withArgs(item.id.toString()))
@@ -47,7 +58,7 @@ class TodoListVM @Inject constructor (
     }
 
     override fun setInfo(key: String, obj: Any) {
-        TODO("Not yet implemented")
+
     }
 
 

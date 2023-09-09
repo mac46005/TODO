@@ -1,7 +1,10 @@
 package com.preciado.todo.features.todo_tasks.core
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.core.models.vm_models.models.ListVM
 import com.preciado.todo.core.navigation.Screen
@@ -18,18 +21,27 @@ class TodoTasksVM @Inject constructor(
     private var tasksTable: TasksTable
 ) : ListVM<Task>() {
 
+    private var _model: MutableLiveData<Task> = MutableLiveData(Task())
+    override var model: LiveData<Task>? = _model
+    override fun getModel(): Task {
+        return _model!!.value!!
+    }
+
+    override fun setModel(model: Task) {
+        _model.value = model
+    }
+    override fun setInfo(key: String, obj: Any) {
+
+    }
 
     override fun loadList(vararg args: Any): Flow<List<Task>?> {
         return tasksTable.readAll(arrayOf(args[0].toString()))
     }
 
     override fun updateList() {
-        TODO("Not yet implemented")
     }
 
-    override fun setModel(model: Task) {
-        setModel(model)
-    }
+
 
     override fun onLoad(vararg args: Any) {
         viewModelScope.launch {
@@ -50,9 +62,7 @@ class TodoTasksVM @Inject constructor(
         navController!!.navigate(route)
     }
 
-    override fun setInfo(key: String, obj: Any) {
-        TODO("Not yet implemented")
-    }
+
 
     override fun onItemSelected(item: Task) {
         TODO("Not yet implemented")
