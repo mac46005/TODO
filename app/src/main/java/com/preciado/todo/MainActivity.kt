@@ -3,11 +3,9 @@ package com.preciado.todo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.preciado.todo.core.navigation.Argument
 import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.core.models.app_models.Task
@@ -15,7 +13,6 @@ import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.add_edit_list.AddEditListFormView
 import com.preciado.todo.features.add_edit_task.AddEditTaskFormView
-import com.preciado.todo.features.home.HomeView
 import com.preciado.todo.features.task_details.TaskDetails
 import com.preciado.todo.features.todo_lists.TodoListsView
 import com.preciado.todo.features.todo_tasks.TodoTasksView
@@ -82,21 +79,13 @@ class MainActivity : ComponentActivity() {
                 ) { backStack ->
                     TaskDetails(
                         navController = navController,
-                        taskId = backStack.arguments!!.getInt(Argument.ListId.name),
-                        listId = backStack.arguments!!.getInt(Argument.ID.name)
+                        task = Task(
+                            id = backStack.arguments!!.getInt(Argument.ID.name),
+                            todoList_id = backStack.arguments!!.getInt(Argument.ListId.name)
+                        )
                     )
                 }
 
-
-
-
-
-
-                composable("home") {
-                    HomeView(
-                        navController = navController
-                    )
-                }
 
 
             }
