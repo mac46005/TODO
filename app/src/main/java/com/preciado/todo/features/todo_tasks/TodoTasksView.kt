@@ -33,7 +33,7 @@ fun TodoTasksView(
             vm.onBackButtonClicked()
         },
         onFloatingActionButtonClicked = {
-            vm.navigateTo(Screen.AddEditList.withArgs(CRUD_Operation.CREATE.ordinal.toString(), "0"))
+            vm.navigateTo(Screen.AddEditTask.withArgs(CRUD_Operation.CREATE.ordinal.toString(), "0"))
         },
         list = list ?: emptyList(),
         emptyListMessage = {

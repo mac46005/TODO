@@ -27,6 +27,12 @@ class AddEditListFormVM @Inject constructor(
 
     private val _name: MutableLiveData<String> = MutableLiveData(_model.value!!.name)
     val name: LiveData<String> = _name
+
+    override fun onBackButtonClicked() {
+        navController!!.navigate(Screen.TODOLists.fullRoute())
+    }
+
+
     override fun getModel(): TODOList {
         return model!!.value!!
     }
@@ -38,26 +44,8 @@ class AddEditListFormVM @Inject constructor(
 
 
 
-    override fun submitForm() {
-        _model.value!!.name = _name.value!!
 
-        viewModelScope.launch {
-            when(crudOperation){
-                CRUD_Operation.CREATE -> {
-                    todoListsTable.create(_model.value!!)
-                }
-                CRUD_Operation.UPDATE -> {
-                    todoListsTable.update(_model.value!!)
-                }
-                else -> {
 
-                }
-            }.also {
-                navController!!.navigate(Screen.TODOLists.fullRoute())
-            }
-        }
-
-    }
 
     override fun onLoad(vararg args: Any) {
         crudOperation = args[0] as CRUD_Operation
@@ -79,9 +67,7 @@ class AddEditListFormVM @Inject constructor(
         }
     }
 
-    override fun onBackButtonClicked() {
-        navController!!.navigate(Screen.TODOLists.fullRoute())
-    }
+
 
 
 
@@ -93,4 +79,27 @@ class AddEditListFormVM @Inject constructor(
         _name.value = name
     }
 
+    override fun submitForm() {
+        //TODO Add user error views
+
+        var list = _model.value!!
+        list.name = _name.value?: ""
+
+        viewModelScope.launch {
+            when(crudOperation){
+                CRUD_Operation.CREATE -> {
+                    todoListsTable.create(list)
+                }
+                CRUD_Operation.UPDATE -> {
+                    todoListsTable.update(list)
+                }
+                else -> {
+
+                }
+            }.also {
+                navController!!.navigate(Screen.TODOLists.fullRoute())
+            }
+        }
+
+    }
 }

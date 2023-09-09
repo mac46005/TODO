@@ -10,9 +10,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.preciado.todo.core.navigation.Argument
 import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.add_edit_list.AddEditListFormView
+import com.preciado.todo.features.add_edit_task.AddEditTaskFormView
 import com.preciado.todo.features.add_edit_task.AddEditTaskView
 import com.preciado.todo.features.home.HomeView
 import com.preciado.todo.features.task_details.TaskDetails
@@ -57,31 +59,18 @@ class MainActivity : ComponentActivity() {
                 }
 
 
+                //crudop/listid/id
                 composable(
-                    "add_edit_task/{crud_operation}/{list_id}/{list_name}/{task_id}",
-                    arguments = listOf(
-                        navArgument("crud_operation") {
-                            defaultValue = CRUD_Operation.CREATE.ordinal
-                        },
-                        navArgument("list_id") {
-                            type = NavType.IntType
-                        },
-                        navArgument("list_name") {
-                            type = NavType.StringType
-                            defaultValue = ""
-                        },
-                        navArgument("task_id") {
-                            type = NavType.IntType
-                            defaultValue = 0
-                        }
-                    )
+                    Screen.AddEditTask.fullRoute(),
+                    Screen.AddEditTask.namedNavArguments()
                 ) { backStack ->
-                    AddEditTaskView(
+                    AddEditTaskFormView(
                         navController = navController,
-                        crudOperation = CRUD_Operation.fromInt(backStack.arguments!!.getInt("crud_operation")),
-                        listId = backStack.arguments!!.getInt("list_id"),
-                        listName = backStack.arguments!!.getString("list_name")!!,
-                        taskId = backStack.arguments!!.getInt("task_id")
+                        crudOperation = CRUD_Operation.fromInt(backStack.arguments!!.getInt(Argument.CrudOperation.name)),
+                        task = Task(
+                            id = backStack.arguments!!.getInt(Argument.ID.name),
+                            todoList_id = backStack.arguments!!.getInt(Argument.ListId.name)
+                        )
                     )
                 }
 
