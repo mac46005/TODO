@@ -39,7 +39,6 @@ fun TODOMainView(
                         Icon(painter = painterResource(id = R.drawable.baseline_add_24), contentDescription = "Floating action button")
                     }
                 }
-
             },
             content = content
         )
