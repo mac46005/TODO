@@ -42,19 +42,19 @@ class TodoListVM @Inject constructor (
 
 
     override fun onItemSelected(item: TODOList) {
-        navController!!.navigate(Screen.TODOTasks.withArgs(item.id.toString()))
+        _navController!!.navigate(Screen.TODOTasks.withArgs(item.id.toString()))
     }
 
     override fun onLoad(vararg args: Any) {
-        navController = args[0] as NavController
+        _navController = args[0] as NavController
     }
 
     override fun onBackButtonClicked() {
-        navController!!.navigate(Screen.TODOLists.fullRoute())
+        _navController!!.navigate(Screen.TODOLists.fullRoute())
     }
 
     override fun navigateTo(route: String) {
-        navController!!.navigate(route)
+        _navController!!.navigate(route)
     }
 
     override fun setInfo(key: String, obj: Any) {

@@ -3,6 +3,7 @@ package com.preciado.todo.features.add_edit_task.core
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.core.models.vm_models.models.FormVM
 import com.preciado.todo.core.navigation.Screen
@@ -29,7 +30,7 @@ class AddEditTaskFormVM @Inject constructor(
 
     override fun onBackButtonClicked() {
         val task = _model.value
-        navController!!.navigate(Screen.TODOTasks.withArgs(task!!.todoList_id.toString()))
+        _navController!!.navigate(Screen.TODOTasks.withArgs(task!!.todoList_id.toString()))
     }
 
     override fun getModel(): Task {
@@ -39,9 +40,21 @@ class AddEditTaskFormVM @Inject constructor(
         _model.value = model
     }
 
+
+
+    var _name: MutableLiveData<String> = MutableLiveData("")
+    val name: LiveData<String> = _name
+
+    var _details: MutableLiveData<String> = MutableLiveData("")
+    val details: LiveData<String> = _details
+
+
+
+
     override fun onLoad(vararg args: Any) {
-        crudOperation = args[0] as CRUD_Operation
-        val task = args[1] as Task
+        _navController = args[0] as NavController
+        crudOperation = args[1] as CRUD_Operation
+        val task = args[2] as Task
         when(crudOperation){
             CRUD_Operation.CREATE -> {
                 title = "Add new Task"
@@ -82,7 +95,7 @@ class AddEditTaskFormVM @Inject constructor(
 
                 }
             }.also{
-                navController!!.navigate(Screen.TODOTasks.withArgs(_model.value!!.todoList_id.toString()))
+                _navController!!.navigate(Screen.TODOTasks.withArgs(_model.value!!.todoList_id.toString()))
             }
         }
     }

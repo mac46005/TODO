@@ -51,7 +51,7 @@ class TodoTasksVM @Inject constructor(
     }
 
     override fun onBackButtonClicked() {
-        navController!!.popBackStack(
+        _navController!!.popBackStack(
             Screen.TODOLists.fullRoute(),
             false,
             false
@@ -59,7 +59,7 @@ class TodoTasksVM @Inject constructor(
     }
 
     override fun navigateTo(route: String) {
-        navController!!.navigate(route)
+        _navController!!.navigate(route)
     }
 
 

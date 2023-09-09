@@ -9,14 +9,7 @@ import com.preciado.todo.core.models.vm_models.interfaces.IVM
 
 abstract class VM<T> : ViewModel() , IVM<T> {
 
-    private var _navController: NavController? = null
-    override var navController: NavController?
-        get(){
-            return _navController
-        }
-        set(value) {
-            _navController = value
-        }
+    protected var _navController: NavController? = null
 
     private var _title: String = ""
     override var title: String
