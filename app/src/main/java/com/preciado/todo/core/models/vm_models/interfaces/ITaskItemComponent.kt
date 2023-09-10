@@ -1,5 +1,5 @@
 package com.preciado.todo.core.models.vm_models.interfaces
 
-interface ITaskItemComponent<T> : IItemComponent<T>, ISelectableItemComponent<T> {
-    
-}
+import androidx.lifecycle.MutableLiveData
+
+interface ITaskItemComponent<T> : IClickableItemComponent<T>, IOptionComponent<T>

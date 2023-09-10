@@ -1,4 +1,8 @@
 package com.preciado.todo.core.models.vm_models.interfaces
 
-interface IOptionComponent : ISelectableItemComponent {
+import androidx.lifecycle.LiveData
+
+interface IOptionComponent<T> : IItemComponent<T> {
+    var checked: LiveData<Boolean>
+    fun onItemChecked(checked: Boolean)
 }
