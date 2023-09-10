@@ -1,10 +1,7 @@
 package com.preciado.todo.core.models.vm_models.models
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.core.models.vm_models.interfaces.IVM
 
 abstract class VM<T> : ViewModel() , IVM<T> {

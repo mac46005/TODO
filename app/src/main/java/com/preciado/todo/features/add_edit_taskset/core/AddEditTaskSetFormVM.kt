@@ -1,26 +1,26 @@
-package com.preciado.todo.features.add_edit_list.core
+package com.preciado.todo.features.add_edit_taskset.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.preciado.todo.core.helpers.CapitalizeString
-import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.app_models.TaskSet
 import com.preciado.todo.core.models.vm_models.models.FormVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
-import com.preciado.todo.data.TODOListsTable
+import com.preciado.todo.data.TaskSetsTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddEditListFormVM @Inject constructor(
-    private var todoListsTable: TODOListsTable
-) : FormVM<TODOList>() {
+class AddEditTaskSetFormVM @Inject constructor(
+    private var taskSetsTable: TaskSetsTable
+) : FormVM<TaskSet>() {
 
-    private var _model: MutableLiveData<TODOList> = MutableLiveData(TODOList())
-    override var model: LiveData<TODOList>? = _model
+    private var _model: MutableLiveData<TaskSet> = MutableLiveData(TaskSet())
+    override var model: LiveData<TaskSet>? = _model
 
 
 
@@ -34,11 +34,11 @@ class AddEditListFormVM @Inject constructor(
     }
 
 
-    override fun getModel(): TODOList {
+    override fun getModel(): TaskSet {
         return model!!.value!!
     }
 
-    override fun setModel(model: TODOList) {
+    override fun setModel(model: TaskSet) {
         _model.value = model
     }
 
@@ -51,15 +51,15 @@ class AddEditListFormVM @Inject constructor(
     override fun onLoad(vararg args: Any) {
         _navController = args[0] as NavController
         crudOperation = args[1] as CRUD_Operation
-        val todoList = args[2] as TODOList
+        val taskSet = args[2] as TaskSet
         when(crudOperation){
             CRUD_Operation.CREATE -> {
                 title = "Add new List"
-                _model.value = todoList
+                _model.value = taskSet
             }
             CRUD_Operation.UPDATE -> {
                 viewModelScope.launch {
-                    _model.value = todoListsTable.read(todoList.id)
+                    _model.value = taskSetsTable.read(taskSet.id)
                     title = "Edit " + _model.value!!.name
                 }
             }
@@ -91,10 +91,10 @@ class AddEditListFormVM @Inject constructor(
         viewModelScope.launch {
             when(crudOperation){
                 CRUD_Operation.CREATE -> {
-                    todoListsTable.create(list)
+                    taskSetsTable.create(list)
                 }
                 CRUD_Operation.UPDATE -> {
-                    todoListsTable.update(list)
+                    taskSetsTable.update(list)
                 }
                 else -> {
 

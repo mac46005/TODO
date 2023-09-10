@@ -7,15 +7,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.navigation.Argument
-import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.app_models.TaskSet
 import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
-import com.preciado.todo.features.add_edit_list.AddEditListFormView
+import com.preciado.todo.features.add_edit_taskset.AddEditTaskSetFormView
 import com.preciado.todo.features.add_edit_task.AddEditTaskFormView
 import com.preciado.todo.features.task_details.TaskDetails
-import com.preciado.todo.features.todo_lists.TodoListsView
-import com.preciado.todo.features.todo_tasks.TodoTasksView
+import com.preciado.todo.features.taskset_list.TaskSetListView
+import com.preciado.todo.features.task_list.TaskListView
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -29,13 +29,13 @@ class MainActivity : ComponentActivity() {
             NavHost(navController = navController, startDestination = "todo_lists") {
 
                 composable(Screen.TODOLists.fullRoute()) {
-                    TodoListsView(navController = navController)
+                    TaskSetListView(navController = navController)
                 }
 
                 composable(Screen.TODOTasks.fullRoute(),
                     arguments = Screen.TODOTasks.namedNavArguments()
                     ) { backStackEntry ->
-                    TodoTasksView(
+                    TaskListView(
                         navController = navController,
                         listId = backStackEntry.arguments!!.getInt(Argument.ListId.name)
                     )
@@ -46,11 +46,11 @@ class MainActivity : ComponentActivity() {
                     Screen.AddEditList.fullRoute(),
                     Screen.AddEditList.namedNavArguments()
                 ) { backStackEntry ->
-                    AddEditListFormView(
+                    AddEditTaskSetFormView(
                         navController = navController,
                         crudOperation = CRUD_Operation
                             .fromInt(backStackEntry.arguments!!.getInt(Argument.CrudOperation.name)),
-                        todoList = TODOList(id = backStackEntry.arguments!!.getInt(Argument.ID.name))
+                        taskSet = TaskSet(id = backStackEntry.arguments!!.getInt(Argument.ID.name))
                     )
                 }
 
@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                         crudOperation = CRUD_Operation.fromInt(backStack.arguments!!.getInt(Argument.CrudOperation.name)),
                         task = Task(
                             id = backStack.arguments!!.getInt(Argument.ID.name),
-                            todoList_id = backStack.arguments!!.getInt(Argument.ListId.name)
+                            taskSet_Id = backStack.arguments!!.getInt(Argument.ListId.name)
                         )
                     )
                 }
@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         task = Task(
                             id = backStack.arguments!!.getInt(Argument.ID.name),
-                            todoList_id = backStack.arguments!!.getInt(Argument.ListId.name)
+                            taskSet_Id = backStack.arguments!!.getInt(Argument.ListId.name)
                         )
                     )
                 }

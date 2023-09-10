@@ -1,4 +1,4 @@
-package com.preciado.todo.features.todo_tasks.core
+package com.preciado.todo.features.task_list.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

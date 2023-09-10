@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 data class Task(
     var id: Int = 0,
-    var todoList_id: Int = 0,
+    var taskSet_Id: Int = 0,
     var taskName: String = "",
     var details: String = "",
     var createdOn: LocalDateTime = LocalDateTime.now(),

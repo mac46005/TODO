@@ -1,9 +1,8 @@
-package com.preciado.todo.features.add_edit_list
+package com.preciado.todo.features.add_edit_taskset
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -14,24 +13,21 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.composables.composable_templates.components.TransparentTextField
 import com.preciado.todo.core.composables.composables_todo.views.FormView
-import com.preciado.todo.core.models.app_models.TODOList
-import com.preciado.todo.core.models.vm_models.interfaces.IFormVM
-import com.preciado.todo.core.models.vm_models.models.FormVM
-import com.preciado.todo.core.navigation.Screen
+import com.preciado.todo.core.models.app_models.TaskSet
 import com.preciado.todo.data.CRUD_Operation
-import com.preciado.todo.features.add_edit_list.core.AddEditListFormVM
+import com.preciado.todo.features.add_edit_taskset.core.AddEditTaskSetFormVM
 
 @Composable
-fun  AddEditListFormView(
+fun  AddEditTaskSetFormView(
     navController: NavController,
     crudOperation: CRUD_Operation,
-    todoList: TODOList,
-    vm: AddEditListFormVM? = hiltViewModel()
+    taskSet: TaskSet,
+    vm: AddEditTaskSetFormVM? = hiltViewModel()
 ) {
 
-    vm!!.onLoad(navController, crudOperation,todoList)
+    vm!!.onLoad(navController, crudOperation,taskSet)
 
-    FormView<TODOList>(
+    FormView<TaskSet>(
         navController = navController,
         header = vm.title,
         onBackButtonClicked = {
@@ -68,5 +64,5 @@ fun  AddEditListFormView(
 @Preview
 @Composable
 fun PreviewAddEditListFormView(){
-    AddEditListFormView(navController = rememberNavController(), crudOperation = CRUD_Operation.CREATE, todoList = TODOList())
+    AddEditTaskSetFormView(navController = rememberNavController(), crudOperation = CRUD_Operation.CREATE, taskSet = TaskSet())
 }

@@ -1,14 +1,13 @@
-package com.preciado.todo.features.todo_tasks.core
+package com.preciado.todo.features.task_list.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.core.models.vm_models.models.ListVM
 import com.preciado.todo.core.navigation.Screen
-import com.preciado.todo.data.TODOListsTable
+import com.preciado.todo.data.TaskSetsTable
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +15,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TodoTasksVM @Inject constructor(
-    private var todoListsTable: TODOListsTable,
+class TaskListVM @Inject constructor(
+    private var taskSetsTable: TaskSetsTable,
     private var tasksTable: TasksTable
 ) : ListVM<Task>() {
 
@@ -29,7 +28,7 @@ class TodoTasksVM @Inject constructor(
         _navController = args[0] as NavController
 
         viewModelScope.launch {
-            val todoList = todoListsTable.read(args[1] as Int)
+            val todoList = taskSetsTable.read(args[1] as Int)
             title = todoList!!.name
         }
     }

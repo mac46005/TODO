@@ -2,28 +2,27 @@ package com.preciado.todo.data
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
-import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.app_models.TaskSet
 import com.preciado.todo.data.interfaces.ICRUD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 
-class TODOListsTable @Inject constructor(
+class TaskSetsTable @Inject constructor(
     private val dbHelper: DatabaseHelper
-) : ICRUD<TODOList> {
+) : ICRUD<TaskSet> {
     companion object {
-        const val TABLE_NAME = "todo_list"
     }
 
-    override suspend fun create(obj: TODOList) {
+    override suspend fun create(obj: TaskSet) {
         var db = dbHelper.writableDatabase
         var contentValues = ContentValues().apply {
-            put(DatabaseHelper.COLUMN_LISTS_NAME, obj.name)
+            put(DatabaseHelper.COLUMN_TASKSETS_NAME, obj.name)
         }
         try {
             db.insert(
-                TABLE_NAME,
+                DatabaseHelper.TABLE_NAME_TASKSETS,
                 null,
                 contentValues
             )
@@ -34,18 +33,18 @@ class TODOListsTable @Inject constructor(
         db.close()
     }
 
-    override suspend fun delete(obj: TODOList) {
+    override suspend fun delete(obj: TaskSet) {
         var db = dbHelper.writableDatabase
-        db.delete(TABLE_NAME, "${DatabaseHelper.COLUMN_LISTS_ID} = ?", arrayOf(obj.id.toString()))
+        db.delete(DatabaseHelper.TABLE_NAME_TASKSETS, "${DatabaseHelper.COLUMN_TASKSETS_ID} = ?", arrayOf(obj.id.toString()))
         db.close()
     }
 
-    override suspend fun read(id: Int, foreignKeys: Array<out String>): TODOList? {
+    override suspend fun read(id: Int, foreignKeys: Array<out String>): TaskSet? {
         val db = dbHelper.readableDatabase
         val cursor = db.query(
-            TABLE_NAME,
-            arrayOf(DatabaseHelper.COLUMN_LISTS_ID, DatabaseHelper.COLUMN_LISTS_NAME),
-            "${DatabaseHelper.COLUMN_LISTS_ID} = ?",
+            DatabaseHelper.TABLE_NAME_TASKSETS,
+            arrayOf(DatabaseHelper.COLUMN_TASKSETS_ID, DatabaseHelper.COLUMN_TASKSETS_NAME),
+            "${DatabaseHelper.COLUMN_TASKSETS_ID} = ?",
             arrayOf(id.toString()),
             null,
             null,
@@ -53,23 +52,23 @@ class TODOListsTable @Inject constructor(
         )
 
         if (cursor.moveToFirst()) {
-            val id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_LISTS_ID))
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKSETS_ID))
             val name =
-                cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_LISTS_NAME))
+                cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKSETS_NAME))
 
             db.close()
-            return TODOList(id, name)
+            return TaskSet(id, name)
         } else {
             db.close()
             return null
         }
     }
 
-    override fun readAll(foreignKeys: Array<out String>): Flow<List<TODOList>?> {
+    override fun readAll(foreignKeys: Array<out String>): Flow<List<TaskSet>?> {
         var db = dbHelper.readableDatabase
         var cursor = db.query(
-            TABLE_NAME,
-            arrayOf(DatabaseHelper.COLUMN_LISTS_ID, DatabaseHelper.COLUMN_LISTS_NAME),
+            DatabaseHelper.TABLE_NAME_TASKSETS,
+            arrayOf(DatabaseHelper.COLUMN_TASKSETS_ID, DatabaseHelper.COLUMN_TASKSETS_NAME),
             null,
             null,
             null,
@@ -77,13 +76,13 @@ class TODOListsTable @Inject constructor(
             null
         )
 
-        var list = mutableListOf<TODOList>()
+        var list = mutableListOf<TaskSet>()
 
         while (cursor.moveToNext()) {
-            var id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_LISTS_ID))
+            var id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKSETS_ID))
             var name =
-                cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_LISTS_NAME))
-            list.add(TODOList(id, name))
+                cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKSETS_NAME))
+            list.add(TaskSet(id, name))
         }
         db.close()
         return flow {
@@ -91,16 +90,16 @@ class TODOListsTable @Inject constructor(
         }
     }
 
-    override suspend fun update(obj: TODOList) {
+    override suspend fun update(obj: TaskSet) {
         var db = dbHelper.writableDatabase
         var contentValues = ContentValues().apply {
-            put(DatabaseHelper.COLUMN_LISTS_NAME, obj.name)
+            put(DatabaseHelper.COLUMN_TASKSETS_NAME, obj.name)
         }
         try {
             db.update(
-                TABLE_NAME,
+                DatabaseHelper.TABLE_NAME_TASKSETS,
                 contentValues,
-                "${DatabaseHelper.COLUMN_LISTS_ID} = ?",
+                "${DatabaseHelper.COLUMN_TASKSETS_ID} = ?",
                 arrayOf(obj.id.toString())
             )
         }catch (e: SQLiteConstraintException){
@@ -114,9 +113,9 @@ class TODOListsTable @Inject constructor(
     suspend fun findName(value: String): Int{
         var db = dbHelper.readableDatabase
         var cursor = db.query(
-            TABLE_NAME,
-            arrayOf(DatabaseHelper.COLUMN_LISTS_NAME),
-            "${DatabaseHelper.COLUMN_LISTS_NAME} = ?",
+            DatabaseHelper.TABLE_NAME_TASKSETS,
+            arrayOf(DatabaseHelper.COLUMN_TASKSETS_NAME),
+            "${DatabaseHelper.COLUMN_TASKSETS_NAME} = ?",
             arrayOf(value),
             null,
             null,

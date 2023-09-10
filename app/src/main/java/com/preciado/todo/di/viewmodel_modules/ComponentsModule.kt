@@ -1,7 +1,7 @@
 package com.preciado.todo.di.viewmodel_modules
 
 import com.preciado.todo.data.TasksTable
-import com.preciado.todo.features.todo_tasks.core.TaskItemC
+import com.preciado.todo.features.task_list.core.TaskItemC
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

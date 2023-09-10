@@ -1,4 +1,4 @@
-package com.preciado.todo.features.todo_tasks.components
+package com.preciado.todo.features.task_list.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable

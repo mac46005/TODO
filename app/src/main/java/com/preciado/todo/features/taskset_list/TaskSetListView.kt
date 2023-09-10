@@ -1,8 +1,7 @@
-package com.preciado.todo.features.todo_lists
+package com.preciado.todo.features.taskset_list
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -11,24 +10,24 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.composables.composables_todo.components.EmptyListMessage
 import com.preciado.todo.core.composables.composables_todo.views.TODOListView
-import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.app_models.TaskSet
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
-import com.preciado.todo.features.todo_lists.components.ListItem
-import com.preciado.todo.features.todo_lists.core.TodoListVM
+import com.preciado.todo.features.taskset_list.components.ListItem
+import com.preciado.todo.features.taskset_list.core.TaskSetListVM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodoListsView(
+fun TaskSetListView(
     navController: NavController,
-    vm: TodoListVM? = hiltViewModel()
+    vm: TaskSetListVM? = hiltViewModel()
 ){
 
     vm!!.onLoad(navController)
 
     val list by vm.loadList().collectAsStateWithLifecycle(initialValue = emptyList())
 
-    TODOListView<TODOList>(
+    TODOListView<TaskSet>(
         title = "Your Lists",
         backButtonVisible = false,
         onFloatingActionButtonClicked = {
@@ -49,7 +48,7 @@ fun TodoListsView(
 @Preview
 @Composable
 fun PreviewTodoLists(){
-    TodoListsView(
+    TaskSetListView(
         navController = rememberNavController(),
         vm = null
     )

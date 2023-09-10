@@ -1,30 +1,29 @@
-package com.preciado.todo.features.todo_lists.core
+package com.preciado.todo.features.taskset_list.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.app_models.TaskSet
 import com.preciado.todo.core.models.vm_models.models.ListVM
 import com.preciado.todo.core.navigation.Screen
-import com.preciado.todo.data.CRUD_Operation
-import com.preciado.todo.data.TODOListsTable
+import com.preciado.todo.data.TaskSetsTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class TodoListVM @Inject constructor (
-    private val todoListsTable: TODOListsTable
-) : ListVM<TODOList>() {
+class TaskSetListVM @Inject constructor (
+    private val taskSetsTable: TaskSetsTable
+) : ListVM<TaskSet>() {
 
-    private var _model: MutableLiveData<TODOList> = MutableLiveData(TODOList())
-    override var model: LiveData<TODOList>? = _model
+    private var _model: MutableLiveData<TaskSet> = MutableLiveData(TaskSet())
+    override var model: LiveData<TaskSet>? = _model
 
-    override fun getModel(): TODOList {
+    override fun getModel(): TaskSet {
         return _model!!.value!!
     }
 
-    override fun setModel(model: TODOList) {
+    override fun setModel(model: TaskSet) {
         _model.value = model
     }
 
@@ -32,8 +31,8 @@ class TodoListVM @Inject constructor (
         title = "Your Lists"
     }
 
-    override fun loadList(vararg args: Any): Flow<List<TODOList>?> {
-        return todoListsTable.readAll()
+    override fun loadList(vararg args: Any): Flow<List<TaskSet>?> {
+        return taskSetsTable.readAll()
     }
 
     override fun updateList() {
@@ -41,7 +40,7 @@ class TodoListVM @Inject constructor (
     }
 
 
-    override fun onItemSelected(item: TODOList) {
+    override fun onItemSelected(item: TaskSet) {
         _navController!!.navigate(Screen.TODOTasks.withArgs(item.id.toString()))
     }
 

@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.preciado.todo.core.composables.composables_todo.components.Header
-import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.app_models.TaskSet
 import com.preciado.todo.ui.theme.TODOTheme
 
 @Composable
@@ -60,7 +60,7 @@ fun PreviewTODOListView(){
     TODOListView(
         title = "Your List",
         onFloatingActionButtonClicked = { /*TODO*/ },
-        list = listOf<TODOList>(TODOList(0, "Starred List")),
+        list = listOf<TaskSet>(TaskSet(0, "Starred List")),
         extraInfo = { Text(text = "Add extra info here")},
         emptyListMessage = { /*TODO*/ }) {item ->
         Text(text = item.name)

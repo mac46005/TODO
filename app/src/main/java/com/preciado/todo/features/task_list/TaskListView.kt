@@ -1,7 +1,6 @@
-package com.preciado.todo.features.todo_tasks
+package com.preciado.todo.features.task_list
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -10,14 +9,14 @@ import com.preciado.todo.core.composables.composables_todo.views.TODOListView
 import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
-import com.preciado.todo.features.todo_tasks.components.TaskItem
-import com.preciado.todo.features.todo_tasks.core.TodoTasksVM
+import com.preciado.todo.features.task_list.components.TaskItem
+import com.preciado.todo.features.task_list.core.TaskListVM
 
 @Composable
-fun TodoTasksView(
+fun TaskListView(
     navController: NavController,
     listId: Int,
-    vm: TodoTasksVM? = hiltViewModel()
+    vm: TaskListVM? = hiltViewModel()
 ) {
 
 
@@ -41,12 +40,9 @@ fun TodoTasksView(
     ) { task ->
         TaskItem(
             onClick = {
-                vm.navigateTo(Screen.TaskDetails.withArgs(task.todoList_id.toString(), task.id.toString()))
+                vm.navigateTo(Screen.TaskDetails.withArgs(task.taskSet_Id.toString(), task.id.toString()))
             },
-            task = task,
-            onChecked = {
-
-            }
+            task = task
         )
     }
 }

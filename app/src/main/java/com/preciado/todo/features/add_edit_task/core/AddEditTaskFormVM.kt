@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.preciado.todo.core.models.app_models.TODOList
+import com.preciado.todo.core.models.app_models.TaskSet
 import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.core.models.vm_models.models.FormVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
-import com.preciado.todo.data.TODOListsTable
+import com.preciado.todo.data.TaskSetsTable
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditTaskFormVM @Inject constructor(
     private val tasksTable: TasksTable,
-    private val todoListsTable: TODOListsTable
+    private val taskSetsTable: TaskSetsTable
 ): FormVM<Task>() {
 
 
@@ -34,7 +34,7 @@ class AddEditTaskFormVM @Inject constructor(
 
     override fun onBackButtonClicked() {
         val task = _model.value
-        _navController!!.navigate(Screen.TODOTasks.withArgs(task!!.todoList_id.toString()))
+        _navController!!.navigate(Screen.TODOTasks.withArgs(task!!.taskSet_Id.toString()))
     }
 
     override fun getModel(): Task {
@@ -63,10 +63,10 @@ class AddEditTaskFormVM @Inject constructor(
 
 
         val task = args[2] as Task
-        var list: TODOList = TODOList()
+        var list: TaskSet = TaskSet()
 
         viewModelScope.launch {
-             list = todoListsTable.read(task.todoList_id)!!
+             list = taskSetsTable.read(task.taskSet_Id)!!
         }
 
 
@@ -77,7 +77,7 @@ class AddEditTaskFormVM @Inject constructor(
             }
             CRUD_Operation.UPDATE -> {
                 viewModelScope.launch {
-                    _model.value = tasksTable.read(task.id, arrayOf(task.todoList_id.toString()))
+                    _model.value = tasksTable.read(task.id, arrayOf(task.taskSet_Id.toString()))
                     title = "Edit Task"
                 }
             }
@@ -115,7 +115,7 @@ class AddEditTaskFormVM @Inject constructor(
 
                 }
             }.also{
-                _navController!!.navigate(Screen.TODOTasks.withArgs(_model.value!!.todoList_id.toString()))
+                _navController!!.navigate(Screen.TODOTasks.withArgs(_model.value!!.taskSet_Id.toString()))
             }
         }
     }

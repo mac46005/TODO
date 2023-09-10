@@ -1,4 +1,4 @@
-package com.preciado.todo.features.todo_lists.components
+package com.preciado.todo.features.taskset_list.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

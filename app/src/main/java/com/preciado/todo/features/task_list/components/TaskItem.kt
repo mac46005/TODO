@@ -1,4 +1,4 @@
-package com.preciado.todo.features.todo_tasks.components
+package com.preciado.todo.features.task_list.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -10,8 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.preciado.todo.core.composables.composable_templates.components.ListItemTemplate
 import com.preciado.todo.core.models.app_models.Task
-import com.preciado.todo.features.todo_tasks.core.TaskItemC
+import com.preciado.todo.features.task_list.core.TaskItemC
 import com.preciado.todo.ui.theme.lightGreen
 import com.preciado.todo.ui.theme.darkGreen
 

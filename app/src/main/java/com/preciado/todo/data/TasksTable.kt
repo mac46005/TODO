@@ -28,7 +28,7 @@ class TasksTable @Inject constructor(
                     put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
                 }
                 put(DatabaseHelper.COLUMN_TASKS_FREQUENCY, obj.frequency.name)
-                put(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY, obj.todoList_id)
+                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSet_Id)
             }
             db.insert(
                 DatabaseHelper.TABLE_NAME_TASKS,
@@ -58,9 +58,9 @@ class TasksTable @Inject constructor(
                     DatabaseHelper.COLUMN_TASKS_COMPLETED_ON,
                     DatabaseHelper.COLUMN_TASKS_DUE_ON,
                     DatabaseHelper.COLUMN_TASKS_FREQUENCY,
-                    DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY
+                    DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK
                 ),
-                "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ?",
+                "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ?",
                 arrayOf(
                     id.toString(),
                     foreignKeys[0].toString()
@@ -74,7 +74,7 @@ class TasksTable @Inject constructor(
 
             while(cursor.moveToNext()){
                 task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                task.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
+                task.taskSet_Id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK))
                 task.taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
@@ -114,9 +114,9 @@ class TasksTable @Inject constructor(
                     DatabaseHelper.COLUMN_TASKS_COMPLETED_ON,
                     DatabaseHelper.COLUMN_TASKS_DUE_ON,
                     DatabaseHelper.COLUMN_TASKS_FREQUENCY,
-                    DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY
+                    DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK
                 ),
-                "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ?",
+                "${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ?",
                 foreignKeys,
                 null,
                 null,
@@ -129,7 +129,7 @@ class TasksTable @Inject constructor(
                 var task: Task = Task()
 
                 task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                task.todoList_id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY))
+                task.taskSet_Id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK))
                 task.taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
@@ -163,7 +163,7 @@ class TasksTable @Inject constructor(
 
     override suspend fun update(obj: Task) {
         try {
-            Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.todoList_id}, taskName \"${obj.taskName}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
+            Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.taskSet_Id}, taskName \"${obj.taskName}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
             val db = dbHelper.writableDatabase
             var contentValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.taskName)
@@ -175,15 +175,15 @@ class TasksTable @Inject constructor(
                 if(obj.dueOn != null){
                     put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
                 }
-                put(DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY, obj.todoList_id)
+                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSet_Id)
             }
             db.update(
                 DatabaseHelper.TABLE_NAME_TASKS,
                 contentValues,
-                "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ?",
+                "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ?",
                 arrayOf(
                     obj.id.toString(),
-                    obj.todoList_id.toString()
+                    obj.taskSet_Id.toString()
                 )
             )
         }catch (e: SQLiteConstraintException){
@@ -202,7 +202,7 @@ class TasksTable @Inject constructor(
     fun getIncompleteAmount(selectionArgs: Array<out String>): Int{
         var db = dbHelper.readableDatabase
         var cursor = db.rawQuery(
-            "SELECT * FROM tasks WHERE ${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 0",
+            "SELECT * FROM tasks WHERE ${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 0",
             selectionArgs
         )
         return cursor.columnCount
@@ -211,7 +211,7 @@ class TasksTable @Inject constructor(
     fun getCompleteAmount(selectionArgs: Array<out String>): Int{
         var db = dbHelper.readableDatabase
         var cursor = db.rawQuery(
-            "SELECT * FROM tasks WHERE ${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 1",
+            "SELECT * FROM tasks WHERE ${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 1",
             selectionArgs
         )
         return cursor.columnCount
@@ -236,7 +236,7 @@ class TasksTable @Inject constructor(
                 DatabaseHelper.COLUMN_TASKS_DETAILS,
                 DatabaseHelper.COLUMN_TASKS_IS_COMPLETED
             ),
-            "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = FALSE",
+            "${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = FALSE",
             foreignKeys,
             null,
             null,
@@ -252,7 +252,7 @@ class TasksTable @Inject constructor(
             tasks.add(
                 Task(
                     id = id,
-                    todoList_id =  foreignKeys[0].toInt(),
+                    taskSet_Id =  foreignKeys[0].toInt(),
                     taskName =  taskName,
                     details = details,
                     isCompleted = isCompleted
@@ -272,7 +272,7 @@ class TasksTable @Inject constructor(
                 DatabaseHelper.COLUMN_TASKS_DETAILS,
                 DatabaseHelper.COLUMN_TASKS_IS_COMPLETED
             ),
-            "${DatabaseHelper.COLUMN_TASKS_LIST_ID_FOREIGN_KEY} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 1",
+            "${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 1",
             foreignKeys,
             null,
             null,
@@ -291,7 +291,7 @@ class TasksTable @Inject constructor(
             tasks.add(
                 Task(
                 id = id,
-                todoList_id = fk,
+                taskSet_Id = fk,
                 taskName = taskName,
                 details = details,
                 isCompleted = isCompleted)

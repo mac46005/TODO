@@ -1,7 +1,7 @@
 package com.preciado.todo.di.viewmodel_modules
 
-import com.preciado.todo.data.TODOListsTable
-import com.preciado.todo.features.add_edit_list.core.AddEditListFormVM
+import com.preciado.todo.data.TaskSetsTable
+import com.preciado.todo.features.add_edit_taskset.core.AddEditTaskSetFormVM
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,8 +14,8 @@ class VMModule {
     @Provides
     @ViewModelScoped
     fun providesAddEditListFormVM(
-        todoListsTable: TODOListsTable
-    ): AddEditListFormVM{
-        return AddEditListFormVM(todoListsTable)
+        taskSetsTable: TaskSetsTable
+    ): AddEditTaskSetFormVM{
+        return AddEditTaskSetFormVM(taskSetsTable)
     }
 }
