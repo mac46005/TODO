@@ -48,13 +48,19 @@ fun  AddEditListFormView(
             }
         }
     ){
+
+
         val name by vm.name!!.observeAsState("")
         TransparentTextField(
             value = name,
             onValueChange = {
                 vm.nameChanged(it)
-            }
+            },
+            placeHolder = "Input the name of this List"
         )
+
+
+
     }
 }
 

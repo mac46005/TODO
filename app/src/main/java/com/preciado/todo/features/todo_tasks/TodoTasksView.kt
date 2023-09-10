@@ -32,15 +32,16 @@ fun TodoTasksView(
             vm.onBackButtonClicked()
         },
         onFloatingActionButtonClicked = {
-            vm.navigateTo(Screen.AddEditTask.withArgs(CRUD_Operation.CREATE.ordinal.toString(), "0"))
+            vm.navigateTo(Screen.AddEditTask.withArgs(CRUD_Operation.CREATE.ordinal.toString(), "0", listId.toString()))
         },
         list = list ?: emptyList(),
         emptyListMessage = {
 
-        }) { task ->
+        }
+    ) { task ->
         TaskItem(
             onClick = {
-                vm.navigateTo(Screen.TaskDetails.fullRoute())
+                vm.navigateTo(Screen.TaskDetails.withArgs(task.todoList_id.toString(), task.id.toString()))
             },
             task = task,
             onChecked = {

@@ -2,13 +2,11 @@ package com.preciado.todo.features.add_edit_list.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.preciado.todo.core.helpers.CapitalizeString
 import com.preciado.todo.core.models.app_models.TODOList
-import com.preciado.todo.core.models.vm_models.interfaces.IFormVM
 import com.preciado.todo.core.models.vm_models.models.FormVM
-import com.preciado.todo.core.models.vm_models.models.VM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.data.TODOListsTable
@@ -21,15 +19,18 @@ class AddEditListFormVM @Inject constructor(
     private var todoListsTable: TODOListsTable
 ) : FormVM<TODOList>() {
 
-    private var _model: MutableLiveData<TODOList> = MutableLiveData(TODOList(0,"Test"))
+    private var _model: MutableLiveData<TODOList> = MutableLiveData(TODOList())
     override var model: LiveData<TODOList>? = _model
 
 
-    private val _name: MutableLiveData<String> = MutableLiveData(_model.value!!.name)
-    val name: LiveData<String> = _name
+
 
     override fun onBackButtonClicked() {
-        _navController!!.navigate(Screen.TODOLists.fullRoute())
+        _navController!!.popBackStack(
+            Screen.TODOLists.fullRoute(),
+            false,
+            false
+        )
     }
 
 
@@ -73,11 +74,12 @@ class AddEditListFormVM @Inject constructor(
 
 
 
-
+    private val _name: MutableLiveData<String> = MutableLiveData(_model.value!!.name)
+    val name: LiveData<String> = _name
 
     fun nameChanged(name: String){
         //_model.value!!.name = name
-        _name.value = name
+        _name.value = CapitalizeString.getCaptilizedSentence(name)
     }
 
     override fun submitForm() {
@@ -98,7 +100,7 @@ class AddEditListFormVM @Inject constructor(
 
                 }
             }.also {
-                _navController!!.navigate(Screen.TODOLists.fullRoute())
+                onBackButtonClicked()
             }
         }
 

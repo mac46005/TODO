@@ -1,9 +1,14 @@
 package com.preciado.todo.core.composables.composables_todo.views
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,8 +35,12 @@ fun <T> FormView(
         onBackButtonClicked = onBackButtonClicked,
         floatingActionButtonVisible = false
     ) { pv ->
+
+        val scrollState = rememberScrollState()
         Column (
-            modifier = Modifier.padding(top = pv.calculateTopPadding())
+            modifier =
+            Modifier
+                .padding(top = pv.calculateTopPadding())
                 ) {
             Header(header = header)
             Divider()
@@ -43,6 +52,8 @@ fun <T> FormView(
                 formContent(this)
             }
         }
+
+
     }
 }
 

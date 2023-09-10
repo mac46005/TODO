@@ -1,10 +1,16 @@
-package com.preciado.todo.core.composables.composable_templates.views
+package com.preciado.todo.core.composables.composable_templates.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,37 +36,29 @@ fun ListItemTemplate(
     itemContent: @Composable (BoxScope.() -> Unit),
     ){
     TODOTheme() {
-        val animatable = remember {
-            Animatable(initialValue = 0f)
+        AnimatedVisibility(
+            visible = true,
+            enter = fadeIn() + slideInHorizontally()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp)
+                    .clickable {
+                        onClick()
+                    }
+                    .background(background),
+                contentAlignment = contentAlignment
+            ){
+
+                itemContent(this)
+//                Divider(modifier = Modifier
+//                    .fillMaxWidth()
+//                    .align(Alignment.BottomCenter)
+//                    .padding(top = 25.dp))
+            }
         }
 
-        LaunchedEffect(key1 = animatable){
-            animatable.animateTo(
-                targetValue = 1f,
-                animationSpec = tween(
-                    durationMillis = 700,
-                    delayMillis = 0,
-                    easing = LinearOutSlowInEasing
-                )
-            )
-        }
-        Box(
-            modifier = Modifier
-                .alpha(animatable.value)
-                .fillMaxWidth()
-                .padding(top = 5.dp)
-                .clickable {
-                    onClick()
-                }
-                .background(background),
-            contentAlignment = contentAlignment
-        ){
-            itemContent(this)
-            Divider(modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(top = 25.dp))
-        }
     }
 
 }

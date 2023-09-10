@@ -2,7 +2,7 @@ package com.preciado.todo.core.helpers
 
 import java.util.Locale
 
-object CapitalizeWords{
+object CapitalizeString{
     private fun separateWords(sentence: String): List<String>{
         return sentence.split(' ')
     }

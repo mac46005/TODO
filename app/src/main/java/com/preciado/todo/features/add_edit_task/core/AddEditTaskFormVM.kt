@@ -4,16 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.preciado.todo.core.models.app_models.TODOList
 import com.preciado.todo.core.models.app_models.Task
 import com.preciado.todo.core.models.vm_models.models.FormVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
+import com.preciado.todo.data.TODOListsTable
 import com.preciado.todo.data.TasksTable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+@HiltViewModel
 class AddEditTaskFormVM @Inject constructor(
-    private val tasksTable: TasksTable
+    private val tasksTable: TasksTable,
+    private val todoListsTable: TODOListsTable
 ): FormVM<Task>() {
 
 
@@ -23,7 +27,6 @@ class AddEditTaskFormVM @Inject constructor(
 
     private var _model: MutableLiveData<Task> = MutableLiveData(Task())
     override var model: LiveData<Task>? = _model
-
 
 
 
@@ -57,7 +60,16 @@ class AddEditTaskFormVM @Inject constructor(
     override fun onLoad(vararg args: Any) {
         _navController = args[0] as NavController
         crudOperation = args[1] as CRUD_Operation
+
+
         val task = args[2] as Task
+        var list: TODOList = TODOList()
+
+        viewModelScope.launch {
+             list = todoListsTable.read(task.todoList_id)!!
+        }
+
+
         when(crudOperation){
             CRUD_Operation.CREATE -> {
                 title = "Add new Task"
@@ -72,6 +84,8 @@ class AddEditTaskFormVM @Inject constructor(
             else -> {
 
             }
+        }.also {
+            title += "\nFor ${list!!.name}"
         }
     }
 

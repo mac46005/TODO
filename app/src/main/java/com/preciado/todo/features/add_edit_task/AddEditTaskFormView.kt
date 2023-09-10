@@ -3,6 +3,8 @@ package com.preciado.todo.features.add_edit_task
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.preciado.todo.core.composables.composable_templates.components.TransparentTextField
@@ -19,18 +21,20 @@ fun AddEditTaskFormView(
     vm: AddEditTaskFormVM? = hiltViewModel()
     ){
 
-    vm!!.onLoad(crudOperation,crudOperation, task)
+    vm!!.onLoad(navController,crudOperation, task)
 
     FormView<Task>(
         navController = navController,
         header = vm.title,
         onBackButtonClicked = {
-
+            vm.onBackButtonClicked()
         },
         submitButton = {
-            Button(onClick = {
+            Button(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                onClick = {
                 vm.submitForm()
-            }
+                }
             ) {
                 Text(text = "Submit")
             }

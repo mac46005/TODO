@@ -9,5 +9,4 @@ fun TaskDetails(
     navController: NavController,
     task: Task
 ){
-
 }

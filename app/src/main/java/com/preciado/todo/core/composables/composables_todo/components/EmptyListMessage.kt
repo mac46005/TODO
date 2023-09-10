@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.preciado.todo.core.composables.composable_templates.views.ListItemTemplate
+import com.preciado.todo.core.composables.composable_templates.components.ListItemTemplate
 
 
 @Composable
