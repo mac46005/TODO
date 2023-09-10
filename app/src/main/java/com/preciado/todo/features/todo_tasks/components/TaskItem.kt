@@ -9,6 +9,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -17,9 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.preciado.todo.core.composables.composable_templates.components.ListItemTemplate
 import com.preciado.todo.core.models.app_models.Task
-import java.time.LocalDateTime
+import com.preciado.todo.features.todo_tasks.core.TaskItemC
 import com.preciado.todo.ui.theme.lightGreen
 import com.preciado.todo.ui.theme.darkGreen
 
@@ -36,41 +38,43 @@ import com.preciado.todo.ui.theme.darkGreen
 fun TaskItem(
     onClick: () -> Unit,
     task: Task,
-    onChecked: (Boolean)->Unit
+    component: TaskItemC? = hiltViewModel()
 ){
+    component!!.data = task
+
     val isDarkMode = isSystemInDarkTheme()
     val green = if(isDarkMode) darkGreen else lightGreen
 
-    var checkedState = remember {
-        mutableStateOf(task.isCompleted)
-    }
-    val colorState by animateColorAsState(targetValue = if(checkedState.value == true) green  else Color.Transparent)
 
-
-
-
+    val checkedState by component.checked.observeAsState()
+    val colorState by animateColorAsState(targetValue = if(checkedState == true) green  else Color.Transparent)
 
     ListItemTemplate(
         background = colorState,
-        onClick = onClick
+        onClick = {
+            component.itemClicked(onClick)
+        }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
+
+
             Checkbox(
-                checked = checkedState.value,
+                checked = checkedState!!,
                 onCheckedChange = { checked ->
-                    checkedState.value = checked
-                    onChecked(checked)
+                    component.onItemChecked(checked)
                 }
             )
-            Text(text = task.taskName)
+            Text(text = component.data.taskName)
 
         }
-            if(task.isCompleted){
+            if(component.data.isCompleted){
                 Text(
-                    modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 5.dp, end = 5.dp),
-                    text = "completed: ${task.completedOn!!.toLocalDate()}",
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(bottom = 5.dp, end = 5.dp),
+                    text = "completed: ${component.data.completedOn!!.toLocalDate()}",
                     color = Color.Gray,
                     fontSize = 10.sp
                 )
@@ -96,7 +100,5 @@ fun TaskItem(
 @Preview
 @Composable
 fun PreviewTaskItem(){
-    TaskItem(onClick = {},task = Task(taskName = "Task", isCompleted = true, createdOn = LocalDateTime.now())){
 
-    }
 }
