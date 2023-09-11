@@ -10,7 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.composables.composables_todo.components.EmptyListMessage
 import com.preciado.todo.core.composables.composables_todo.views.TODOListView
-import com.preciado.todo.core.models.app_models.TaskSet
+import com.preciado.todo.core.models.app_models.models.TaskSet
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.taskset_list.components.ListItem

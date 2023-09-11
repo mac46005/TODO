@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.preciado.todo.core.models.app_models.TaskSet
-import com.preciado.todo.core.models.app_models.Task
+import com.preciado.todo.core.models.app_models.models.TaskSet
+import com.preciado.todo.core.models.app_models.models.Task
 import com.preciado.todo.core.models.vm_models.models.FormVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
@@ -34,7 +34,7 @@ class AddEditTaskFormVM @Inject constructor(
 
     override fun onBackButtonClicked() {
         val task = _model.value
-        _navController!!.navigate(Screen.TODOTasks.withArgs(task!!.taskSet_Id.toString()))
+        _navController!!.navigate(Screen.TODOTasks.withArgs(task!!.taskSetId.toString()))
     }
 
     override fun getModel(): Task {
@@ -66,7 +66,7 @@ class AddEditTaskFormVM @Inject constructor(
         var list: TaskSet = TaskSet()
 
         viewModelScope.launch {
-             list = taskSetsTable.read(task.taskSet_Id)!!
+             list = taskSetsTable.read(task.taskSetId)!!
         }
 
 
@@ -77,7 +77,7 @@ class AddEditTaskFormVM @Inject constructor(
             }
             CRUD_Operation.UPDATE -> {
                 viewModelScope.launch {
-                    _model.value = tasksTable.read(task.id, arrayOf(task.taskSet_Id.toString()))
+                    _model.value = tasksTable.read(task.id, arrayOf(task.taskSetId.toString()))
                     title = "Edit Task"
                 }
             }
@@ -115,7 +115,7 @@ class AddEditTaskFormVM @Inject constructor(
 
                 }
             }.also{
-                _navController!!.navigate(Screen.TODOTasks.withArgs(_model.value!!.taskSet_Id.toString()))
+                _navController!!.navigate(Screen.TODOTasks.withArgs(_model.value!!.taskSetId.toString()))
             }
         }
     }

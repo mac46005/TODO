@@ -3,7 +3,7 @@ package com.preciado.todo.features.taskset_list.core
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import com.preciado.todo.core.models.app_models.TaskSet
+import com.preciado.todo.core.models.app_models.models.TaskSet
 import com.preciado.todo.core.models.vm_models.models.ListVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.TaskSetsTable

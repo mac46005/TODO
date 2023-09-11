@@ -3,7 +3,7 @@ package com.preciado.todo.features.task_list.core
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.preciado.todo.core.models.app_models.Task
+import com.preciado.todo.core.models.app_models.models.Task
 import com.preciado.todo.core.models.vm_models.models.TaskItemComponent
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel

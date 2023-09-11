@@ -13,7 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.composables.composable_templates.components.TransparentTextField
 import com.preciado.todo.core.composables.composables_todo.views.FormView
-import com.preciado.todo.core.models.app_models.TaskSet
+import com.preciado.todo.core.models.app_models.models.TaskSet
 import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.add_edit_taskset.core.AddEditTaskSetFormVM
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.preciado.todo.core.models.app_models.Task
+import com.preciado.todo.core.models.app_models.models.Task
 import com.preciado.todo.core.models.vm_models.models.ListVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.TaskSetsTable

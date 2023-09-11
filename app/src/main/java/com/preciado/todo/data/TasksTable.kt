@@ -3,7 +3,7 @@ package com.preciado.todo.data
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
-import com.preciado.todo.core.models.app_models.Task
+import com.preciado.todo.core.models.app_models.models.Task
 import com.preciado.todo.data.interfaces.ICRUD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,14 +21,14 @@ class TasksTable @Inject constructor(
         try {
             val db = dbHelper.writableDatabase
             var contentValues = ContentValues().apply {
-                put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.taskName)
+                put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.name)
                 put(DatabaseHelper.COLUMN_TASKS_DETAILS, obj.details)
                 put(DatabaseHelper.COLUMN_TASKS_CREATED_ON, obj.createdOn.toString())
                 if(obj.dueOn != null){
                     put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
                 }
-                put(DatabaseHelper.COLUMN_TASKS_FREQUENCY, obj.frequency.name)
-                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSet_Id)
+                put(DatabaseHelper.COLUMN_TASKS_FREQUENCY, obj.taskFrequency.name)
+                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSetId)
             }
             db.insert(
                 DatabaseHelper.TABLE_NAME_TASKS,
@@ -74,8 +74,8 @@ class TasksTable @Inject constructor(
 
             while(cursor.moveToNext()){
                 task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                task.taskSet_Id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK))
-                task.taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
+                task.taskSetId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK))
+                task.name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
                 task.isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
@@ -129,8 +129,8 @@ class TasksTable @Inject constructor(
                 var task: Task = Task()
 
                 task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                task.taskSet_Id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK))
-                task.taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
+                task.taskSetId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK))
+                task.name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
                 task.isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
@@ -163,10 +163,10 @@ class TasksTable @Inject constructor(
 
     override suspend fun update(obj: Task) {
         try {
-            Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.taskSet_Id}, taskName \"${obj.taskName}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
+            Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.taskSetId}, taskName \"${obj.name}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
             val db = dbHelper.writableDatabase
             var contentValues = ContentValues().apply {
-                put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.taskName)
+                put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.name)
                 put(DatabaseHelper.COLUMN_TASKS_DETAILS, obj.details)
                 put(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED, obj.isCompleted)
                 if(obj.isCompleted){
@@ -175,7 +175,7 @@ class TasksTable @Inject constructor(
                 if(obj.dueOn != null){
                     put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
                 }
-                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSet_Id)
+                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSetId)
             }
             db.update(
                 DatabaseHelper.TABLE_NAME_TASKS,
@@ -183,7 +183,7 @@ class TasksTable @Inject constructor(
                 "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ?",
                 arrayOf(
                     obj.id.toString(),
-                    obj.taskSet_Id.toString()
+                    obj.taskSetId.toString()
                 )
             )
         }catch (e: SQLiteConstraintException){
@@ -252,8 +252,8 @@ class TasksTable @Inject constructor(
             tasks.add(
                 Task(
                     id = id,
-                    taskSet_Id =  foreignKeys[0].toInt(),
-                    taskName =  taskName,
+                    taskSetId =  foreignKeys[0].toInt(),
+                    name =  taskName,
                     details = details,
                     isCompleted = isCompleted
                 )
@@ -291,8 +291,8 @@ class TasksTable @Inject constructor(
             tasks.add(
                 Task(
                 id = id,
-                taskSet_Id = fk,
-                taskName = taskName,
+                taskSetId = fk,
+                name = taskName,
                 details = details,
                 isCompleted = isCompleted)
             )

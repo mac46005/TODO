@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.preciado.todo.core.composables.composable_templates.components.ListItemTemplate
-import com.preciado.todo.core.models.app_models.Task
+import com.preciado.todo.core.models.app_models.models.Task
 import com.preciado.todo.features.task_list.core.TaskItemC
 import com.preciado.todo.ui.theme.lightGreen
 import com.preciado.todo.ui.theme.darkGreen
@@ -64,7 +64,7 @@ fun TaskItem(
                     component.onItemChecked(checked)
                 }
             )
-            Text(text = component.data.taskName)
+            Text(text = component.data.name)
 
         }
             if(component.data.isCompleted){

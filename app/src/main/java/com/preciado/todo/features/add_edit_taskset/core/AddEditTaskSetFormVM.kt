@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.preciado.todo.core.helpers.CapitalizeString
-import com.preciado.todo.core.models.app_models.TaskSet
+import com.preciado.todo.core.models.app_models.models.TaskSet
 import com.preciado.todo.core.models.vm_models.models.FormVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation

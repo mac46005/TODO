@@ -6,7 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.preciado.todo.core.composables.composables_todo.views.TODOListView
-import com.preciado.todo.core.models.app_models.Task
+import com.preciado.todo.core.models.app_models.models.Task
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.task_list.components.TaskItem
@@ -40,7 +40,7 @@ fun TaskListView(
     ) { task ->
         TaskItem(
             onClick = {
-                vm.navigateTo(Screen.TaskDetails.withArgs(task.taskSet_Id.toString(), task.id.toString()))
+                vm.navigateTo(Screen.TaskDetails.withArgs(task.taskSetId.toString(), task.id.toString()))
             },
             task = task
         )

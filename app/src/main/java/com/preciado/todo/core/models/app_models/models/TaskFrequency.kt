@@ -1,6 +1,6 @@
-package com.preciado.todo.core.models.app_models
+package com.preciado.todo.core.models.app_models.models
 
-enum class TimeFrequency {
+enum class TaskFrequency {
     Daily,
     Weekly,
     BiWeekly,

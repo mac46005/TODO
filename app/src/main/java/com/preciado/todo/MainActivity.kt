@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.preciado.todo.core.navigation.Argument
-import com.preciado.todo.core.models.app_models.TaskSet
-import com.preciado.todo.core.models.app_models.Task
+import com.preciado.todo.core.models.app_models.models.TaskSet
+import com.preciado.todo.core.models.app_models.models.Task
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.add_edit_taskset.AddEditTaskSetFormView
@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                         crudOperation = CRUD_Operation.fromInt(backStack.arguments!!.getInt(Argument.CrudOperation.name)),
                         task = Task(
                             id = backStack.arguments!!.getInt(Argument.ID.name),
-                            taskSet_Id = backStack.arguments!!.getInt(Argument.ListId.name)
+                            taskSetId = backStack.arguments!!.getInt(Argument.ListId.name)
                         )
                     )
                 }
@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         task = Task(
                             id = backStack.arguments!!.getInt(Argument.ID.name),
-                            taskSet_Id = backStack.arguments!!.getInt(Argument.ListId.name)
+                            taskSetId = backStack.arguments!!.getInt(Argument.ListId.name)
                         )
                     )
                 }
