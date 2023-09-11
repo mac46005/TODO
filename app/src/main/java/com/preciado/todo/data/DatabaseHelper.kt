@@ -57,7 +57,7 @@ class DatabaseHelper @Inject constructor(context: Context) :
         db?.execSQL(
             "CREATE TABLE IF NOT EXISTS $TABLE_NAME_TASKS(" +
                     "$COLUMN_TASKS_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "$COLUMN_TASKS_TASK_NAME TEXT NOT NULL UNIQUE," +
+                    "$COLUMN_TASKS_TASK_NAME TEXT NOT NULL," +
                     "$COLUMN_TASKS_DETAILS TEXT," +
                     "$COLUMN_TASKS_CREATED_ON TEXT NULL," +
                     "$COLUMN_TASKS_IS_COMPLETED BOOLEAN DEFAULT 0," +

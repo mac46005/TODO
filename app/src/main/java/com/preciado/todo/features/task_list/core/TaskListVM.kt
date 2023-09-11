@@ -21,7 +21,7 @@ class TaskListVM @Inject constructor(
     private var tasksTable: TasksTable
 ) : ListVM<Task>() {
 
-    private var _model: MutableLiveData<Task> = MutableLiveData(Task(taskSetId = TaskSet(id = 0)))
+    private var _model: MutableLiveData<Task> = MutableLiveData(Task(taskSet = TaskSet(id = 0)))
     override var model: LiveData<Task>? = _model
 
 
@@ -37,7 +37,7 @@ class TaskListVM @Inject constructor(
 
 
     override fun getModel(): Task {
-        return _model!!.value!!
+        return _model.value!!
     }
 
     override fun setModel(model: Task) {
@@ -60,7 +60,7 @@ class TaskListVM @Inject constructor(
 
     override fun onBackButtonClicked() {
         _navController!!.popBackStack(
-            Screen.TODOLists.fullRoute(),
+            Screen.TaskSetList.fullRoute(),
             false,
             false
         )

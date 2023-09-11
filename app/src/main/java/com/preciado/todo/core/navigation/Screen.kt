@@ -11,9 +11,9 @@ sealed class Screen(
 
 
     // ======================= ROUTES ============================================
-    object TODOLists: Screen("todo_lists")
+    object TaskSetList: Screen("todo_lists")
 
-    object TODOTasks: Screen(
+    object TaskList: Screen(
         "todo_tasks",
         listOf(
             Argument.ListId.buildNavArgument {
@@ -23,7 +23,7 @@ sealed class Screen(
         )
     )
 
-    object AddEditList: Screen(
+    object AddEditTaskSet: Screen(
         "add_edit_list",
         listOf(
             Argument.CrudOperation.buildNavArgument {

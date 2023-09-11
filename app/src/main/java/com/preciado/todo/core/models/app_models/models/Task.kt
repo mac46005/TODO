@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 
 data class Task(
     override var id: Int = 0,
-    override var taskSetId: IModel<ITaskSet<Int>, Int> = TaskSet(id = 0),
+    override var taskSet: IModel<ITaskSet<Int>, Int> = TaskSet(id = 0),
     override var name: String = "",
     override var details: String = "",
     override var createdOn: LocalDateTime = LocalDateTime.now(),
@@ -15,4 +15,8 @@ data class Task(
     override var completedOn: LocalDateTime? = null,
     override var dueOn: LocalDateTime? = null,
     override var taskFrequency: TaskFrequency = TaskFrequency.None
-): ITask<Int,Int>
+): ITask<Int,Int>{
+    override fun toString(): String {
+        return "Task{id: $id, $taskSet, name: $name}"
+    }
+}

@@ -20,7 +20,7 @@ class TaskSetListVM @Inject constructor (
     override var model: LiveData<TaskSet>? = _model
 
     override fun getModel(): TaskSet {
-        return _model!!.value!!
+        return _model.value!!
     }
 
     override fun setModel(model: TaskSet) {
@@ -41,7 +41,7 @@ class TaskSetListVM @Inject constructor (
 
 
     override fun onItemSelected(item: TaskSet) {
-        _navController!!.navigate(Screen.TODOTasks.withArgs(item.id.toString()))
+        _navController!!.navigate(Screen.TaskList.withArgs(item.id.toString()))
     }
 
     override fun onLoad(vararg args: Any) {
@@ -49,7 +49,7 @@ class TaskSetListVM @Inject constructor (
     }
 
     override fun onBackButtonClicked() {
-        _navController!!.navigate(Screen.TODOLists.fullRoute())
+        _navController!!.navigate(Screen.TaskSetList.fullRoute())
     }
 
     override fun navigateTo(route: String) {

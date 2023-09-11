@@ -29,7 +29,7 @@ class TasksTable @Inject constructor(
                     put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
                 }
                 put(DatabaseHelper.COLUMN_TASKS_FREQUENCY, obj.taskFrequency.name)
-                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSetId.id)
+                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSet.id)
             }
             db.insert(
                 DatabaseHelper.TABLE_NAME_TASKS,
@@ -75,7 +75,7 @@ class TasksTable @Inject constructor(
 
             while(cursor.moveToNext()){
                 task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                task.taskSetId = TaskSet(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK)))
+                task.taskSet = TaskSet(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK)))
                 task.name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
@@ -130,7 +130,7 @@ class TasksTable @Inject constructor(
                 var task: Task = Task()
 
                 task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                task.taskSetId = TaskSet(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK)))
+                task.taskSet = TaskSet(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK)))
                 task.name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
@@ -164,7 +164,7 @@ class TasksTable @Inject constructor(
 
     override suspend fun update(obj: Task) {
         try {
-            Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.taskSetId}, taskName \"${obj.name}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
+            Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.taskSet}, taskName \"${obj.name}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
             val db = dbHelper.writableDatabase
             var contentValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.name)
@@ -176,7 +176,7 @@ class TasksTable @Inject constructor(
                 if(obj.dueOn != null){
                     put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
                 }
-                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSetId.id)
+                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSet.id)
             }
             db.update(
                 DatabaseHelper.TABLE_NAME_TASKS,
@@ -184,7 +184,7 @@ class TasksTable @Inject constructor(
                 "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ?",
                 arrayOf(
                     obj.id.toString(),
-                    obj.taskSetId.toString()
+                    obj.taskSet.toString()
                 )
             )
         }catch (e: SQLiteConstraintException){
@@ -253,7 +253,7 @@ class TasksTable @Inject constructor(
             tasks.add(
                 Task(
                     id = id,
-                    taskSetId =  TaskSet(foreignKeys[0].toInt()),
+                    taskSet =  TaskSet(foreignKeys[0].toInt()),
                     name =  taskName,
                     details = details,
                     isCompleted = isCompleted
@@ -292,7 +292,7 @@ class TasksTable @Inject constructor(
             tasks.add(
                 Task(
                 id = id,
-                taskSetId = TaskSet(fk),
+                taskSet = TaskSet(fk),
                 name = taskName,
                 details = details,
                 isCompleted = isCompleted)

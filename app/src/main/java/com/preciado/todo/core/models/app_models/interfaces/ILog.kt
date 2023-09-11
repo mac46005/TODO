@@ -9,6 +9,6 @@ package com.preciado.todo.core.models.app_models.interfaces
  * @param V The id type for [ITaskSet]
  */
 interface ILog<T, U, V>: IModel<ILog<T, U, V>, T>, IDetails, ICreatedOn {
-    var taskId: IModel<ITask<U, V>, U>
-    var taskSetId: IModel<ITaskSet<V>, V>
+    var task: IModel<ITask<U, V>, U>
+    var taskSet: IModel<ITaskSet<V>, V>
 }

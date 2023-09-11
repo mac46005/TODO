@@ -3,6 +3,8 @@ package com.preciado.todo.features.add_edit_task
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,7 +43,11 @@ fun AddEditTaskFormView(
         }
     ) {
 
-        TransparentTextField(value = "", onValueChange = {})
+        val nameState by vm.name.observeAsState()
+        TransparentTextField(value = nameState!!, onValueChange = { vm.onNameChange(it) })
+
+        val detailsState by vm.details.observeAsState()
+        TransparentTextField(value = detailsState!!, onValueChange = { vm.onDetailsChange(it)})
 
 
 

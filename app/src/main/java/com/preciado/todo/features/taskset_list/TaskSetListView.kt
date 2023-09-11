@@ -31,7 +31,7 @@ fun TaskSetListView(
         title = "Your Lists",
         backButtonVisible = false,
         onFloatingActionButtonClicked = {
-            vm.navigateTo(Screen.AddEditList.withArgs(CRUD_Operation.CREATE.ordinal.toString(), "0"))
+            vm.navigateTo(Screen.AddEditTaskSet.withArgs(CRUD_Operation.CREATE.ordinal.toString(), "0"))
         },
         list = list?: emptyList(),
         emptyListMessage = {

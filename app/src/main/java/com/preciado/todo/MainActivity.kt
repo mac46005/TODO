@@ -1,6 +1,7 @@
 package com.preciado.todo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
@@ -18,6 +19,7 @@ import com.preciado.todo.features.taskset_list.TaskSetListView
 import com.preciado.todo.features.task_list.TaskListView
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -28,29 +30,34 @@ class MainActivity : ComponentActivity() {
 
             NavHost(navController = navController, startDestination = "todo_lists") {
 
-                composable(Screen.TODOLists.fullRoute()) {
+                composable(Screen.TaskSetList.fullRoute()) {
                     TaskSetListView(navController = navController)
                 }
 
-                composable(Screen.TODOTasks.fullRoute(),
-                    arguments = Screen.TODOTasks.namedNavArguments()
+                composable(Screen.TaskList.fullRoute(),
+                    arguments = Screen.TaskList.namedNavArguments()
                     ) { backStackEntry ->
+                    val listId = backStackEntry.arguments!!.getInt(Argument.ListId.name)
+                    Log.i(TAG, "onCreate: Navigating to ${Screen.TaskList.fullRoute()} with args: $listId")
                     TaskListView(
                         navController = navController,
-                        listId = backStackEntry.arguments!!.getInt(Argument.ListId.name)
+                        listId = listId
                     )
                 }
 
 
                 composable(
-                    Screen.AddEditList.fullRoute(),
-                    Screen.AddEditList.namedNavArguments()
+                    Screen.AddEditTaskSet.fullRoute(),
+                    Screen.AddEditTaskSet.namedNavArguments()
                 ) { backStackEntry ->
+
+                    val taskSet = TaskSet(id = backStackEntry.arguments!!.getInt(Argument.ID.name))
+                    Log.i(TAG, "onCreate: Navigating to ${Screen.AddEditTaskSet.fullRoute()} with args $taskSet")
                     AddEditTaskSetFormView(
                         navController = navController,
                         crudOperation = CRUD_Operation
                             .fromInt(backStackEntry.arguments!!.getInt(Argument.CrudOperation.name)),
-                        taskSet = TaskSet(id = backStackEntry.arguments!!.getInt(Argument.ID.name))
+                        taskSet = taskSet
                     )
                 }
 
@@ -60,13 +67,17 @@ class MainActivity : ComponentActivity() {
                     Screen.AddEditTask.fullRoute(),
                     Screen.AddEditTask.namedNavArguments()
                 ) { backStack ->
+                    val taskSet = TaskSet(backStack.arguments!!.getInt(Argument.ListId.name))
+                    val task = Task(
+                        id = backStack.arguments!!.getInt(Argument.ID.name),
+                        taskSet = taskSet
+                    )
+
+                    Log.i(TAG, "onCreate: Navigating to ${Screen.AddEditTask.fullRoute()} with args $task")
                     AddEditTaskFormView(
                         navController = navController,
                         crudOperation = CRUD_Operation.fromInt(backStack.arguments!!.getInt(Argument.CrudOperation.name)),
-                        task = Task(
-                            id = backStack.arguments!!.getInt(Argument.ID.name),
-                            taskSetId = TaskSet(backStack.arguments!!.getInt(Argument.ListId.name))
-                        )
+                        task = task
                     )
                 }
 
@@ -77,12 +88,15 @@ class MainActivity : ComponentActivity() {
                     Screen.TaskDetails.fullRoute(),
                     Screen.TaskDetails.namedNavArguments()
                 ) { backStack ->
+                    val taskSet = TaskSet(backStack.arguments!!.getInt(Argument.ListId.name))
+                    val task = Task(
+                        id = backStack.arguments!!.getInt(Argument.ID.name),
+                        taskSet = taskSet
+                    )
+                    Log.i(TAG, "onCreate: Navigating to ${Screen.TaskDetails}: $task")
                     TaskDetails(
                         navController = navController,
-                        task = Task(
-                            id = backStack.arguments!!.getInt(Argument.ID.name),
-                            taskSetId = TaskSet(backStack.arguments!!.getInt(Argument.ListId.name))
-                        )
+                        task = task
                     )
                 }
 

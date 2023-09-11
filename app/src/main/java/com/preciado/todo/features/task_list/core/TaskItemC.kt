@@ -18,7 +18,7 @@ class TaskItemC @Inject constructor(
 
 
 
-    override var data: Task = Task(taskSetId = TaskSet(id = 0))
+    override var data: Task = Task(taskSet = TaskSet(id = 0))
 
 
     var _checked:MutableLiveData<Boolean> = MutableLiveData(data.isCompleted)

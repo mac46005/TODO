@@ -10,5 +10,5 @@ package com.preciado.todo.core.models.app_models.interfaces
  */
 interface ITask<T,U>: IModel<ITask<T, U>, T>, IName, IDetails, ICreatedOn, IIsCompleted,
     ICompletedOn, IDueOn, ITaskFrequency {
-    var taskSetId: IModel<ITaskSet<U>, U>
+    var taskSet: IModel<ITaskSet<U>, U>
 }

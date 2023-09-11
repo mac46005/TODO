@@ -27,7 +27,7 @@ class AddEditTaskSetFormVM @Inject constructor(
 
     override fun onBackButtonClicked() {
         _navController!!.popBackStack(
-            Screen.TODOLists.fullRoute(),
+            Screen.TaskSetList.fullRoute(),
             false,
             false
         )

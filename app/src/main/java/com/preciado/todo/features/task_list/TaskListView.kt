@@ -40,7 +40,7 @@ fun TaskListView(
     ) { task ->
         TaskItem(
             onClick = {
-                vm.navigateTo(Screen.TaskDetails.withArgs(task.taskSetId.toString(), task.id.toString()))
+                vm.navigateTo(Screen.TaskDetails.withArgs(task.taskSet.id.toString(), task.id.toString()))
             },
             task = task
         )

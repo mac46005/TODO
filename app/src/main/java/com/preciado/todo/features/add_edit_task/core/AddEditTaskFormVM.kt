@@ -25,7 +25,7 @@ class AddEditTaskFormVM @Inject constructor(
 
 
 
-    private var _model: MutableLiveData<Task> = MutableLiveData(Task(taskSetId = TaskSet(id = 0)))
+    private var _model: MutableLiveData<Task> = MutableLiveData(Task(taskSet = TaskSet(id = 0)))
     override var model: LiveData<Task>? = _model
 
 
@@ -33,8 +33,8 @@ class AddEditTaskFormVM @Inject constructor(
 
 
     override fun onBackButtonClicked() {
-        val task = _model.value
-        _navController!!.navigate(Screen.TODOTasks.withArgs(task!!.taskSetId.toString()))
+        val task = _model.value!!
+        _navController!!.navigate(Screen.TaskList.withArgs(task.taskSet.id.toString()))
     }
 
     override fun getModel(): Task {
@@ -46,27 +46,28 @@ class AddEditTaskFormVM @Inject constructor(
 
 
 
-    var _name: MutableLiveData<String> = MutableLiveData("")
+    private var _name: MutableLiveData<String> = MutableLiveData(_model.value!!.name)
     val name: LiveData<String> = _name
 
-    var _details: MutableLiveData<String> = MutableLiveData("")
+    private var _details: MutableLiveData<String> = MutableLiveData(_model.value!!.details)
     val details: LiveData<String> = _details
 
-    var _isCompleted: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isCompleted: LiveData<Boolean> = _isCompleted
-
-
-
+    fun onNameChange(name: String){
+        _name.value = name
+    }
+    fun onDetailsChange(details: String){
+        _details.value = details
+    }
     override fun onLoad(vararg args: Any) {
         _navController = args[0] as NavController
         crudOperation = args[1] as CRUD_Operation
 
 
         val task = args[2] as Task
-        var list: TaskSet = TaskSet()
+        var taskSet: TaskSet = TaskSet()
 
         viewModelScope.launch {
-             list = taskSetsTable.read(task.taskSetId.id)!!
+             taskSet = taskSetsTable.read(task.taskSet.id)!!
         }
 
 
@@ -77,7 +78,7 @@ class AddEditTaskFormVM @Inject constructor(
             }
             CRUD_Operation.UPDATE -> {
                 viewModelScope.launch {
-                    _model.value = tasksTable.read(task.id, arrayOf(task.taskSetId.toString()))
+                    _model.value = tasksTable.read(task.id, arrayOf(taskSet.id.toString()))
                     title = "Edit Task"
                 }
             }
@@ -85,7 +86,8 @@ class AddEditTaskFormVM @Inject constructor(
 
             }
         }.also {
-            title += "\nFor ${list!!.name}"
+            _model.value!!.taskSet = taskSet
+            title += "\nFor ${taskSet.name}"
         }
     }
 
@@ -101,7 +103,7 @@ class AddEditTaskFormVM @Inject constructor(
 
     override fun submitForm() {
         viewModelScope.launch {
-            var task = _model.value!!
+            val task = _model.value!!
 
 
             when(crudOperation){
@@ -115,7 +117,7 @@ class AddEditTaskFormVM @Inject constructor(
 
                 }
             }.also{
-                _navController!!.navigate(Screen.TODOTasks.withArgs(_model.value!!.taskSetId.toString()))
+                _navController!!.navigate(Screen.TaskList.withArgs(task.taskSet.id.toString()))
             }
         }
     }
