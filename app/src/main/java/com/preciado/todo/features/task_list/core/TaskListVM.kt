@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.preciado.todo.core.models.app_models.models.Task
+import com.preciado.todo.core.models.app_models.models.TaskSet
 import com.preciado.todo.core.models.vm_models.models.ListVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.TaskSetsTable
@@ -20,7 +21,7 @@ class TaskListVM @Inject constructor(
     private var tasksTable: TasksTable
 ) : ListVM<Task>() {
 
-    private var _model: MutableLiveData<Task> = MutableLiveData(Task())
+    private var _model: MutableLiveData<Task> = MutableLiveData(Task(taskSetId = TaskSet(id = 0)))
     override var model: LiveData<Task>? = _model
 
 

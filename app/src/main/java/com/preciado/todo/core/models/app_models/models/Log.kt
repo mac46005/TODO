@@ -7,10 +7,10 @@ import com.preciado.todo.core.models.app_models.interfaces.ITaskSet
 import java.time.LocalDateTime
 
 class Log(
-    override var createdOn: LocalDateTime,
+    override var id: Int,
     override var details: String,
+    override var createdOn: LocalDateTime,
     override var taskId: IModel<ITask<Int, Int>, Int>,
     override var taskSetId: IModel<ITaskSet<Int>, Int>,
-    override var id: Int
 ) : ILog<Int, Int, Int> {
 }

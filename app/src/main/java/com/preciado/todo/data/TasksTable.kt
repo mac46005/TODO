@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import com.preciado.todo.core.models.app_models.models.Task
+import com.preciado.todo.core.models.app_models.models.TaskSet
 import com.preciado.todo.data.interfaces.ICRUD
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -28,7 +29,7 @@ class TasksTable @Inject constructor(
                     put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
                 }
                 put(DatabaseHelper.COLUMN_TASKS_FREQUENCY, obj.taskFrequency.name)
-                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSetId)
+                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSetId.id)
             }
             db.insert(
                 DatabaseHelper.TABLE_NAME_TASKS,
@@ -74,7 +75,7 @@ class TasksTable @Inject constructor(
 
             while(cursor.moveToNext()){
                 task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                task.taskSetId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK))
+                task.taskSetId = TaskSet(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK)))
                 task.name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
@@ -129,7 +130,7 @@ class TasksTable @Inject constructor(
                 var task: Task = Task()
 
                 task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                task.taskSetId = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK))
+                task.taskSetId = TaskSet(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK)))
                 task.name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
@@ -175,7 +176,7 @@ class TasksTable @Inject constructor(
                 if(obj.dueOn != null){
                     put(DatabaseHelper.COLUMN_TASKS_DUE_ON, obj.dueOn.toString())
                 }
-                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSetId)
+                put(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK, obj.taskSetId.id)
             }
             db.update(
                 DatabaseHelper.TABLE_NAME_TASKS,
@@ -252,7 +253,7 @@ class TasksTable @Inject constructor(
             tasks.add(
                 Task(
                     id = id,
-                    taskSetId =  foreignKeys[0].toInt(),
+                    taskSetId =  TaskSet(foreignKeys[0].toInt()),
                     name =  taskName,
                     details = details,
                     isCompleted = isCompleted
@@ -291,7 +292,7 @@ class TasksTable @Inject constructor(
             tasks.add(
                 Task(
                 id = id,
-                taskSetId = fk,
+                taskSetId = TaskSet(fk),
                 name = taskName,
                 details = details,
                 isCompleted = isCompleted)

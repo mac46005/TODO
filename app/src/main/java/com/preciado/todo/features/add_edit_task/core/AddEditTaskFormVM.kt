@@ -25,7 +25,7 @@ class AddEditTaskFormVM @Inject constructor(
 
 
 
-    private var _model: MutableLiveData<Task> = MutableLiveData(Task())
+    private var _model: MutableLiveData<Task> = MutableLiveData(Task(taskSetId = TaskSet(id = 0)))
     override var model: LiveData<Task>? = _model
 
 
@@ -66,7 +66,7 @@ class AddEditTaskFormVM @Inject constructor(
         var list: TaskSet = TaskSet()
 
         viewModelScope.launch {
-             list = taskSetsTable.read(task.taskSetId)!!
+             list = taskSetsTable.read(task.taskSetId.id)!!
         }
 
 

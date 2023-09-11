@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.preciado.todo.core.models.app_models.models.Task
+import com.preciado.todo.core.models.app_models.models.TaskSet
 import com.preciado.todo.core.models.vm_models.models.TaskItemComponent
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ class TaskItemC @Inject constructor(
 
 
 
-    override var data: Task = Task()
+    override var data: Task = Task(taskSetId = TaskSet(id = 0))
 
 
     var _checked:MutableLiveData<Boolean> = MutableLiveData(data.isCompleted)

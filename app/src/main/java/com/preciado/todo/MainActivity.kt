@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                         crudOperation = CRUD_Operation.fromInt(backStack.arguments!!.getInt(Argument.CrudOperation.name)),
                         task = Task(
                             id = backStack.arguments!!.getInt(Argument.ID.name),
-                            taskSetId = backStack.arguments!!.getInt(Argument.ListId.name)
+                            taskSetId = TaskSet(backStack.arguments!!.getInt(Argument.ListId.name))
                         )
                     )
                 }
@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         task = Task(
                             id = backStack.arguments!!.getInt(Argument.ID.name),
-                            taskSetId = backStack.arguments!!.getInt(Argument.ListId.name)
+                            taskSetId = TaskSet(backStack.arguments!!.getInt(Argument.ListId.name))
                         )
                     )
                 }
