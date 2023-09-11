@@ -1,5 +1,6 @@
 package com.preciado.todo.features.add_edit_task.core
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -14,6 +15,9 @@ import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "AddEditTaskFormVM"
+
 @HiltViewModel
 class AddEditTaskFormVM @Inject constructor(
     private val tasksTable: TasksTable,
@@ -104,7 +108,10 @@ class AddEditTaskFormVM @Inject constructor(
     override fun submitForm() {
         viewModelScope.launch {
             val task = _model.value!!
+            task.name = _name.value!!
+            task.details = _details.value!!
 
+            Log.i(TAG, "submitForm: $task")
 
             when(crudOperation){
                 CRUD_Operation.CREATE -> {
@@ -117,7 +124,11 @@ class AddEditTaskFormVM @Inject constructor(
 
                 }
             }.also{
-                _navController!!.navigate(Screen.TaskList.withArgs(task.taskSet.id.toString()))
+                _navController!!.popBackStack(
+                    Screen.TaskList.withArgs(task.taskSet.id.toString()),
+                    false,
+                    false
+                )
             }
         }
     }

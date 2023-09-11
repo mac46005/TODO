@@ -29,8 +29,9 @@ class TaskListVM @Inject constructor(
         _navController = args[0] as NavController
 
         viewModelScope.launch {
-            val todoList = taskSetsTable.read(args[1] as Int)
-            title = todoList!!.name
+
+            val taskSet = taskSetsTable.read(id = (args[1] as TaskSet).id)
+            title = taskSet!!.name
         }
     }
 

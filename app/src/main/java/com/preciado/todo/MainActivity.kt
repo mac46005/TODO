@@ -37,11 +37,11 @@ class MainActivity : ComponentActivity() {
                 composable(Screen.TaskList.fullRoute(),
                     arguments = Screen.TaskList.namedNavArguments()
                     ) { backStackEntry ->
-                    val listId = backStackEntry.arguments!!.getInt(Argument.ListId.name)
-                    Log.i(TAG, "onCreate: Navigating to ${Screen.TaskList.fullRoute()} with args: $listId")
+                    val taskSet = TaskSet(id = backStackEntry.arguments!!.getInt(Argument.ListId.name))
+                    Log.i(TAG, "onCreate: Navigating to ${Screen.TaskList.fullRoute()} with args: $taskSet")
                     TaskListView(
                         navController = navController,
-                        listId = listId
+                        taskSet = taskSet
                     )
                 }
 

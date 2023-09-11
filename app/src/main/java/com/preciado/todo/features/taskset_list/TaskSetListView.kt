@@ -13,7 +13,7 @@ import com.preciado.todo.core.composables.composables_todo.views.TODOListView
 import com.preciado.todo.core.models.app_models.models.TaskSet
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
-import com.preciado.todo.features.taskset_list.components.ListItem
+import com.preciado.todo.features.taskset_list.components.TaskSetItem
 import com.preciado.todo.features.taskset_list.core.TaskSetListVM
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +38,7 @@ fun TaskSetListView(
             EmptyListMessage()
         }
     ) {item ->
-        ListItem(name = item.name) {
+        TaskSetItem(name = item.name) {
             vm.onItemSelected(item)
         }
 

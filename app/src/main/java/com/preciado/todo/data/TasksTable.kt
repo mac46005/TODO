@@ -64,7 +64,7 @@ class TasksTable @Inject constructor(
                 "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ?",
                 arrayOf(
                     id.toString(),
-                    foreignKeys[0].toString()
+                    foreignKeys[0]
                 ),
                 null,
                 null,
@@ -123,14 +123,14 @@ class TasksTable @Inject constructor(
                 null,
                 "${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} ASC"
             )
-            var list = mutableListOf<Task>()
+            var tasks = mutableListOf<Task>()
 
             while(cursor.moveToNext()){
 
                 var task: Task = Task()
 
                 task.id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-                task.taskSet = TaskSet(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK)))
+                task.taskSet = TaskSet(id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK)))
                 task.name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
                 task.details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
                 task.createdOn = LocalDateTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_CREATED_ON)))
@@ -149,12 +149,12 @@ class TasksTable @Inject constructor(
 
 
 
-                list.add(
+                tasks.add(
                     task
                 )
             }
             return flow {
-                emit(list)
+                emit(tasks)
             }
 
         }catch (e: Exception){
@@ -164,7 +164,7 @@ class TasksTable @Inject constructor(
 
     override suspend fun update(obj: Task) {
         try {
-            Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.taskSet}, taskName \"${obj.name}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
+            //Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.taskSet}, taskName \"${obj.name}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
             val db = dbHelper.writableDatabase
             var contentValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.name)
@@ -218,87 +218,4 @@ class TasksTable @Inject constructor(
         return cursor.columnCount
     }
 
-
-
-
-
-
-
-
-
-
-    fun getInCompleteTasks(foreignKeys: Array<out String>): Flow<List<Task>> = flow {
-        var db = dbHelper.readableDatabase
-        var cursor = db.query(
-            DatabaseHelper.TABLE_NAME_TASKS,
-            arrayOf(
-                DatabaseHelper.COLUMN_TASKS_ID,
-                DatabaseHelper.COLUMN_TASKS_TASK_NAME,
-                DatabaseHelper.COLUMN_TASKS_DETAILS,
-                DatabaseHelper.COLUMN_TASKS_IS_COMPLETED
-            ),
-            "${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = FALSE",
-            foreignKeys,
-            null,
-            null,
-            null
-        )
-        var tasks = mutableListOf<Task>()
-        while(cursor.moveToNext()){
-            var id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-            var taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
-            var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
-            var isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
-
-            tasks.add(
-                Task(
-                    id = id,
-                    taskSet =  TaskSet(foreignKeys[0].toInt()),
-                    name =  taskName,
-                    details = details,
-                    isCompleted = isCompleted
-                )
-            )
-        }
-
-        emit(tasks)
-    }
-    fun getCompletedTasks(foreignKeys: Array<out String>): Flow<List<Task>> = flow {
-        var db = dbHelper.readableDatabase
-        var cursor = db.query(
-            DatabaseHelper.TABLE_NAME_TASKS,
-            arrayOf(
-                DatabaseHelper.COLUMN_TASKS_ID,
-                DatabaseHelper.COLUMN_TASKS_TASK_NAME,
-                DatabaseHelper.COLUMN_TASKS_DETAILS,
-                DatabaseHelper.COLUMN_TASKS_IS_COMPLETED
-            ),
-            "${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ? AND ${DatabaseHelper.COLUMN_TASKS_IS_COMPLETED} = 1",
-            foreignKeys,
-            null,
-            null,
-            null
-        )
-
-
-        var tasks = mutableListOf<Task>()
-        while(cursor.moveToNext()){
-            var id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_ID))
-            var fk = foreignKeys[0].toInt()
-            var taskName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_TASK_NAME))
-            var details = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_DETAILS))
-            var isCompleted = if(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TASKS_IS_COMPLETED)) == 1) true else false
-
-            tasks.add(
-                Task(
-                id = id,
-                taskSet = TaskSet(fk),
-                name = taskName,
-                details = details,
-                isCompleted = isCompleted)
-            )
-        }
-
-        emit(tasks)
-    }
 }
