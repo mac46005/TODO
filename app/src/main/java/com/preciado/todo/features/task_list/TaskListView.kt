@@ -1,11 +1,14 @@
 package com.preciado.todo.features.task_list
 
 import android.util.Log
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.preciado.todo.core.composables.composables_todo.components.EmptyListMessage
 import com.preciado.todo.core.composables.composables_todo.views.TODOListView
 import com.preciado.todo.core.models.app_models.interfaces.ITaskSet
 import com.preciado.todo.core.models.app_models.models.Task
@@ -38,7 +41,15 @@ fun TaskListView(
         },
         list = list ?: emptyList(),
         emptyListMessage = {
-
+            EmptyListMessage(
+                message = "There are no Tasks!\nHow about we add a new task!"
+            ){
+                Button(onClick = {
+                    vm.navigateTo(Screen.AddEditTask.withArgs(CRUD_Operation.CREATE.ordinal.toString(), "0", taskSet.id.toString()))
+                }) {
+                    Text(text = "Create Task")
+                }
+            }
         }
     ) { task ->
         Log.i(TAG, "TaskListView: $task")
