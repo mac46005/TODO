@@ -60,7 +60,7 @@ class DatabaseHelper @Inject constructor(context: Context) :
                     "$COLUMN_TASKS_TASK_NAME TEXT NOT NULL," +
                     "$COLUMN_TASKS_DETAILS TEXT," +
                     "$COLUMN_TASKS_CREATED_ON TEXT NULL," +
-                    "$COLUMN_TASKS_IS_COMPLETED BOOLEAN DEFAULT 0," +
+                    "$COLUMN_TASKS_IS_COMPLETED BOOLEAN DEFAULT FALSE," +
                     "$COLUMN_TASKS_COMPLETED_ON TEXT NULL," +
                     "$COLUMN_TASKS_DUE_ON TEXT NULL," +
                     "$COLUMN_TASKS_FREQUENCY TEXT DEFAULT ${TaskFrequency.None.name}," +

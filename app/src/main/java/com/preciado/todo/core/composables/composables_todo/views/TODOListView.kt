@@ -19,6 +19,7 @@ fun <T> TODOListView(
     title: String,
     backButtonVisible: Boolean = true,
     onBackButtonClicked: (() -> Unit) = {},
+    floatingActionButtonVisible: Boolean = true,
     onFloatingActionButtonClicked: (() -> Unit) = {},
     list: List<T>,
     emptyListMessage: @Composable () -> Unit,
@@ -29,6 +30,7 @@ fun <T> TODOListView(
         TODOMainView(
             backButtonVisible = backButtonVisible,
             onBackButtonClicked = onBackButtonClicked,
+            floatingActionButtonVisible = floatingActionButtonVisible,
             floatingActionButtonEnabled = true,
             onFloatingActionButtonClicked = onFloatingActionButtonClicked
         ) {

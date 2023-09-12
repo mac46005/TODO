@@ -6,6 +6,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,7 +34,14 @@ fun TaskSetListView(
     vm!!.onLoad(navController)
 
     val list by vm.loadList().collectAsStateWithLifecycle(initialValue = emptyList())
-
+    val fabVisible = remember {
+        mutableStateOf(true)
+    }
+    if(list!!.isEmpty()){
+        fabVisible.value = false
+    }else{
+        fabVisible.value = true
+    }
     TODOListView<TaskSet>(
         title = "Your Lists",
         backButtonVisible = false,

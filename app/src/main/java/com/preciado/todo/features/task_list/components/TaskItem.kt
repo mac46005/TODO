@@ -1,5 +1,6 @@
 package com.preciado.todo.features.task_list.components
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
@@ -26,9 +27,7 @@ import com.preciado.todo.ui.theme.lightGreen
 import com.preciado.todo.ui.theme.darkGreen
 
 
-
-
-
+private const val TAG = "TaskItem"
 
 
 
@@ -44,10 +43,11 @@ fun TaskItem(
     val isDarkMode = isSystemInDarkTheme()
     val green = if(isDarkMode) darkGreen else lightGreen
 
-
+    Log.i(TAG, "TaskItem: checkState: ${task.isCompleted}")
     val checkedState = remember {
         mutableStateOf(task.isCompleted)
     }
+
     val colorState by animateColorAsState(targetValue = if(checkedState.value == true) green  else Color.Transparent)
 
     ListItemTemplate(
@@ -61,7 +61,10 @@ fun TaskItem(
 
             Checkbox(
                 checked = checkedState.value,
-                onCheckedChange = oncheckedChanged
+                onCheckedChange = {
+                    checkedState.value = it
+                    oncheckedChanged(it)
+                }
             )
             Text(text = task.name)
 

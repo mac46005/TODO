@@ -164,7 +164,7 @@ class TasksTable @Inject constructor(
 
     override suspend fun update(obj: Task) {
         try {
-            //Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.taskSet}, taskName \"${obj.name}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
+            Log.i(TAG, "update: task{id ${obj.id}, listId ${obj.taskSet}, taskName \"${obj.name}\", taskDetails \"${obj.details}\", isCompleted ${obj.isCompleted}}")
             val db = dbHelper.writableDatabase
             var contentValues = ContentValues().apply {
                 put(DatabaseHelper.COLUMN_TASKS_TASK_NAME,obj.name)
