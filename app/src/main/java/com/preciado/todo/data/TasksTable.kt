@@ -184,7 +184,7 @@ class TasksTable @Inject constructor(
                 "${DatabaseHelper.COLUMN_TASKS_ID} = ? AND ${DatabaseHelper.COLUMN_TASKS_TASKSET_ID_FK} = ?",
                 arrayOf(
                     obj.id.toString(),
-                    obj.taskSet.toString()
+                    obj.taskSet.id.toString()
                 )
             )
         }catch (e: SQLiteConstraintException){
