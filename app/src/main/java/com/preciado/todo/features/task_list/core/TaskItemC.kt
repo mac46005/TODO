@@ -9,6 +9,7 @@ import com.preciado.todo.core.models.vm_models.models.TaskItemComponent
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +33,7 @@ class TaskItemC @Inject constructor(
         }
 
         data.isCompleted = _checked.value!!
+        data.completedOn = LocalDateTime.now()
 
         viewModelScope.launch {
             tasksTable.update(data)
