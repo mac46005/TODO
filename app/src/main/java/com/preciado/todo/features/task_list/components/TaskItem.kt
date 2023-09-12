@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,23 +37,22 @@ import com.preciado.todo.ui.theme.darkGreen
 @Composable
 fun TaskItem(
     onClick: () -> Unit,
+    oncheckedChanged: (Boolean) -> Unit,
     task: Task,
-    component: TaskItemC? = hiltViewModel()
 ){
-    component!!.data = task
 
     val isDarkMode = isSystemInDarkTheme()
     val green = if(isDarkMode) darkGreen else lightGreen
 
 
-    val checkedState by component.checked.observeAsState()
-    val colorState by animateColorAsState(targetValue = if(checkedState == true) green  else Color.Transparent)
+    val checkedState = remember {
+        mutableStateOf(task.isCompleted)
+    }
+    val colorState by animateColorAsState(targetValue = if(checkedState.value == true) green  else Color.Transparent)
 
     ListItemTemplate(
         background = colorState,
-        onClick = {
-            component.itemClicked(onClick)
-        }
+        onClick = onClick
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -59,20 +60,18 @@ fun TaskItem(
 
 
             Checkbox(
-                checked = checkedState!!,
-                onCheckedChange = { checked ->
-                    component.onItemChecked(checked)
-                }
+                checked = checkedState.value,
+                onCheckedChange = oncheckedChanged
             )
-            Text(text = component.data.name)
+            Text(text = task.name)
 
         }
-            if(component.data.isCompleted){
+            if(task.isCompleted){
                 Text(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(bottom = 5.dp, end = 5.dp),
-                    text = "completed: ${component.data.completedOn!!.toLocalDate()}",
+                    text = "completed: ${task.completedOn!!.toLocalDate()}",
                     color = Color.Gray,
                     fontSize = 10.sp
                 )

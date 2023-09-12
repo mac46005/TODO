@@ -8,6 +8,6 @@ interface IListVM<T> : IVM<T> {
     var selectedItem: LiveData<T>?
     fun setInfo(key: String, obj: Any)
     fun loadList(vararg args: Any): Flow<List<T>?>
-    fun updateList()
+    fun updateItem(item: T)
     fun onItemSelected(item: T)
 }

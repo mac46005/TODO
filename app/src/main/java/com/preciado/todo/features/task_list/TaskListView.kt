@@ -46,7 +46,11 @@ fun TaskListView(
             onClick = {
                 vm.navigateTo(Screen.TaskDetails.withArgs(task.taskSet.id.toString(), task.id.toString()))
             },
-            task = task
+            task = task,
+            oncheckedChanged = {
+                task.isCompleted = it
+                vm.updateItem(task)
+            }
         )
     }
 }

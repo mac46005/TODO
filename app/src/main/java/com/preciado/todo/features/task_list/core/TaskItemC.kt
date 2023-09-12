@@ -1,5 +1,6 @@
 package com.preciado.todo.features.task_list.core
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+private const val TAG = "TaskItemC"
 @HiltViewModel
 class TaskItemC @Inject constructor(
     private val tasksTable: TasksTable
@@ -26,6 +28,7 @@ class TaskItemC @Inject constructor(
     override var checked: LiveData<Boolean> = _checked
 
     override fun onItemChecked(checked: Boolean) {
+        Log.i(TAG, "onItemChecked: data: $data")
         if(_checked.value == false){
             _checked.value = true
         }else{

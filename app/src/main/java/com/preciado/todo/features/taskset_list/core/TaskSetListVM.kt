@@ -35,7 +35,7 @@ class TaskSetListVM @Inject constructor (
         return taskSetsTable.readAll()
     }
 
-    override fun updateList() {
+    override fun updateItem(item: TaskSet) {
         TODO("Not yet implemented")
     }
 

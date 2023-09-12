@@ -13,6 +13,7 @@ import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,7 +53,13 @@ class TaskListVM @Inject constructor(
         return tasksTable.readAll(arrayOf(args[0].toString()))
     }
 
-    override fun updateList() {
+    override fun updateItem(item: Task) {
+        if(item.isCompleted){
+            item.completedOn = LocalDateTime.now()
+        }
+        viewModelScope.launch {
+            tasksTable.update(item)
+        }
     }
 
 
