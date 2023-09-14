@@ -76,8 +76,8 @@ fun TaskListView(
             }
         }
     ) { task ->
-        Log.i(TAG, "TaskListView: $task")
-        Log.i(TAG, "TaskListView: isComplete: ${task.isCompleted}")
+//        Log.i(TAG, "TaskListView: $task")
+//        Log.i(TAG, "TaskListView: isComplete: ${task.isCompleted}")
         TaskItem(
             onClick = {
                 vm.navigateTo(Screen.TaskDetails.withArgs(task.taskSet.id.toString(), task.id.toString()))

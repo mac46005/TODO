@@ -28,7 +28,7 @@ class TaskSetListVM @Inject constructor (
     }
 
     init {
-        title = "Your Lists"
+        title = "Your Task Sets"
     }
 
     override fun loadList(vararg args: Any): Flow<List<TaskSet>?> {
