@@ -3,7 +3,9 @@ package com.preciado.todo.core.composables.composable_templates.components
 import android.app.DatePickerDialog
 import android.widget.DatePicker
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -34,10 +36,13 @@ fun DatePicker(
         }, year, month, dayOfMonth
     )
 
-    Column() {
-        Text(text = if(selectedDateText.isNotEmpty()) selectedDateText else "Select a date")
-        Button(onClick = { datePicker.show() }) {
-            Text(text = "Select a date")
+    Column {
+        Row() {
+            Button(onClick = { datePicker.show() }) {
+                Text(text = "Select a date")
+            }
+            Text(text = if(selectedDateText.isNotEmpty()) selectedDateText else "Select a date")
         }
+        Divider()
     }
 }
