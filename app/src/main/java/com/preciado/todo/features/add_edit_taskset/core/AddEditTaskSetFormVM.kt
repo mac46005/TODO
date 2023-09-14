@@ -79,7 +79,7 @@ class AddEditTaskSetFormVM @Inject constructor(
 
     fun nameChanged(name: String){
         //_model.value!!.name = name
-        _name.value = CapitalizeString.getCaptilizedSentence(name)
+        _name.value = CapitalizeString.getCaptilizedSentence(name).trim()
     }
 
     override fun submitForm() {

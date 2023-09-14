@@ -2,6 +2,7 @@ package com.preciado.todo.features.add_edit_task.core
 
 import android.app.TimePickerDialog
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.preciado.todo.core.models.app_models.models.TaskSet
 import com.preciado.todo.core.models.app_models.models.Task
+import com.preciado.todo.core.models.app_models.models.TaskFrequency
 import com.preciado.todo.core.models.vm_models.models.FormVM
 import com.preciado.todo.core.navigation.Screen
 import com.preciado.todo.data.CRUD_Operation
@@ -16,6 +18,7 @@ import com.preciado.todo.data.TaskSetsTable
 import com.preciado.todo.data.TasksTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 private const val TAG = "AddEditTaskFormVM"
@@ -58,12 +61,21 @@ class AddEditTaskFormVM @Inject constructor(
     private var _details: MutableLiveData<String> = MutableLiveData(_model.value!!.details)
     val details: LiveData<String> = _details
 
+    var dateDue = mutableStateOf("")
+    var timeDue = mutableStateOf("")
+
+    private var _taskFrequency: MutableLiveData<TaskFrequency> = MutableLiveData(TaskFrequency.None)
+    val taskFrequency: LiveData<TaskFrequency> = _taskFrequency
 
     fun onNameChange(name: String){
         _name.value = name
     }
     fun onDetailsChange(details: String){
         _details.value = details
+    }
+
+    fun onTaskFrequencyChange(taskFrequency: TaskFrequency){
+        _taskFrequency.value = taskFrequency
     }
     override fun onLoad(vararg args: Any) {
         _navController = args[0] as NavController
@@ -114,6 +126,8 @@ class AddEditTaskFormVM @Inject constructor(
             task.name = _name.value!!
             task.details = _details.value!!
 
+            val datetimedue = LocalDateTime.parse(dateDue.value + timeDue.value)
+            task.dueOn = datetimedue
             Log.i(TAG, "submitForm: $task")
 
             when(crudOperation){

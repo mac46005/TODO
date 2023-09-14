@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import java.time.LocalDateTime
@@ -47,16 +48,16 @@ fun DatePicker(
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
                 modifier = Modifier.padding(start = 5.dp),
-                onClick = { datePicker.show() }
+                onClick = { datePicker.show() },
+                shape = RectangleShape
             ) {
                 Text(text = "Select a date")
             }
             Text(
-                modifier = Modifier.padding(end = 5.dp),
+                modifier = Modifier.fillMaxWidth(),
                 text = if(selectedDateText.isNotEmpty()) selectedDateText else "Select a date",
                 textAlign = TextAlign.Center
             )

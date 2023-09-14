@@ -6,6 +6,8 @@ import android.widget.DatePicker
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -25,6 +27,7 @@ import com.preciado.todo.core.composables.composable_templates.components.TimePi
 import com.preciado.todo.core.composables.composable_templates.components.TransparentTextField
 import com.preciado.todo.core.composables.composables_todo.views.FormView
 import com.preciado.todo.core.models.app_models.models.Task
+import com.preciado.todo.core.models.app_models.models.TaskFrequency
 import com.preciado.todo.data.CRUD_Operation
 import com.preciado.todo.features.add_edit_task.core.AddEditTaskFormVM
 import java.util.Calendar
@@ -69,13 +72,34 @@ fun AddEditTaskFormView(
         TransparentTextField(
             value = detailsState!!,
             onValueChange = { vm.onDetailsChange(it)},
-            placeHolder = "Place any details for completing this task"
+            placeHolder = "Place any details for completing this task",
+            maxLines = 10,
+            singleLine = false
         )
 
-        var dateText =mutableStateOf("")
-        DatePicker(dateText = dateText)
+        DatePicker(dateText = vm.dateDue)
 
-        var timeText = mutableStateOf("")
-        TimePicker(timeText = timeText)
+        TimePicker(timeText = vm.timeDue)
+
+
+        val taskFrequency by vm.taskFrequency.observeAsState()
+        var expandedState = remember {
+            mutableStateOf(false)
+        }
+        Button(onClick = {
+            expandedState.value = true
+        }) {
+            Text(text = taskFrequency!!.name)
+        }
+        DropdownMenu(expanded = expandedState.value, onDismissRequest = { expandedState.value = false }) {
+            for(e in TaskFrequency.values()){
+                DropdownMenuItem(text = {
+                    Text(text = e.name)
+                }, onClick = {
+                    vm.onTaskFrequencyChange(e)
+                    expandedState.value = false
+                })
+            }
+        }
     }
 }
