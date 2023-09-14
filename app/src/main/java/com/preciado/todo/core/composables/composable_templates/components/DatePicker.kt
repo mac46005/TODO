@@ -2,8 +2,11 @@ package com.preciado.todo.core.composables.composable_templates.components
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
@@ -15,6 +18,10 @@ import java.util.Calendar
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import java.time.LocalDateTime
 
 @Composable
@@ -37,11 +44,22 @@ fun DatePicker(
     )
 
     Column {
-        Row() {
-            Button(onClick = { datePicker.show() }) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(
+                modifier = Modifier.padding(start = 5.dp),
+                onClick = { datePicker.show() }
+            ) {
                 Text(text = "Select a date")
             }
-            Text(text = if(selectedDateText.isNotEmpty()) selectedDateText else "Select a date")
+            Text(
+                modifier = Modifier.padding(end = 5.dp),
+                text = if(selectedDateText.isNotEmpty()) selectedDateText else "Select a date",
+                textAlign = TextAlign.Center
+            )
         }
         Divider()
     }
